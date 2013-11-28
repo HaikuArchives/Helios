@@ -1,0 +1,415 @@
+#
+# Locale file for Helios. Please send your updated or completed translation to JPBE.net Zeta Localization Team at zeta-local-team@jpbe.net and Mark Hogben at leonifan@dsl.pipex.com
+# Best viewed with Swis721 BT at 10 pt.
+#
+# Created and Modified by JPBE.net Zeta Localization Team
+# JPBE.net Zeta Localization Team: backslash, KAWABUCHI Yosuke, KiM, Koki, Matsuyama Tetsuya, momoziro, SAWADA Takahiro, sena, Shibukawa Yoshiki, SHINTA, Tarukusu
+# Last Modified: 2004/04/30
+#
+
+### Application1.cpp
+
+"Helios"       "Helios"
+"Copyright"       "Copyright by"
+"Helios is freeware. Many thanks to (in alphabetical order):"	"Helios is freeware. Many thanks to (in alphabetical order):"
+"Export"                                       "エクスポート"
+"Open"                                       "開く"
+"Removing files"                               "ファイル削除中"
+"Save"                                       "保存"
+"Select"                                       "選択"
+"Delete Floppy Image?"                       "フロッピー・イメージを削除しますか？"
+"If you click 'Yes' the path will be removed from your project's settings. Click 'No' to keep the file."       "「はい」を選択すると、パスをプロジェクトから削除します。「いいえ」をクリックするとファイルをそのままにします。"
+"The file you selected is not a Helios project file. Only Helios project files can be loaded with this application."       "選択したファイルは Helios のプロジェクト・ファイルではありません。"
+"Could not move the project files into trash."       "プロジェクトファイルをごみ箱へ移動できません。"
+"Enter new image file"                       "イメージファイルの選択"
+"Select image file"                               "イメージファイルの選択"
+"Adding files"       "ファイルを追加中"
+"Exporting project"       "プロジェクトをエクスポート中"
+"Helios can be launched only once."       "Helios の複数起動はできません。"
+"Opening project"                               "プロジェクトを開いています"
+"Operation canceled."                       "操作がキャンセルされました。"
+"Project exported."                       "プロジェクトをエクスポートしました。"
+"Project opened."                       "プロジェクトを開きました。"
+"Project saved."                               "プロジェクトを保存しました。"
+"Reading CD"                               "CDの読み込み中"
+"Saving project"                               "プロジェクトの保存中"
+"Updated."                                       "更新されました。"
+"Updating"                                       "更新中"
+"opened."                                               "を開きました。"
+"Is this session going to be the first, the last or another session of a multisession disc?"       "このセッションはマルチセッション・ディスクのどのセッションにあたりますか？"
+"another"       "中間"
+"last"       "最後"
+"first"       "最初"
+"Could not read inserted multisession disc!"       "挿入されたマルチセッション・ディスクは読み込めません。"
+"Application"       "アプリケーション"
+"Colors"               "表示色"
+"Devices"       "CD ドライブ設定"
+"Files & Folders"       "ファイル＆フォルダ"
+"Filesystem"       "ファイルシステム"
+"General"       "一般"
+"Burning"       "書込設定"
+"Images"       "イメージ"
+"New project"       "新規プロジェクト"
+"Project"                       "プロジェクトオプション"
+"Cdrecord switches"       "書込オプション"
+"Sounds"                                       "サウンド"
+"Timeouts"                                       "タイムアウト"
+"Version info"                                       "バージョン情報"
+"(could not get version info)"               "(バージョン情報を取得できません。)"
+"Reading image file"       "イメージファイルを読込中"
+"Abort"       "中断"
+"Add"       "追加"
+"Adding files"       "ファイルを追加中"
+"This will erase the project file and all of the links and folders the project contains. Select 'Move to Trash' if you are not certain. What shall happen with your project files?"       "この操作はプロジェクトファイルとそれに登録されているリンクやフォルダを削除します。削除したくない場合は「ごみ箱へ移動」を選択してください。操作を選択してください。"
+"Save changes of current project?"       "現在のプロジェクトを保存しますか？"
+"This audio file is not valid and cannot be written to CD. Please check the source volume and the media type."       "この音楽ファイルは問題があるため CD へ書き込めません。音量やメディア形式を調査してください。"
+"Blanking CD-RW"       "CD-RW を消去中"
+"Burning CD"       "音楽CD を書込中"
+"Burning data CD"       "データ CD を書込中"
+"Cancel"       "キャンセル"
+"CD text title"               "CD-TEXT タイトル"
+"Continue"       "継続"
+"Error while copying a file."               "コピー中にエラーが発生しました。"
+"Copying files"                                       "ファイルをコピー中"
+"When tried to add a new system event there occurred an error. To suppress this error message, turn of sound events in the 'Sounds' preferences Panel of Helios."       "システムイベントを追加中にエラーが発生しました。このエラーメッセージを出ないようにするには、 Helios の「サウンド」設定のサウンド・イベントのチェックを解除してください。"
+"Could not load this command line tool. Make sure it is in the correct place."       "コマンドライン・ツールをロードできません。場所の指定が正しいか確認してください。"
+"Writing image file"                       "イメージファイルを作成中"
+"Delete the image file?"       "イメージファイルを削除しますか？"
+"Erace"                                               "消去"
+"Error"                                               "エラー"
+"Finished writing CD."       "CD の書き込みが完了しました。"
+"Fixating disc"       "ファイナライズ中"
+"Flushing buffers"       "バッファの消去中"
+"Folder name:"       "フォルダ名："
+"Select folder for virtual CD"       "仮想 CD 用のフォルダを選択してください。"
+"The format of this file could not be recognized."       "このファイルの形式を判別できません。"
+"This audio file does not contain audio data sampled with 44100Hz."       "このオーディオファイルは44100Hz でサンプリングされたものではありません。"
+"Ignore"       "無視"
+"You just interrupted and terminated the process."       "あなたの指示で作業を中断させました。"
+"Burn!"       "書込"
+"Delete selected item"       "選択中の項目を削除"
+"New folder"       "新規フォルダ"
+"New project"       "新規プロジェクト"
+"Open project"       "プロジェクトを開く"
+"Parent folder"       "親フォルダ"
+"Preferences"       "環境設定"
+"Refresh"       "リフレッシュ"
+"Save project"                               "プロジェクトを保存"
+"Current path"       "カレント・パス"
+"Load"       "ロード"
+"Could not mount the file system."       "そのファイルシステムはマウントできません。"
+"Mounting image file"       "イメージ・ファイルのマウント中"
+"To trash"       "ごみ箱へ"
+"New name:"       "新しい名前："
+"No"       "いいえ"
+"No space left on target volume to create the image file!"       "ディスク容量が不足しているのでイメージファイルを作成できません。"
+"The project data size is greater than the maximum size of a CD. Remove some files or select 'Overburning' in the preferences panel."       "プロジェクトのデータサイズが CD の容量を越えました。ファイルを減らして CD の容量内に収めるか設定パネルの「オーバー・バーン」を有効にしてください。"
+"Adjusting laser power"       "レーザー・パワーの調整中"
+"Project file dropped"               "プロジェクトファイルがドロップされました。"
+"You just dropped a Helios project file. Do you want to add this file to the current project or load this project with Helios?"       "Helios のプロジェクトファイルがドロップされました。内容を現在のプロジェクトに追加しますか？それとも普通に開きますか？"
+"Reading audio tracks"       "オーディオ・トラックの読込中"
+"Reading CD image"       "CD イメージの読込中"
+"Removing files"       "ファイルを外しています。"
+"Rename"       "リネーム"
+"File already exists. Do you want to replace it?"       "ファイルが既に存在しています。置き換えますか？"
+"Search"               "検索"
+"Settings"               "設定"
+"Split at:"               "分割点："
+"Split title"       "分割タイトル"
+"Helios - SIMULATION"       "Helios - シミュレーション"
+"Time out!"                                       "タイムアウト！"
+"The active process had to wait too long for an event."       "現在のプロセスは異常に時間がかかっています。"
+"Time out"                                       "タイムアウト"
+"Track"       "トラック"
+"This file contains no tracks or too much tracks."       "このファイルにはトラックが含まれていないか、トラックが多すぎます。"
+"The track of this file could not be read."       "このファイルのトラックは読み込めません。"
+"Could not unmount the file system."       "このファイルシステムはマウント解除できません。"
+"Unmounting iImage file"       "イメージファイルのマウントを解除中。"
+"Waiting"       "待機中"
+"Waiting for disc"       "ディスクの挿入を待っています"
+"NAME not found! It has to be installed to use Helios. Press 'Search' if you want Helios to search it for or press 'Cancel' to exit."       "NAME が見つかりません。Helios を利用するためにはインストールされていなければなりません。「検索」で検索します。「キャンセル」で Helios を終了します。"
+"Yes"               "はい"
+"Title:"       "タイトル；"
+
+# ApplicationConfigView.cpp:
+
+"Update Infobox automatically"       "情報ボックスを自動で更新"
+"Timeouts"       "タイムアウト"
+
+### AudioCDPanel.cpp
+
+"Write CD text"                               "CD-TEXTの書込"
+"Add SCMS-Copyright"                               "コピー保護 (SCMS) の追加"
+"CD text album"                       "CD-TEXT アルバム名"
+"Volume name"                                       "ボリューム名"
+
+### AudioWindow.cpp
+
+"Audio Player"                                       "Audio Player"
+"Indices"                                               "インデックス"
+"Selection"                                       "選択"
+"CD-Text"                                               "CD-Text"
+"Pregap"                                               "プリギャップ"
+"Pause"                                               "停止"
+"Start:"                                               "開始："
+"Here"                                               "ここ"
+"End:"                                               "終了："
+
+# BootableCDPanel.cpp:
+"Filesystem"       "ファイルシステム"
+"ISO9660"       "ISO9660"
+"ISO9660 long"       "ISO9660 long"
+"MacOS hfs"       "MacOS hfs"
+"Unix RockRidge"       "Unix RockRidge"
+"Windows Joliet"       "Windows Joliet"
+"UDF"       "UDF"
+"Custom"                                       "カスタム"
+"Untitled"       "タイトルなし"
+"Floppy image"       "フロッピーイメージ"
+"Note"       "注意"
+"Bootable BFS discs are not supported by Helios. Please select another file system."       "ブータブル BFS ディスクは Helios ではサポートしていません。他のファイルシステムを選択してください。"
+"The selected floppy image file has an unsupported length. Valid floppy image sizes are 1200kB, 1440kB and 2880kB."       "選択されたフロッピーイメージ・ファイルはサポートされていないファイル長です。1.2 kB, 1.44kB, 2.88kB が有効です。"
+
+
+# CDExtraPanel.cpp:
+"Data path"               "データ・パス"
+"BeOS bfs"       "BeOS bfs"
+
+# CDTypeMenu.cpp:
+"Data CD"       "データ CD"
+"Audio CD"       "音楽 CD"
+"Bootable CD"       "ブータブル CD"
+"CD Extra"       "CD Extra"
+"Data DVD"       "データ DVD"
+
+### ColorConfigView.cpp
+
+"Progress bar"                       "プログレス・バー"
+"CD size bar"                       "CD サイズ・バー"
+"Log window background"       "ログウィンドウの背景"
+"Log window text"                       "ログウィンドウの文字"
+"File selection background"                       "選択ファイルの背景"
+"File list background"               "ファイルリストの背景"
+"Load defaults"       "標準色に設定"
+"Red:"                       "赤:"
+"Green:"                       "緑:"
+"Blue:"                       "青:"
+
+
+### DataCDPanel.cpp
+
+"Multisession-CD"                                       "マルチセッションCD"
+"DAO disabled."                                       "DAO は無効になっています。"
+
+### DeviceConfigView.cpp
+
+"CD Writer"                                       "書込用"
+"CD Reader"                                       "読出用"
+"Eject"                                       "取り出し"
+"2-Drive-Copy"                               "２台のドライブでコピー"
+"Device scan"                               "ドライブの検索方法"
+"Default method"                               "標準"
+"Second method"                               "予備"
+"Emergency method"                       "緊急時"
+"Show all devices"                               "全デバイスを表示"
+
+### FSPanel.cpp
+
+"ISO9660"                                       "ISO9660"
+"8.3"                                               "8.3 形式"
+"31"                                               "31"
+"37"                                               "37"
+"Joliet"                                       "Joliet"
+"Default"                                       "標準"
+"Unicode"                                       "Unicode"
+"RockRidge"                                       "RockRidge"
+"Rationalized"                               "合理化"
+"HFS/ISO Hybrid"                               "HFS/ISO 混合"
+"Use mapping file:"                       "マッピングファイルを使用；"
+"Browse"       "参照"
+"UDF"                                               "UDF"
+"DVD video"                                       "DVD ビデオ"
+"BFS"                                               "BFS"
+
+### FileChooser.cpp
+
+"Select file"       "ファイルを選択"
+"Use"       "使用"
+"Icon"       "アイコン"
+"File name"       "ファイル名"
+"Size"       "サイズ"
+
+### FileColumn.cpp
+
+"New folder"       "新規フォルダ"
+"Rename"               "リネーム"
+"Move up"               "上に移動"
+"Move down"               "下に移動"
+"Set indices"       "順序を設定"
+
+### HeliosConfigView.cpp
+## 書き込み
+"Simulation"                                       "シミュレーション"
+"Fixate"                                               "追記不可(ファイナライズを実行)"
+"BurnProof"                                       "BURN-Proof"
+"Force RW-erasing"                               "RW の強制消去"
+"Disc-at-Once"                                       "ディスク・アット・ワンス (DAO)"
+"allow CDs > 80 min"                       "オーバー・バーン (80 分越 CD の書込)"
+"Recording speed"                               "書込速度"
+"FIFO buffer size"                                       "バッファサイズ"
+"Multisession disabled."                       "マルチセッション不可"
+"General Flags"				"概要の設定"
+
+### ImageConfigView.cpp
+## 新規プロジェクト
+"CD Publisher:"                                       "CD 発行者："
+"CD Preparer:"                                       "CD 作成者："
+"CD Application:"                                       "アプリケーション："
+"CD type"                                       "CD 形式"
+
+### InfoBox.cpp
+
+"CD size:"                               "CD サイズ:"
+"Total CD size:"       "合計 CD サイズ："
+"Total CD duration:"       "合計 CD 再生時間："
+"Estimated time:"       "予想所用時間："
+"Number of files:"       "ファイル数："
+"Number of folders:"       "フォルダ数："
+"Info"       "情報"
+
+### ListView1.cpp
+
+"Track"               "トラック番号"
+"Pause"               "ポーズ"
+"File name"               "ファイル名"
+"Duration"               "時間"
+"Size"               "サイズ"
+"Indices"               "インデックス"
+"CD text"               "CD-TEXT"
+
+# LogSettingsWindow.cpp:
+"Enable logging"       "ログを記録する"
+
+### PathConfigView.cpp
+
+"Project path:"                               "プロジェクトのパス"
+"Temp. Path:"                                       "作業に使用するフォルダ"
+"Default image file name:"                       "標準のイメージ名"
+"Default mount point:"                       "標準のマウント位置"
+
+### ProtocolWindow.cpp
+
+"File"                                       "ファイル"
+"Clear"                                       "消去"
+"Close"                                       "閉じる"
+"Log file"                               "ログファイル"
+"Log to file"                       "ログファイルを作成"
+"Set file"       "ファイルを指定"
+"Log settings"       "ログの設定"
+
+### SaveConfgView.cpp
+
+"Data streaming"                                                       "データストリーミング"
+"Remember last project"                                       "最後のプロジェクトを記憶する"
+"Info box automatic refresh"                               "情報を自動的に更新する"
+"On exit do"                                                       "終了時の処理"
+"Save project without asking."                               "プロジェクトを自動で保存する。"
+"Ask whether project should be saved or not."       "プロジェクトを保存するかあなたに確認する。"
+"Nothing. Just quit."                                               "何もせずに終了。"
+"Bubble help"                                                       "バルーン・ヘルプ"
+
+### SoundConfigView.cpp
+
+"Beep when finished recording disc"               "ディスク作成終了時"
+"Beep when finished creating iImage"               "イメージ作成終了時"
+"Beep when finished creating image"               "イメージ作成終了時"
+"Beep when an error occurs"                               "エラー発生時"
+
+### StandardConfigView.cpp
+
+"Custom"       "カスタム"
+"CD type"       "CD 形式"
+
+### StatusView.cpp
+
+"item"                                               "項目"
+"items"                                               "項目"
+
+### View1.cpp
+
+"Burn now!"                                       "書込"
+"Update"                                       "最新の情報に更新"
+"Image"                                       "イメージ"
+"Copy CD"                                       "CDのコピー"
+"Blank CD-RW"                               "CD-RW の消去"
+"New project"                               "新規プロジェクトの作成"
+"Open project"                               "プロジェクトを開く"
+"Open recent project"                               "最近のプロジェクトを開く"
+"Save project"                               "プロジェクトを保存"
+"Save project as"                               "プロジェクトを別名で保存"
+"Save as default project"               "既定のプロジェクトとして保存"
+"Export"                                       "エクスポート"
+"CL-Amp playlist"                       "CL-Amp互換形式(M3U)"
+"APlayer playlist"                       "APlayer互換形式(APML)"
+"Plain filelis"                               "テキスト形式のリスト"
+"Remove current project"               "現在のプロジェクトを削除"
+"Settings"                                       "設定"
+"Log window"                               "ログウィンドウを表示"
+"mkisofs"                                       "mkisofs"
+"cdrecord"                                       "cdrecord"
+"About Helios"                               "Helios について"
+"Exit"                                       "終了"
+"CD image"                                       "CD イメージ"
+"Floppy image"                               "フロッピーイメージ"
+"Read CD image"                               "CDイメージを読み込む"
+"Create image file"                       "イメージファイルの作成"
+"Burn image file"                               "イメージファイルからCDを作成"
+"Burn image file"                       "イメージファイルからCDを作成"
+"Read Audio CD"                               "音楽CDを読み込む"
+"Read floppy image"                       "フロッピーイメージを読み込む"
+"Copy Audio CD"                               "オーディオCDをコピー"
+"Copy Data CD"                               "データCDをコピー"
+"Entire CD (fast)"                       "高速消去"
+"Entire CD (complete)"                       "完全消去"
+"Open last session"                       "最後のセッションを開く"
+"Erase last session"                       "最後のセッションを削除"
+
+### View4.cpp
+
+"Drop image file here or enter path:"       "イメージファイルをここへドロップするか、パスを入力してください："
+
+### Window4.cpp
+
+"Path to image file"       "イメージファイルのパス"
+
+"Blank RW!"       "RW の消去"
+"Burn now!"       "書込"
+"Burning Audio CD"       "音楽 CD を書込中"
+"Calculating size of CD"       "CD のサイズを計算中"
+"Copy CD"       "CD をコピー"
+"File error"       "ファイルエラー"
+"Finished blanking CD."       "RW の消去が終了しました。"
+"Index list:"       "項目リスト："
+"This is not an audio file!"       "音楽ファイルではありません！"
+"No CD-ROM devices found!"       "CD-ROM ドライブが見つかりません！"
+"Multisession"       "マルチセッション"
+"Unfortunately, Helios cannot read and write at the same time with only one drive. Please check the drive settings in the "Devices"settings panel."       "Helios は同じドライブに対して同時に読み書きできません。設定パネルのドライブ設定を確認してください。"
+"Parent folder"       "親フォルダ"
+"Read image"       "イメージの読込"
+"[Pick drive...]"       "[ドライブを選択...]"
+"Settings"       "設定"
+"Temp. Path:"       "作業パス："
+"Unknown file type"       "不明なファイル形式"
+"Recorder settings"       "書込ドライブの設定"
+"On the fly"       "オン・ザ・フライ( イメージファイルを作成しない )"
+"There is no project loaded!"       "読込まれているプロジェクトがありません。"
+"No CD-R drive found!"       "CD-R  ドライブが見つかりません！"
+"Indices"       "インデックス"
+"Image"       "イメージ"
+"Folder"       "フォルダ"
+"Enable InfoBar"       "情報バーを有効にする"
+"Create image"       "イメージ作成"
+"Checking drives"       "ドライブをチェック中"
+"Splitting"       "分割中"
+"Set"       "設定"
+"Overwrite"       "上書き"

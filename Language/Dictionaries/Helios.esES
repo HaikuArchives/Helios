@@ -1,0 +1,433 @@
+# Locale file for Helios version (1.71).
+# Please send your updated or completed translation to
+# Mark Hogben at leonifan@dsl.pipex.com.
+# Best viewed with Swis721 BT at 10 pt.
+
+# Application1.cpp
+#=================
+"Window"	"Ventana"
+"Helios"	"Helios"
+"Copyright"	"Copyright por"
+"Helios is freeware. Many thanks to (in alphabetical order):"	"Helios es freeware. Muchas gracias a (en orden alfabetico):"
+"Export"	"Exportar"
+"Open"	"Abrir"
+"Save"	"Guardar"
+"Select"	"Seleccionar"
+"Delete floppy image?"	"¿Eliminar la imágen de diskette?"
+"If you click 'Yes' the path will be removed from your project's settings. Click 'No' to keep the file."	"Si escoje 'Si', la ruta se eliminará de las opciones del proyecto. Elija 'No' para conservar el archivo."
+"The file you selected is not a Helios project file. Only Helios project files can be loaded with this application."	"El archivo seleccionado no es un archivo de proyecto Helios. Sólo ese tipo de archivos pueden ser leídos por Helios."
+"Could not move the project files into trash."	"No se puedo mover el proyecto a la Papelera."
+"Enter new image file"	"Seleccione el archivo imágen"
+"Export"	"Exportar"
+"Select image file"	"Seleccione el archivo imágen"
+"Adding files"	"Agregando archivos"
+"Exporting project"	"Exportando proyecto"
+"Helios can be launched only once."	"Helios sólo puede ser ejecutado una vez."
+"Opening project"	"Abriendo proyecto"
+"Operation canceled."	"Operación cancelada."
+"Project exported."	"Proyecto exportado."
+"Project opened."	"Proyecto abierto."
+"Project saved."	"Proyecto guardado."
+"Reading CD"	"Leyendo CD"
+"Removing files"	"Eliminando archivos"
+"Saving project"	"Guardando proyecto"
+"Updated."	"Actualizado."
+"Updating"	"Actualizando"
+"opened."	"abierto."
+"untitled"	"sin título"
+"Is this session going to be the first, the last or another session of a multisession disc?"	"¿Ésta sesión será la primera, la última, o alguna otra sesión de un disco multisesión?"
+"another"	"otra"
+"last"	"última"
+"first"	"primera"
+"Could not read inserted multisession disc!"	"¡No pudo leerse el disco multisesión insertado!"
+"Application"	"Programa"
+"Colors"	"Colores"
+"Devices"	"Dispositivos"
+"Files & Folders"	"Archivos y Directorios"
+"Filesystem"	"Sistema de Archivos"
+"General"	"General"
+"Burning"	"Grabación"
+"Images"	"Imágenes"
+"New project"	"Nuevo proyecto"
+"Project"	"Proyecto"
+"Cdrecord switches"	"Opciones de CDRecord"
+"Sounds"	"Sonidos"
+"Timeouts"	"Timeouts"
+"Version info"	"Versiones"
+"(could not get version info)"	"(no hay información)"
+"Reading image file"	"Leyendo archivo imágen"
+"Abort"	"Abortar"
+"Add"	"Agregar"
+"Adding files"	"Agregando archivos"
+"This will erase the project file and all of the links and folders the project contains. Select 'Move to Trash' if you are not certain. What shall happen with your project files?"	"Ésto eliminará el archivo de proyecto y todos los enlaces y directorios contenidos en el proyecto. Elija 'Mover a la Papelera' si no está seguro. ¿Qué debo hacer con sus archivos de proyecto?"
+"Save changes of current project?"	"Guardar los cambios en el proyecto actual?"
+"This audio file is not valid and cannot be written to CD. Please check the source volume and the media type."	"Éste archivo de audio no es válido y no puede ser grabado en el CD. Por favor revise el volúmen de origen y el tipo de archivo."
+"Blanking CD-RW"	"Borrando CD-RW"
+"Burning CD"	"Grabando CD"
+"Burning data CD"	"Grabando CD de datos"
+"Cancel"	"Cancelar"
+"CD text title"	"CD-Text: Título"
+"Continue"	"Continuar"
+"Error while copying a file."	"Se produjo un error al copiar un archivo."
+"Copying files"	"Copiando archivos"
+"When tried to add a new system event there occurred an error. To suppress this error message, turn of sound events in the 'Sounds' preferences Panel of Helios."	"Ocurrió un error al tratar de agregar un nuevo evento al sistema. Para eliminar este mensaje de error, desactive los eventos de sonido en el panel 'Sonidos' de la Configuración de Helios."
+"Could not load this command line tool. Make sure it is in the correct place."	"No se pudo cargar esta herramienta de línea de comandos. Asegúrese de que está en el lugar adecuado."
+"New folder"	"Nuevo directorio"
+"Writing image file"	"Grabando el archivo de imágen"
+"Delete the image file?"	"¿Eliminar el archivo de imágen?"
+"Erase"	"Borrar"
+"Error"	"Error"
+"Finished writing CD."	"Finalizada la grabación del CD."
+"Fixating disc"	"Finalizando el disco"
+"Flushing buffers"	"Vaciando los buffers"
+"Folder name:"	"Nombre del directorio:"
+"Select folder for virtual CD"	"Seleccione el directorio para el CD virtual"
+"The format of this file could not be recognized."	"No se pudo reconocer el formato de este archivo."
+"This audio file does not contain audio data sampled with 44100Hz."	"El archivo de audio contiene datos de audio no sampleados a 44100Hz."
+"Ignore"	"Ignorar"
+"You just interrupted and terminated the process."	"Acaba de interrumpir y terminar el proceso."
+"Burn!"	"¡Grabar!"
+"Delete selected item"	"Delete selected item"
+"New folder"	"Nuevo directorio"
+"New project"	"Nuevo proyecto"
+"Open project"	"Abrir proyecto"
+"Parent folder"	"Directorio superior"
+"Preferences"	"Preferencias"
+"Refresh"	"Actualización"
+"Save project"	"Guardar proyecto"
+"Current path"	"Ubicación actual"
+"Load"	"Cargar"
+"Could not mount the file system."	"No se pudo montar el sistema de archivos."
+"Mounting image file"	"Montando archivo de imágen"
+"To trash"	"A la Papelera"
+"New name:"	"Nuevo nombre:"
+"No"	"No"
+"No space left on target volume to create the image file!"	"¡No hay espacio suficiente en el volúmen de destino como para crear la imágen!"
+"File does not exist."	"El archivo no existe."
+"The project data size is greater than the maximum size of a CD. Remove some files or select 'Overburning' in the preferences panel."	"El tamaño de datos del proyecto es mayor que el tamaño máximo del CD. Elimine algunos archivos o active 'Permitir grabar más de 80 min.' en el panel de opciones."
+"Adjusting laser power"	"Ajustando la potencia del laser"
+"Project file dropped"	"Archivo de Proyecto"
+"You just dropped a Helios project file. Do you want to add this file to the current project or load this project with Helios?"	"Acaba de arrojar en Helios un archivo de Proyecto. ¿Quiere agregar ese archivo al proyecto actual o quiere cargar ese proyecto?"
+"Reading audio tracks"	"Leyendo las pistas de audio"
+"Reading CD image"	"Leyendo imágen de CD"
+"Removing files"	"Eliminando archivos"
+"Rename"	"Renombrar"
+"File already exists. Do you want to replace it?"	"El archivo ya existe. ¿Desea reemplazarlo?"
+"Search"	"Buscar"
+"Settings"	"Opciones"
+"Split at:"	"Dividir en:"
+"Split title"	"Dividir título"
+"Helios"	"Helios"
+"Helios - SIMULATION"	"Helios - SIMULACIÓN"
+"Time out!"	"Time out!"
+"The active process had to wait too long for an event."	"El proceso activo tuvo que esperar demasiado por un evento."
+"Timeout"	"Timeout"
+"Track"	"Pista"
+"This file contains no tracks or too much tracks."	"El archivo no contiene ninguna pista, o tiene demasiadas."
+"The track of this file could not be read."	"No se pudo leer la pista de éste archivo."
+"Could not unmount the file system."	"No se pudo desmontar el sistema de archivos."
+"Unmounting iImage file"	"Desmontar el archivo imágen"
+"Waiting"	"Esperando"
+"Waiting for disc"	"Esperando por el disco"
+"Helios"	"Helios"
+"NAME not found! It has to be installed to use Helios. Press 'Search' if you want Helios to search it for or press 'Cancel' to exit."	"¡No se pudo encontrar NAME! Deber a estar instalado para poder usar Helios. Presione "Buscar" si quiere que Helios lo busque, o presione "Cancelar" para salir."
+"Yes"	"Si"
+"Title:"	"Título:"
+"No CD in the drive!"	"¡El CD no está presente!"
+"Error while reading the CD image."	"Se produjo un error al leer la imágen de CD."
+"Please insert the disc to burn"	"Por favor inserte un CD virgen"
+
+# ApplicationConfigView.cpp:
+#===========================
+"Update Infobox automatically"	"Actualizar Infobox automaticamente cada"
+"Timeouts"	"Timeouts"
+
+# AudioCDPanel.cpp:
+#==================
+"Write CD text"	"Escribir CD-Text"
+"Add SCMS-Copyright"	"Agregar Protección AntiCopia (SCMS)"
+"CD text album"	"CD-Text: Album"
+"Volume name"	"Nombre del CD"
+
+# AudioWindow.cpp:
+#=================
+"Audio Player"	"Reproductor de Audio"
+"Indices"	"Índices"
+"Selection"	"Selección"
+"CD-Text"	"CD-Text"
+"Pregap"	"Pausa"
+"Pause"	"Pausa"
+"Start:"	"Comienzo:"
+"Here"	"Aguí"
+"End:"	"Fin:"
+
+# BootableCDPanel.cpp:
+#=====================
+"Filesystem"	"Sistema de archivos"
+"ISO9660"	"ISO9660"
+"ISO9660 long"	"ISO9660 largo"
+"MacOS hfs"	"MacOS HFS"
+"Unix RockRidge"	"Unix RockRidge"
+"Windows Joliet"	"Windows Joliet"
+"UDF"	"UDF"
+"Custom"	"Personalizado"
+"Untitled"	"Sin Título"
+"Floppy image"	"Imágen de disquette"
+"Note"	"Nota"
+"Bootable BFS discs are not supported by Helios. Please select another file system."	"Helios no soporta discos de arranque BFS. Por favor seleccione otro sistema de archivos."
+"The selected floppy image file has an unsupported length. Valid floppy image sizes are 1200kB, 1440kB and 2880kB."	"La imágen de disquette tiene un tamaño no válido. Los tamaños válidos son 1200kB, 1440kB y 2880kB."
+
+# CDExtraPanel.cpp:
+#==================
+"Data path"	"Ubicación de los datos"
+"BeOS bfs"	"BeOS BFS"
+
+# CDTypeMenu.cpp:
+#================
+"Data CD"	"CD de Datos"
+"Audio CD"	"CD de Audio"
+"Bootable CD"	"CD de arranque"
+"CD Extra"	"CD-Extra"
+"Data DVD"	"DVD de Datos"
+
+# ColorConfigView.cpp:
+#=====================
+"Progress bar"	"Barra de progreso"
+"CD size bar"	"Barra del tamaño del CD"
+"Log window background"	"Fondo de la ventana de registro (LOG)"
+"Log window text"	"Texto de la ventana de registro (LOG)"
+"File selection background"	"Fondo de la selección de archivos"
+"File list background"	"Fondo de la lista de archivos"
+"Load defaults"	"Cargar valores por defecto"
+"Red:"	"Rojo:"
+"Green:"	"Verde:"
+"Blue:"	"Azul:"
+
+# DataCDPanel.cpp:
+#=================
+"Multisession-CD"	"CD Multisesión"
+"DAO disabled."	"Deshabilitar DAO."
+
+# DeviceConfigView.cpp:
+#======================
+"CD Writer"	"Grabadora de CD"
+"CD Reader"	"Lectora de CD"
+"Eject"	"Expulsar"
+"2-Drive-Copy"	"Copia con 2 dispositivos"
+"Device scan"	"Búsqueda de dispositivos"
+"Default method"	"Método estándar"
+"Second method"	"Segundo método"
+"Emergency method"	"Método de emergencia"
+"Show all devices"	"Mostrar todos los dispositivos"
+
+# FSPanel.cpp:
+#=============
+"ISO9660"	"ISO9660"
+"8.3"	"8.3"
+"31"	"31"
+"37"	"37"
+"Joliet"	"Joliet"
+"Default"	"Estándar"
+"Unicode"	"Unicode"
+"RockRidge"	"RockRidge"
+"Rationalized"	"Racionalizado"
+"HFS/ISO Hybrid"	"Híbrido HFS/ISO"
+"Use mapping file:"	"Usar archivo de mapeo:"
+"Browse"	"Browse"
+"Select mapping file"	"Seleccionar archivo de mapeo"
+"UDF"	"UDF"
+"DVD Video"	"DVD Video"
+"BFS"	"BFS"
+
+# FileChooser.cpp:
+#=================
+"Select file"	"Seleccione un archivo"
+"Use"	"Aceptar"
+"Icon"	"Ícono"
+"File name"	"Nombre de archivo"
+"Size"	"Tamaño"
+
+# FileColumn.cpp:
+#================
+"New folder"	"Nuevo directorio"
+"Rename"	"Renombrar"
+"Move up"	"Arriba"
+"Move down"	"Abajo"
+"Set indices"	"Establecer índices"
+
+# HeliosConfigView.cpp:
+#======================
+"Simulation"	"Simulación"
+"Fixate"	"Finalizar CD"
+"BurnProof"	"BurnProof"
+"Force RW-erasing"	"Forzar borrado RW"
+"Disc-at-Once"	"Disc-at-Once"
+"allow CDs > 80 min"	"Permitir grabar más de 80 min."
+"Recording speed"	"Velocidad de grabación"
+"FIFO buffer size"	"Tamaño del buffer FIFO:"
+"Multisession disabled."	"Deshabilitar Multisesión."
+"General Flags" "Opciones generales"
+
+# ImageConfigView.cpp:
+#=====================
+"CD Publisher:"	"Publicador del CD:"
+"CD Preparer:"	"Preparador del CD:"
+"CD Application:"	"Programa de CD:"
+
+# InfoBox.cpp:
+#=============
+"CD size:"	"Tamaño del CD:"
+"Total CD size:"	"Tamaño total del CD:"
+"Total CD duration:"	"Duración total del CD:"
+"Estimated time:"	"Tiempo estimado:"
+"Number of files:"	"Número de archivos:"
+"Number of folders:"	"Número de directorios:"
+"Info"	"Información"
+
+# ListView1.cpp:
+#==============
+"Track"	"Pista"
+"Pause"	"Pausa"
+"File name"	"Nombre del archivo"
+"Duration"	"Duración"
+"Size"	"Tamaño"
+"Indices"	"Índices"
+"CD text"	"CD-Text"
+
+# LogSettingsWindow.cpp:
+#=======================
+"Enable logging"	"Habilitar logging"
+
+# PathConfigView.cpp:
+#====================
+"Project path:"	"Ubicación del Proyecto:"
+"Default image file name:"	"Nombre del archivo imágen por defecto:"
+"Default mount point:"	"Punto de montaje estándar:"
+
+# ProtocolWindow.cpp:
+#====================
+"File"	"Archivo"
+"Clear"	"Limpiar"
+"Close"	"Cerrar"
+"Log file"	"Archivo de registro (LOG)"
+"Log to file"	"Guardar el registro en un archivo"
+"Set file"	"Establecer nombre del archivo"
+"Log settings"	"Opciones del registro (LOG)"
+
+# SaveConfigView.cpp:
+#====================
+"Data streaming"	"Usar 'Streaming' de datos"
+"Remember last project"	"Recordar el último proyecto"
+"Info box automatic refresh"	"Actualización automática del 'Info box'"
+"On exit do"	"Al salir:"
+"Save project without asking."	"Guardar proyecto sin preguntar."
+"Ask whether project should be saved or not."	"Preguntar si el proyecto debe ser guardado o no."
+"Nothing. Just quit."	"Nada. Simplemente salir."
+"Bubble help"	"Bubble help"
+"Burning Thread Priority"	"Prioridad del proceso de Grabación"
+"Low"		"Baja"
+"High"	"Alta"
+
+# SoundConfigView.cpp:
+#=====================
+"Beep when finished recording disc"	"Reproducir sonido al finalizar la grabación"
+"Beep when finished creating iImage"	"Reproducir sonido al finalizar la creación de la imágen"
+"Beep when an error occurs"	"Reproducir sonido cuando ocurra un error"
+
+# StandardConfigView.cpp:
+"Custom"	"Personalizado"
+"CD type"	"Tipo de CD"
+
+# StatusView.cpp:
+#================
+"item"	"ítem"
+"items"	"ítems"
+
+# VideoDVDPanel.cpp:
+#===================
+"UDF (DVD Video)"	"UDF (DVD Video)"
+"UDF"	"UDF"
+
+# View1.cpp:
+#===========
+"Burn now!"	"¡Grabar ahora!"
+"Update"	"Actualizar"
+"Image"	"Imágen"
+"Copy CD"	"Copiar CD"
+"Blank CD-RW"	"Borrar CD-RW"
+"New project"	"Nuevo proyecto"
+"Open project"	"Abrir proyecto"
+"Open recent project"	"Abrir proyecto reciente"
+"Save project"	"Guardar proyecto"
+"Save project as"	"Guardar proyecto como"
+"Save as default project"	"Guardar como proyecto estándar"
+"Export"	"Exportar"
+"CL-Amp playlist"	"Playlist de CL-Amp"
+"APlayer playlist"	"Playlist de APlayer"
+"Plain filelist"	"Listado de archivos (simple)"
+"Tracker template"	"Plantilla del Tracker"
+"Remove current project"	"Borrar proyecto actual"
+"Settings"	"Opciones"
+"Log window"	"Ventana de Log"
+"mkisofs"	"mkisofs"
+"cdrecord"	"cdrecord"
+"About Helios"	"Acerca de Helios"
+"Exit"	"Salir"
+"CD image"	"Imágen de CD"
+"Floppy image"	"Imágen de disquette"
+"Read CD image"	"Leer una imágen de CD"
+"Create image file"	"Crear un archivo imágen"
+"Burn image file"	"Grabar una imágen"
+"Read floppy image"	"Leer una imágen de disquette"
+"Read Audio CD"	"Leer CD de Audio"
+"Copy Audio CD"	"Copiar CD de Audio"
+"Copy Data CD"	"Copiar CD de Datos"
+"Entire CD (fast)"	"Todo el CD (rápido)"
+"Entire CD (complete)"	"Todo el CD (completo)"
+"Open last session"	"Abrir la última sesión"
+"Erase last session"	"Borrar la última sesión"
+
+# View4.cpp:
+#===========
+"Drop image file here or enter path:"	"Arrastre un archivo imágen aquí, o ingrese la ubicación del mismo:"
+
+# Window4.cpp:
+#=============
+"Path to image file"	"Ubicación del archivo imágen"
+"Blank RW!"	"¡Borrar RW!"
+"Burn now!"	"¡Grabar ahora!"
+"Burning Audio CD"	"Grabando CD de Audio"
+"Calculating size of CD"	"Calculando el tamaño del CD"
+"Copy CD"	"Copiar CD"
+"File error"	"Error en el archivo"
+"Finished blanking CD."	"Finalizado el borrado del CD."
+"Index list:"	"Lista de índices:"
+"This is not an audio file!"	"¡Éste no es un archivo de audio!"
+"No CD-ROM devices found!"	"¡No se encontraron dispositivos CD-ROM!"
+"Multisession"	"Multisesión"
+"Unfortunately, Helios cannot read and write at the same time with only one drive. Please check the drive settings in the "Devices" settings panel."	"Desafortunadamente, Helios no puede leer y escribir al mismo tiempo con sólo un dispositivo. Por favor revise sus opciones en el panel 'Dispositivos'."
+"Parent folder"	"Directorio superior"
+"Read image"	"Leer imágen"
+"[Pick drive...]"	"[Elegir dispositivo...]"
+"Settings"	"Configuración"
+"Temp. Path:"	"Ubicación de archivos temporales:"
+"Unknown file type"	"Tipo de archivo desconocido"
+"Recorder settings"	"Configuración de la Grabadora"
+"On the fly"	"Al vuelo"
+"There is no project loaded!"	"¡Aún no se ha cargado ningún proyecto!"
+"No CD-R drive found!"	"¡No se encontró una grabadora de CDs!"
+"Indices"	"Índices"
+"Image"	"Imágen"
+"Folder"	"Directorio"
+"Enable InfoBar"	"Habilitar InfoBar"
+"Create image"	"Crear imágen"
+"Checking drives"	"Revisando dispositivos"
+"Splitting"	"Dividiendo"
+"Set"	"Establecer"
+"Overwrite"	"Sobrescribir"
+
+# Language Config View
+#=====================
+"Language"	"Idioma"
+"Select your language"	"Seleccionar idioma"
+"Note: You must restart Helios for changes to take effect."	"Nota: Debe reiniciar Helios para que los cambios surtan efecto."

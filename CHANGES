@@ -1,0 +1,645 @@
+Helios Change History - Plain text format
+=========================================
+
+Please send all recommendations and comments to leonifan@dsl.pipex.com (Mark Hogben). Thanks!
+
+
+CHANGES:
+	07/11/2004 (Mark "leonifan" Hogben <leonifan@dsl.pipex.com>)
+	--------------------------------------------------------------------------
+	- 1.71b3 - Bugfixing release
+	- ColumListView: Fixed crashing bug relating to list view items being deleted whilst in editing mode.
+	- Fixed editing continuation bug, when a New Folder is created.
+
+	04/10/2004 (Mark "leonifan" Hogben <leonifan@dsl.pipex.com>)
+	--------------------------------------------------------------------------
+	- 1.71b2 - Maintenance release
+	- Reinstated language translations with Helios when using R5!!!
+	- Brand new language manager!!!
+	- Files MSHLanguageMgr.h/cpp added
+	- Files MSHLanguageFile.h/cpp added
+	- Files LanguageConfigView.h/cpp added
+	- Burning priority slider (defaults LOW) to attempt to aid CPU load issues.
+	- Some more tweaks to codebase (stablisation and tidy up).
+
+	14/10/2004 (Mark "leonifan" Hogben <leonifan@dsl.pipex.com>)
+	--------------------------------------------------------------------------
+	- 1.7b1 - Maintenance release- and official leonifan "take over" version :-)
+	- Removed unused old StatusWindow/StatusView and renamed Window5/View5 to StatusWindow/StatusView
+	- Moved files functionality from Application1 into new files, FileUtils.h/cpp
+	- Ensured all BEntry/BDirectory/BNode/BFile instances are correctly Unset() in Application1.cpp
+	- Removed Window5.cpp and View5.cpp from make and project files.
+	- Added FileUtils.cpp to make and project files.
+	- Reordered project files alphabetically for easier maintenance.
+	- Removed Zeta Change history (all changes will be common to all builds)
+	- Removed RefreshStatusView().
+	- Fixed CD copying.
+	- Removed CHANGES.ZETA (all changes in this common CHANGES file now)
+	- Added Italian translation - HUGE thanks to Mattia Tristo for that!
+
+	20/08/2004 (Mark "leonifan" Hogben <leonifan@dsl.pipex.com>)
+	--------------------------------------------------------------------------
+	- 1.71a4
+	- Changed all but one section of cdrecord command line generation code to use
+	  common functionality (one specific case already did this).
+	- Fixed crashing bug that occurred when an edit had started, but then the user
+	  then double clicked on a directory (entering it).
+	- Fixed status text streaming so that user messages no longer add on to themselves
+	  endlessly (e.g. Burning CD...Fixating...)
+	- Re-anabled BFS burning, though it is *highly* experimental!! (And probably won't work due
+	  to the unmount bug...)
+
+	20/08/2004 (Mark "leonifan" Hogben <leonifan@dsl.pipex.com>)
+	--------------------------------------------------------------------------
+	- 1.71a3
+	- Fixed crash that could occur when the user clicks on a filename (i.e. which will start a name edit),
+	  but then deletes the item before the editing starts.
+	- Added check for symbolic links to the actual Project folder to stop infinite recursion.
+	- Added General Flags box to cdrecord settings page.
+	- Rearranged cdrecord flags settings page to allow for more future flags (and general flags now).
+	- Added parsing to user flags so that they will intelligently combine with other Helios flags.
+
+	20/08/2004 (Mark "leonifan" Hogben <leonifan@dsl.pipex.com>)
+	--------------------------------------------------------------------------
+	- 1.71a2
+	- Added dynamic resizing to settings tabs and fields.
+	- Added version text for Zeta / R5 so that the user knows which target version is running ;-)
+
+	23/08/2004 (Michael Weirauch <michael.weirauch@yellowtab.com>
+	--------------------------------------------------------------------------
+	- 1.71a2
+	- Added non-static colour settings to various windows (so it syncronises with OS)
+	- Widened settings views to allow for better accomodation of localized strings
+	- Various fixes here and there
+
+	20/08/2004 (Mark "leonifan" Hogben <leonifan@dsl.pipex.com>)
+	--------------------------------------------------------------------------
+	- 1.71a1 minor update
+	- removed unneeded minimze and zoom items on the Window menu
+	- added synchronised tick update when user manually closes log windows
+	- removed some warnings from build process (one was in fact a bug)
+
+	20/08/2004 (Mark "leonifan" Hogben <leonifan@dsl.pipex.com>)
+	--------------------------------------------------------------------------
+	- version 1.71alpha
+	- fixed crash on R5 when user clicks in an empty position on the file list.
+	- added condtional compile flag and two separate projects for Zeta and R5 to
+	  to create a common source tree for both BeOS versions.
+	- fixed ISO burning (it now works again)
+	- temporarily deactivated BFS image creation - issues with unmounting... (will
+	  re-enable in a later release)
+
+	20/08/2004 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- version 1.71alpha
+	- fixed burn hang issues (hopefully :-)
+
+	28.06.2004 (Maurice "moscht" Michalski <moscht@gmx.de>) (Zeta changes)
+	--------------------------------------------------------------------------
+	- added volume control on audio preview window.
+	- audio preview window plays track when opened immediately.
+
+	11.02.2004 (Maurice "moscht" Michalski <moscht@gmx.de>) (Zeta changes)
+	--------------------------------------------------------------------------
+	- disc fill level (BStatusBar) invalidated on every update. this suppresses some
+	  malformed displayed bars.
+
+	11/28/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- made changes to make Helios compile under Dano
+
+	06/11/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- fixed some memory leaks in FileDialog.cpp
+	- changed audio window frame search acceleration
+	- fixed memory leak in FileChooser.cpp
+
+	05/19/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- log window for mkisofs does no more block on stream-read-operations (and
+	  therefore is updated like any other window).
+
+	05/09/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- when select "open project" from the file menu, only real helios
+	  project files can be opened.
+
+	04/27/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- new file-menu-option: "Save Project As..."
+	- all filepanels centered to the main window
+
+	04/25/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- bug fix: image file nodes were not released when the image was created
+	  (applies to bfs images only)
+
+	04/24/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- 1.6 final 3
+	- bug fix: made hungarian text fit into text fields.
+	- bug fix: rewrote check box-logic for file system panel.
+	- made bfs available again. however, creating bfs image files might not
+	  work on some systems.
+
+	03/26/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- bug fix: Helios crashed when the user opened the
+	  "Open/Save Project"-FilePanel twice.
+	- Added ScrollView to AboutBox.
+	- bug fix: when you quit Helios right after you have loaded a project, you
+	  won't be ask for saving anymore.
+	- bug fix: the state of the "Automatic Infobox Update"-control was not
+	  saved and restored.
+	- CD Extra: works!
+	- bug fix: files dropped onto the CDExtraPanel were added to the project.
+	  (files dropped there should be added to the textcontrol only)
+
+	03/25/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- 1.6 final 2
+	- bug fix: pressing "cancel" on the "File Chooser Window" (shown when
+	  a part of the cdrtools could not be found) does no more crash Helios.
+	- bug fix: cd size bar displayed "?" and warning sign when the burning
+	  process has been stopped.
+
+	03/20/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- removed context menu in data cd-project's file list.
+	- Displayed CD-size in the info box was sometimes incorrect.
+
+	03/19/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Set look&feel of log windows to B_DOCUMENT_WINDOW_LOOK and
+	  B_FLOATING_SUBSET_WINDOW_FEEL. This moves the log windows along with
+	  the main window when the main windows changes its current workspace.
+	- Processing B_SILENT_LAUNCH message. Displaying a message in the new
+	  status bar when the user tries to launch Helios multiple times.
+
+	03/13/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- 1.6 final
+	- "File List Background" color can be changed.
+	- Temporary image file will be deleted when exiting Helios. (This file is
+	  created when you copy a data CD through the menu.) Thanks to Stefano for
+	  his suggestion to do so.
+
+	03/07/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Helios won't check for the presence of cdda2wav anymore since it is not
+	  used by Helios.
+	- bug fix: wrong audio track playing time after reordering the tracks in
+	  the list.
+
+	03/06/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Added support for mapping files when using HFS.
+	- bug fix: tab order in settings window ("General") corrected.
+	- Enabling "Multisession" and "Disc-at-Once" at once is no more possible.
+
+	03/04/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- focus drawing implemented in icon bar buttons.
+	- bug fix: all BNodes used by Helios are now unset correctly. once you
+	  added a file to a helios project you couldn't delete it until you closed
+	  helios. (well, the trash was emptied, but the file wasn't deleted
+	  physically.)
+	- Added a small status bar at the bottom of the main window.
+
+	03/03/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- "untitled" string localizable.
+	- Added "Custom..." menu item in the file system menu. Selecting it brings
+	  the settings window to the front with the new "filesystem" configuration
+	  view activated. There you can combine several ISO9660 extensions to
+	  create a custom file system. You can even create file images containing
+	  UDF and ISO9660 file systems.
+
+	03/01/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- bug fix: protocol windows won't forget their log files anymore.
+	- protocol windows: file panel for choosing a log file is opened at the
+	  location where the current log file is located.
+
+	02/18/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- 1.6 beta 3
+	- Added Toolbar-button: "go to parent folder".
+
+	02/08/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Added Toolbar: "Create new folder" and "Delete item" buttons are in there
+	  for now. Let's see how the users (ie you ;-) like it.
+
+	02/02/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Textcontrols where you can choose a file or a folder have a "browse"
+	  button to their right.
+	- bug fix: cancelling cd-image-reading/writing didn't cancel it.
+
+	01/31/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Status window (the small one with the green bar which appears during
+	  recording) displays "Track 1/6" (for example). So you always know
+	  how many tracks there are going to be on the disc.
+	- bug fix: log windows did not write to log files under certain
+	  circumstances.
+	- bug fix: saving your project the first time did not work (again...).
+	  You were left in the wrong folder so the file list displayed wrong
+	  files (the files of the virtual cd-root's parent directory).
+
+	01/30/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Tested: Burning audio CDs works quite well. Helios computes start and
+	  end of a track with number of frames (audio CD frame; 75 fps), which is
+	  the accurate method. "Scrambled" audio tracks should not appear anymore.
+
+	01/28/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Minute:second-display added to CD size bar.
+	- Length of an audio-type CD now computed correctly.
+	- 2 second pregap as a default for the first audio track.
+	- Audio windows displays the length of the pregap when pressing enter.
+	- Moving audio tracks in the list copies now all attributes of a track.
+	- Duration of audio tracks in the list are computed correctly.
+
+	01/17/2003 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Languages shown in the language-popup-menu are now removable. Pop up the
+	  menu, move the mouse pointer over the language you want to remove
+	  and press the "Del" key on your keyboard. The language which is
+	  highlighted will be removed from the list and from the application's
+	  resources. The ID ordering will be automatically refreshed, so everything
+	  will be all right.
+	- bugfix: changing to higher level directories within the virtual disc's
+	  hierarchy and saving the project caused displaying ".." in the root of
+	  the virtual disc's file system.
+
+	12/30/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- BUG: Burns noise, when audio track selections are too short.
+
+	12/29/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Added possibility of defining a selection range in an audio track, which
+	  is the range written to the CD later. So, only small parts of an audio
+	  can be written easily to a CD without modifying the audio file itself.
+	  This is a replacement for the "splitting"-feature, since splitting is
+	  done using the selection ranges. (But you have to add the same file
+	  more than once to the Helios project.)
+
+	12/28/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- 1.6 beta 2
+	- Replaced Window4 with standard BFilePanels.
+	- Added "Read Floppy Image..."
+	- Changed the look of the ConfigWindow slightly.
+
+	12/10/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Possibility to add new language files into Helios within Helios itself.
+	  Choose "Add Language..." from the language selection field. With
+	  automatic selection of a valid index for the resource. Checks also,
+	  whether the same language is already available in Helios.
+
+	12/09/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Bootable CD: When deleting the floppy image file from the file list
+	  Helios will ask if you really want to delete it. When you select "Yes"
+	  the string from the BootableCDPanel which describes the location of the
+	  floppy image file in the CD's file hierarchy will be emptied.
+	- Tested Bootable CD mode ...finally! :-)
+	- Helios checks the floppy image file size when you drop the image file
+	  from the list onto the BootableCDPanel and show an ErrorBox when the
+	  size is incorrect.
+
+	11/21/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- 1.6 beta 1
+	- Fixed problem with image file names. Just forgot to append the trailing
+	  slash to the image file path string.
+
+	11/19/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Fixed bug where "Create Image File..." wouldn't have done anything.
+	- Some work on DVD support. Burning a regular single sided DVD-R should
+	  work.
+	- Burning speed can now be 1x.
+	- Added some color settings.
+	- Fixed bug: Scrollbar in file list did not resize correctly.
+
+	11/12/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Many thanks to Rémy Hessels who translated Helios into French!
+
+	11/10/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Fixed bug which caused some bad drawing of the "oversize warning symbol"
+	  in the info box.
+	- Fixed bug where the project files were not put into trash when selecting
+	  "remove current project" and the project's directory was not on the
+	  boot volume. Also, when cancelled removing, a new project was created.
+	  This misbehaviour has been corrected, too.
+	- Changed the old blue-disc icon to the new Helios logo (the orange flame,
+	  or whatever this strange thing could be ;-)
+
+	11/05/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- tried to remove bug (has it disappeared?): crash when quitting Helios.
+	  ("The looper must be locked.") ...what a shame!
+
+	10/29/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Double clicking a normal file launches it. Just like Tracker does.
+
+	10/27/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- 1.6 alpha 4
+	- rewritten code for constructing parameters of cdrecord and mkisofs.
+
+	10/21/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- ColorConfigView.cpp
+	- CD project fill level status bar in the info box. Removed some stupid
+	  things from the info box as well as the label of the info box.
+
+	10/15/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Saves state of the file list by calling BColumnListView::SaveState(...)
+	  which also saves the order and the visibility of the columns.
+	- Bug fix: enlarging the main window caused some bad redraws at the bottom
+	  of the file list's column-headers.
+	- Some improvements regarding the BColumnListView when resizing it.
+
+	10/14/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Bug fix: Wrong track numbers displayed on status window while burning
+	  audio CDs.
+	- Bug fix: An empty error box appeared after burning audio CDs.
+	- Bug fix: "Save?"-alert opened more than once when exiting Helios and
+	  selected "Yes".
+
+	10/07/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Fixed a bug where a sound played twice after blanking a disc.
+	- Own sound events for "finished recording a disc" and "finished writing an
+	  image file"
+	- Added panel to the preferences window: "VersionConfigView.cpp" is the
+	  name of the new one and its task is to display version strings of the
+	  cdrtools and Helios itself.
+
+	10/06/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Added multiple language support. It's the Helios Language Manager (yes,
+	  what a silly name) in HLM.cpp. Also available: The Helios Language
+	  Manager editor application which allows you to create user-written
+	  language files (resource files). These can be included in the Helios
+	  executable. There are indices (IDs) which identify the languages. For
+	  example: The english language is at index 0, german at index 1. Every
+	  language has to have its own ID which should not exist twice. However,
+	  this feature is untested and may not work properly. If Helios can't find
+	  a string in the language file, it displays "<no string>".
+
+	10/05/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Bug fix: Buttons on alert box were not labelled correctly. "Yes" was "No"
+	  and vice versa.
+	- bool Application1::CheckCDSize(): Calculations for all kinds of disc
+	  types except for DVD Video where I dont know much about.
+	- CheckCDSize() called before "Burn Image File..." to prevent a buggy look
+	  since cdrecord just returns if disc image is too big.
+	- Image file size checking in Application1::BurnImage(BString).
+
+	09/24/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- 1.6 alpha 3
+	- Finally, the preferences window's controls are asynchronous which means
+	  that the sliders tell their labels to update while dragging the slider
+	  around.
+	- If the "Preferences..." menu item is invoked but already open, it is
+	  activated.
+	- Added option to select if the info box should refresh its content
+	  automatically. Usually when adding or removing files but also when
+	  loading a project or switching between disc modes.
+
+	09/21/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Added StatusWindow.cpp: Should be an improved replacement for the former
+	  "View3" and "Window3". It includes a counter for "items" (when deleting
+	  or adding files and folders).
+	- Implemented a faster method of adding and removing files.
+
+	09/20/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- When opening the preferences panel a configuration view is selected
+	  already (the top-most one, i.e. "Cdrecord Switches").
+
+	09/19/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Bug fix: Column width did not resize correctly.
+	- Added support for the InfoBar by Jens Tinz.
+
+	09/13..15/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- AudioWindow: The times of being just an simple audio player are gone.
+	  Indices, the pre-gap and the cd text title are now configured in this
+	  window. For index setting, the player can be very useful, since you can
+	  play fast forward/backward but play in very small steps (1 frame), too.
+	  The input field displaying the frame count is editable in pause/stop mode
+	  only and accepts as input format frames, seconds (append a "s") and CDDA
+	  frames/sectors (append a "f").
+	- ListView1: Column widths are saved into configuration file and restored
+	  correctly (so far).
+
+	09/12/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- AudioWindow: Double-clicking an audio track starts a small audio player
+	  to prehear the audio track.
+
+	09/11/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Before any audio data is written Helios will check now every audio file
+	  if it contains valid audio data which can be written to an audio CD. If
+	  not so, an ErrorBox is shown with an appropriate error message.
+	  (in bool Application1::BurnAudio(bool))
+	- Bug fix: When removed some tracks of an audio project the info box was
+	  not refreshed properly. Sometimes the size and length field showed
+	  information of one single (the first? the last?) file of the list.
+
+	08/21/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- ProtocolWindow supports log file writing.
+
+	08/18/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Shown/hidden-state of the log-windows are stored in the
+	  Helios.settings file.
+	- ListItems named ".." are no more editable.
+	
+	08/15/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Beep when finished writing a disc or creating a file image.
+
+	08/14/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Data CD Copy on the fly does work now.
+	- Recent projects work again. Upper limit is now 10 entries.
+
+	08/13/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Bug fix: When deleted a project (menu->Remove Current Project) and
+			  restarted Helios, there wasn't created a new project.
+	- Added some (easy to implement ;-) options to the Application->General
+	  settings.
+
+	08/12/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Added class "SaveConfigView": Called "General" under BListItem
+	  "Application".
+
+	08/09/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Bug fix: In data streaming mode Helios won't stop data transport anymore.
+			  This caused the recorder stop after writing about 73mb of a
+			  disc.
+
+	08/07+08/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Created new window for settings and also added some new options in there.
+	  "Standard-Values" can be edited directly in the prefs-window.
+	  New files are: - "ConfigManager":	Manages saving configuration data
+									to disk (and stores them into a
+									BMessage).
+				   - "ConfigView":		Provides a base class for all views
+									for the settings window.
+				   - "*ConfigView":	in the settings window used views.
+				   - "CDTypeMenu":		Menu class. Menu contains all
+									supported modes for disc writing.
+									(Data CD, Audio CD, ...)
+				   - "ConfigWindow":	The settings window itself.	
+
+	08/04/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Adapted some files for CD extra support. GUI elements are working with
+	  the new CD mode so far.
+	- In "ListView1.cpp": Added "void ResetTrackNumbers()" which tries to keep
+	  the order of the track numbers. It is called in "void MessageReceived()"
+	  everytime a track is moved in the list.
+
+	08/01/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Renamed "Box2.*" to "InfoBox.*"
+	- Added automatic update (1 per minute, should be adjustable by the user
+	  later) of the info box. The "Update Thread" is suspended every time
+	  "Application1::MessageReceived()" has been called. This should ensure
+	  that the update thread does not run while writing CDs or making images.
+
+	07/29/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Changed "ProtocolWindow.cpp": The window changes its priority from 15 to
+	  5 when it is shown the first time.
+
+	07/25/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Removed "UserConfigFile.cpp": Paths are stored in the settings-file.
+	  (_path_to_cdrecord, _path_to_xyz...)
+	- Added "FileChooser.cpp": Window with list and three buttons. Used in
+	  "bool Application1::CheckCommandlineTool()" where a query is done for
+	  each program. Results are shown in such a FileChooser and returned by
+	  FileChooser's "const char *Go()" method. It returns the full path of the
+	  selected item or an empty string, if the "Cancel" button was clicked or
+	  if the window was closed. Thanks to "Shard" for his great idea!
+	- In "Application1::Application1()": Removed bug at startup when loading an
+	  audio project the order of audio tracks was not remembered.
+
+	07/25/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Added "UserConfigFile.cpp": Provides access to keyword and values in a
+	  configuration file. Used in Helios for paths of cdrecord, mkisofs, ...
+	  The configuration file is "/boot/home/config/settings/Helios.userconfig".
+	  If the file is not found, default values are used. See Helios.userconfig.
+
+	07/23/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Changed "Application1.cpp, SettingsWindow.cpp": Changable size of
+	  cdrecord's FIFO buffer.
+	- Changed "Application1.cpp, SettingsWindow.cpp": Allows now use of
+	  cdrecord's "-force"-option. Enabling this ignores errors when erasing
+	  rewritable discs.
+	- Changed "void Application1::ReadSettings()" so there is a new project
+	  created when loading the last one fails. It is marked as _unchanged_.
+
+	07/18/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- In "void Application1::MessageReceived()": At "case 'mm04'" added
+	  "SaveSettings()" which causes saving settings when closing the settings
+	  window.
+	- Added "ErrorWindow.cpp" for a nice visual appearance when an error
+	  occurs. It's not finished till now.
+	- TODO: Let the user select the size of the FIFO buffer cdrecord uses.
+	  DONE.
+
+	07/06/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- In "ProtocolWindow.cpp": added BMenuBar. BTextView is now clearable.
+	- In "FileColumn.cpp": added context-menu. previously located in
+	  "ListView1.cpp".
+
+	07/06/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Added: "AboutWindow.cpp" which provides a much nicer about-box.
+	- In "void Application1::AboutRequested()": Code for the new about box.
+	- In "Stringtable.h": added and removed some about-box-constants.
+
+	07/05/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Added: "BitmapMenuItem.cpp" (Copyright by Be, Inc., modified by me. For
+	  original source see Be's sample code of the development kit "MenuWorld")
+	- In "void Application1::PopulateFoldersMenu()": Changed type "BMenuItem"
+	  to "BitmapMenuItem". Now, the folder menu shows the tracker's icon, too.
+
+	07/04/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- FileColumn.cpp
+	  In "int CompareFields()": Changed, so parent folder ".." is on top of the
+	  list.
+	- FileField.cpp
+	  Added: "bool IsParentFolder()", "void SetParentFolder()"
+	- FolderRow.cpp
+	  Added: Constructor's arguments.
+
+	07/03/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- StatusView.cpp
+	  Added: "void AddMenuItem()", "void RemoveMenuItems()", "void MouseDown()"
+	  (added BPopUpMenu to provide Tracker-feeling)
+	- Application1.cpp
+	  Added: "void PopulateFoldersMenu()" (Looks in which folder we are and
+	  adds the directory hierarchy to the BPopUpMenu in the StatusView.
+	  "void PopulateFoldersMenu()" is called at the end of "void
+	  ShowFolder()".) (TODO: Create new class derived from BMenuItem to draw
+	  the Tracker icon the menu items as seen on Tracker's menu.DONE.)
+	- Defines.h
+	  Added: "FOLDERMENU_MSG 'He08'" (BMessage->what; sent when a folder of
+	  the folders menu is selected.
+	  Handled in "void Application1::MessageReceived()")
+
+	07/01/2002 (Maurice "moscht" Michalski <moscht@gmx.de>)
+	--------------------------------------------------------------------------
+	- Application1.cpp
+	  In "bool GetImageSize()": wait, until the size has been printed by
+	  mkisofs. (Dangerous, if the size is never printed!)
+	- AudioCDPanel.cpp
+	  In "AudioCDPanel()": Added a BTextControl "CD text album" where it is
+	  possible to enter the name of the album. It is deleted in the destructor.
+	  Resizing and moving is done in "void AllAttached()".
+	  Due to this, implemented "void MessageReceived(BMessage *)". Set the
+	  CDTextAlbum control disabled when the CDText-CheckBox is not checked and
+	  vice versa. (TODO: Make CD-text working in "Application1::BurnAudio()")
+	- DataCDPanel.cpp
+	  In "DataCDPanel()": Changed the order the controls are added to the
+	  parent view, so navigating with TAB is done from top to bottom.
+	- DataCDPanel.cpp, BootableCDPanel.cpp
+	  In "void AllAttached()": Increased height of filesystem-menu from 20 to
+	  22 pixels. (The focus mark was not visible at the bottom line of the
+	  control.)
