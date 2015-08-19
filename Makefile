@@ -86,7 +86,7 @@ CC := g++
 ASM := yasm
 LD := $(CC)
 
-LIBS := -lroot -lbe -lstdc++ -ltranslation -ltextencoding -lmedia -ltracker
+LIBS := -lroot -lbe -lstdc++.r4 -ltranslation -ltextencoding -lmedia -ltracker
 CFLAGS := -O3 -I./includes -I./src/CDText -D_BEOS_HAIKU_BUILD_ -Wno-write-strings
 LDFLAGS := 
 

@@ -3,7 +3,7 @@
 
 #include "crc16.h"
 
-#include "CDText.h"
+#include "CDText.hpp"
 
 
 #define	PTI_TITLE		0x80	/* Album name and Track titles */

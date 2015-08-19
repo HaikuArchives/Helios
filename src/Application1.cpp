@@ -32,7 +32,7 @@ extern MSHLanguageMgr* gMSHLangMgr;
 #include "AudioRow.h"
 #include "BitmapMenuItem.h"
 #include "CDRECORDCmdLine.h"
-#include "CDText/CDText.h"
+#include "CDText/CDText.hpp"
 #include "ColumnTypes.h"
 #include "ConfigFields.h"
 #include "DebugTools.h"
