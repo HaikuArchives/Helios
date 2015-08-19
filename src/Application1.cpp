@@ -4038,12 +4038,12 @@ Application1::ReadSettings() {
 	// Set default values...
 
 	// Paths of command line tools
-	if (!CM->HasData(PATH_TO_MKISOFS))		CM->SetString(PATH_TO_MKISOFS, "/boot/home/config/bin/mkisofs");
-	if (!CM->HasData(PATH_TO_CDRECORD))	CM->SetString(PATH_TO_CDRECORD, "/boot/home/config/bin/cdrecord");
-	if (!CM->HasData(PATH_TO_MKBFS))		CM->SetString(PATH_TO_MKBFS, "/boot/beos/bin/mkbfs");
-	if (!CM->HasData(PATH_TO_READCD))		CM->SetString(PATH_TO_READCD, "/boot/home/config/bin/readcd");
-	if (!CM->HasData(PATH_TO_CDDA2WAV))	CM->SetString(PATH_TO_CDDA2WAV, "/boot/home/config/bin/cdda2wav");
-	if (!CM->HasData(TEMP_PATH))			CM->SetString(TEMP_PATH, "/boot/Helios/");
+	if (!CM->HasData(PATH_TO_MKISOFS))		CM->SetString(PATH_TO_MKISOFS, "/bin/mkisofs");
+	if (!CM->HasData(PATH_TO_CDRECORD))	CM->SetString(PATH_TO_CDRECORD, "/bin/cdrecord");
+	if (!CM->HasData(PATH_TO_MKBFS))		CM->SetString(PATH_TO_MKBFS, "/bin/mkfs");
+	if (!CM->HasData(PATH_TO_READCD))		CM->SetString(PATH_TO_READCD, "/bin/readcd");
+	if (!CM->HasData(PATH_TO_CDDA2WAV))	CM->SetString(PATH_TO_CDDA2WAV, "/bin/cdda2wav");
+	if (!CM->HasData(TEMP_PATH))			CM->SetString(TEMP_PATH, "/boot/home/Helios/");
 
 	// HeliosConfigView
 	/*
