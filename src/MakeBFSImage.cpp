@@ -222,7 +222,7 @@ MakeBFSImage(const char *filename)
 
 		entry_ref appRef;
 
-		if ( B_OK == get_ref_for_path("/boot/beos/bin/sync", &appRef)) {
+		if ( B_OK == get_ref_for_path("/bin/sync", &appRef)) {
 			if (B_OK == be_roster->Launch(&appRef)){
 				printf("Synced externally okay after mkbfs\n");
 			}
@@ -264,7 +264,7 @@ MakeBFSImage(const char *filename)
 		sync();
 		snooze(500000);
 
-//		if ( B_OK == get_ref_for_path("/boot/beos/bin/sync", &appRef)) {
+//		if ( B_OK == get_ref_for_path("/bin/sync", &appRef)) {
 //			if (B_OK == be_roster->Launch(&appRef)){
 //			}
 //		}
@@ -277,7 +277,7 @@ MakeBFSImage(const char *filename)
 		BString folderStr = app->pathCV->GetDefaultImageName();
 		folderStr					= *RemoveTrailingSlash(folderStr);
 		int arguments = 0;
-		args[arguments++] = strdup("/boot/beos/bin/cp");
+		args[arguments++] = strdup("/bin/cp");
 		args[arguments++] = strdup("--recursive");
 		folderStr.SetTo(app->base_folder.String()).Append(".");
 		args[arguments++] = strdup(folderStr.String());
@@ -347,7 +347,7 @@ MakeBFSImage(const char *filename)
 	}
 
 	// Shell "sync" command, just as a precaution (launched outside app)
-		if ( B_OK == get_ref_for_path("/boot/beos/bin/sync", &appRef)) {
+		if ( B_OK == get_ref_for_path("/bin/sync", &appRef)) {
 			if (B_OK == be_roster->Launch(&appRef)){
 				printf("Synced externally okay after cp\n");
 			}
@@ -358,7 +358,7 @@ MakeBFSImage(const char *filename)
 	snooze(100000);
 
 	// Second shell sync?
-	if ( B_OK == get_ref_for_path("/boot/beos/bin/sync", &appRef)) {
+	if ( B_OK == get_ref_for_path("/bin/sync", &appRef)) {
 		if (B_OK == be_roster->Launch(&appRef)){
 		}
 	}
@@ -374,7 +374,7 @@ MakeBFSImage(const char *filename)
 	}
 
 	// Shell "sync" command, just as a precaution (launched outside app)
-//	if ( B_OK == get_ref_for_path("/boot/beos/bin/sync", &appRef)) {
+//	if ( B_OK == get_ref_for_path("/bin/sync", &appRef)) {
 //		if (B_OK == be_roster->Launch(&appRef)){
 //		}
 //	}
@@ -400,7 +400,7 @@ MakeBFSImage(const char *filename)
 		}
 
 
-//		if ( B_OK == get_ref_for_path("/boot/beos/bin/sync", &appRef)) {
+//		if ( B_OK == get_ref_for_path("/bin/sync", &appRef)) {
 //			if (B_OK == be_roster->Launch(&appRef)){
 //			}
 //		}

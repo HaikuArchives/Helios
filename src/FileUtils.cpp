@@ -732,11 +732,7 @@ UnmountBFSImage(const char *mountpoint)
 	};
 
 	sync();
-#ifdef _BEOS_HAIKU_BUILD_
-	s.SetTo("/boot/system/bin/rmdir ").Append(mountpoint);
-#else
-	s.SetTo("/boot/beos/bin/rmdir ").Append(mountpoint);
-#endif
+	s.SetTo("/bin/rmdir ").Append(mountpoint);
 	system(s.String());
 
 	return retvalue;
