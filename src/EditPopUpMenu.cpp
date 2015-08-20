@@ -1,8 +1,3 @@
-#ifndef _ZETA_USING_DEPRECATED_API_
-#define _ZETA_USING_DEPRECATED_API_
-#endif
-	// To allow PostMessage() to work. Grrr...
-
 #include "EditPopUpMenu.h"
 #include "EditMenuItem.h"
 #include <support/ClassInfo.h>

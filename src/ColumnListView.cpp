@@ -19,10 +19,6 @@ DONE:
 + optimised MouseMoved() to only find new field if necessary
 -HUGH */
 
-#ifndef _ZETA_USING_DEPRECATED_API_
-#define _ZETA_USING_DEPRECATED_API_
-#endif
-	// To allow PostMessage() to work. Grrr...
 
 #define _INCLUDES_CLASS_CURSOR 1	//HUGH
 #include "ColumnTypes.h"		//DB

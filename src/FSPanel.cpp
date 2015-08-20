@@ -1,8 +1,3 @@
-#ifndef _ZETA_USING_DEPRECATED_API_
-#define _ZETA_USING_DEPRECATED_API_
-#endif
-	// To allow PostMessage() to work. Grrr...
-
 #if defined(_BEOS_R5_BUILD_) || defined(_BEOS_HAIKU_BUILD_)
 #include "MSHLanguageMgr.h"
 extern MSHLanguageMgr* gMSHLangMgr;

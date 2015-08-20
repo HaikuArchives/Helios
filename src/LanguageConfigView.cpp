@@ -37,14 +37,6 @@ LanguageConfigView::LanguageConfigView(BRect& frame,
 {
 	float currControlTopPos = 5;
 
-	// Zeta localisation overriding checkbox.
-#if !defined(_BEOS_R5_BUILD_) && !defined(_BEOS_HAIKU_BUILD_)
-	fOverrideZetaLocaleCB = new BCheckBox(15, 5, frame.Width() - 15, 20),
-			_T(kTagForOverrideZetaLocale),
-			new BMessage(OVERRIDEZETACHECKBOX_CLICKED));
-	currControlTopPos = fOverrideZetaLocaleCB->Frame().bottom + 5;
-#endif
-
 	// Language selection text.
 	BString tempstring;
 	tempstring << _T(kTagForSelectLanguage) << B_UTF8_ELLIPSIS;

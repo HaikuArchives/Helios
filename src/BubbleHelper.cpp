@@ -20,11 +20,6 @@
 
 */
 
-#ifndef _ZETA_USING_DEPRECATED_API_
-#define _ZETA_USING_DEPRECATED_API_
-#endif
-	// To allow PostMessage() to work. Grrr...
-
 #include <string.h>
 #include <malloc.h>
 #include <Application.h>

@@ -46,10 +46,6 @@ private:
 														// Populates the language menu items, removing old
 														// ones first if needed.
 
-	BCheckBox								*fOverrideZetaLocaleCB;
-														// Selects whether the Zeta locale kit is overriden/
-														// Note: this will only appear in Zeta builds.
-
 	BStringView							*fSelectLanguageSV;
 														// Label to instruct the user to select a language.
 

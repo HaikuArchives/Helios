@@ -1,8 +1,3 @@
-#ifndef _ZETA_USING_DEPRECATED_API_
-#define _ZETA_USING_DEPRECATED_API_
-#endif
-	// To allow PostMessage() to work. Grrr...
-
 #if defined(_BEOS_R5_BUILD_) || defined(_BEOS_HAIKU_BUILD_)
 #include "MSHLanguageMgr.h"
 extern MSHLanguageMgr* gMSHLangMgr;
@@ -56,11 +51,6 @@ extern MSHLanguageMgr* gMSHLangMgr;
 #ifdef _BEOS_HAIKU_BUILD_
 #define APP_VERSION "1.71b2 Haiku"
 #else
-#ifdef _SUTTER_TEST_VERSION_
-#define APP_VERSION "1.71b2 Sutter Test Build - DO NOT RELEASE"
-#else
-#define APP_VERSION "1.71b2 Zeta"
-#endif
 #endif
 #endif
 
@@ -235,16 +225,6 @@ Application1::Application1() :
 	string=CheckCommandlineTool(CM->GetString(PATH_TO_MKBFS)->String(), "mkbfs");
 	if (string.Length()!=0) CM->SetString(PATH_TO_MKBFS, &string);
 	else exit=true;
-#endif
-
-#ifdef _SUTTER_TEST_VERSION_
-	ErrorBox *alert=new ErrorBox(E_RED_COLOR, "",	"WARNING: This is a pre-release test for Mr Sutter - DO NOT RELEASE. There will be NO support of any kind for this version. Do you agree to use it?",
-																								_T("Cancel"),
-																								_T("I Agree!"));
-	const int agreed = alert->Go();
-	if (agreed == 0) {
-		exit = true;
-	}
 #endif
 
 	if (!exit)  {
@@ -4067,13 +4047,13 @@ Application1::ReadSettings() {
 	
 	// PathConfigView
 	if (!CM->HasData(TEMPORARY_PATH))	CM->SetString(TEMPORARY_PATH, "/boot/home/");
-	if (!CM->HasData(PROJECT_PATH))	CM->SetString(PROJECT_PATH, "/boot/Helios/");
+	if (!CM->HasData(PROJECT_PATH))	CM->SetString(PROJECT_PATH, "/boot/home/Helios/");
 	if (!CM->HasData(DEFIMAGENAME))	CM->SetString(DEFIMAGENAME, "Helios.imagefile");
 	if (!CM->HasData(DEFMOUNTPOINT))	CM->SetString(DEFMOUNTPOINT, "/HeliosMountPoint");
 
 	// ImageConfigView
-	if (!CM->HasData(I_PUBLISHER))		CM->SetString(I_PUBLISHER, "Zeta");
-	if (!CM->HasData(I_PREPARER))		CM->SetString(I_PREPARER, "Zeta");
+	if (!CM->HasData(I_PUBLISHER))		CM->SetString(I_PUBLISHER, "Haiku");
+	if (!CM->HasData(I_PREPARER))		CM->SetString(I_PREPARER, "Haiku");
 	if (!CM->HasData(I_APPLICATION))	CM->SetString(I_APPLICATION, "Helios");
 
 	// FilesystemConfigView
@@ -4098,8 +4078,8 @@ Application1::ReadSettings() {
 	if (!CM->HasData(S_FILESYSTEM))		CM->SetInt32(S_FILESYSTEM, 5);	// Joliet by default
 	if (!CM->HasData(S_VOLUMENAME))	CM->SetString(S_VOLUMENAME, _T("untitled")); // "L:untitled"
 	if (!CM->HasData(S_CDTYPE))		CM->SetInt8(S_CDTYPE, 0);
-	if (!CM->HasData(S_PUBLISHER))		CM->SetString(S_PUBLISHER, "Zeta");
-	if (!CM->HasData(S_PREPARER))		CM->SetString(S_PREPARER, "Zeta");
+	if (!CM->HasData(S_PUBLISHER))		CM->SetString(S_PUBLISHER, "Haiku");
+	if (!CM->HasData(S_PREPARER))		CM->SetString(S_PREPARER, "Haiku");
 	if (!CM->HasData(S_APPLICATION))	CM->SetString(S_APPLICATION, "Helios");
 	//if (!CM->HasData(S_TEMPPATH))		CM->SetString(S_TEMPPATH, "/boot/home/");
 	//if (!CM->HasData(S_PROJECTPATH))	CM->SetString(S_PROJECTPATH, "/boot/Helios/");
