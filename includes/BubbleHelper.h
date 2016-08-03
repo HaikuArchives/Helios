@@ -51,7 +51,7 @@ class BubbleHelper
 		void HideBubble();
 		void ShowBubble(BPoint dest);
 		
-		static long runcount;
+		static int32 runcount;
 };
 
 #endif

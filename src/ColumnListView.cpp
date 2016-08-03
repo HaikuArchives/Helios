@@ -44,7 +44,6 @@ DONE:
 
 #include "ObjectList.h"
 #include "ColumnListView.h"
-#include "ColorTools.h"
 /*
 #ifndef _ARCHIVE_DEFS_H
 #include <archive_defs.h>
@@ -519,7 +518,7 @@ BRow::BRow(float height)
 BRow::~BRow()
 {
 	while (true) {
-		BField *field = (BField*) fFields.RemoveItem(0L);
+		BField *field = (BField*) fFields.RemoveItem(0);
 		if (field == 0)
 			break;
 		
@@ -928,7 +927,7 @@ BColumnListView::BColumnListView(BRect rect, const char *name, uint32 resizingMo
 BColumnListView::~BColumnListView()
 {
 	while (true) {
-		BColumn *column = (BColumn*) fColumns.RemoveItem(0L);
+		BColumn *column = (BColumn*) fColumns.RemoveItem(0);
 		if (column == 0)
 			break;
 		
@@ -2450,7 +2449,7 @@ void TitleView::ComputeDragBoundries(BColumn *findColumn, BPoint )
 void TitleView::DrawTitle(BView *view, BRect rect, BColumn *column, bool depressed)
 {
 	BRect drawRect;
-	rgb_color borderColor = mix_color(fMasterView->Color(B_COLOR_HEADER_BACKGROUND), BExperimental::make_color(0, 0, 0), 128);
+	rgb_color borderColor = mix_color(fMasterView->Color(B_COLOR_HEADER_BACKGROUND), make_color(0, 0, 0), 128);
 	rgb_color backgroundColor;
 
 	rgb_color bevelHigh;
@@ -2460,15 +2459,15 @@ void TitleView::DrawTitle(BView *view, BRect rect, BColumn *column, bool depress
 	drawRect = rect;
 	drawRect.InsetBy(2, 2);
 	if (depressed) {
-		backgroundColor = mix_color(fMasterView->Color(B_COLOR_HEADER_BACKGROUND), BExperimental::make_color(0, 0, 0), 64);
-		bevelHigh = mix_color(backgroundColor, BExperimental::make_color(0, 0, 0), 64);
-		bevelLow = mix_color(backgroundColor, BExperimental::make_color(255, 255, 255), 128);
+		backgroundColor = mix_color(fMasterView->Color(B_COLOR_HEADER_BACKGROUND), make_color(0, 0, 0), 64);
+		bevelHigh = mix_color(backgroundColor, make_color(0, 0, 0), 64);
+		bevelLow = mix_color(backgroundColor, make_color(255, 255, 255), 128);
 		drawRect.left++;
 		drawRect.top++;
 	} else {
 		backgroundColor = fMasterView->Color(B_COLOR_HEADER_BACKGROUND);
-		bevelHigh = mix_color(backgroundColor, BExperimental::make_color(255, 255, 255), 192);
-		bevelLow = mix_color(backgroundColor, BExperimental::make_color(0, 0, 0), 64);
+		bevelHigh = mix_color(backgroundColor, make_color(255, 255, 255), 192);
+		bevelLow = mix_color(backgroundColor, make_color(0, 0, 0), 64);
 		drawRect.bottom--;
 		drawRect.right--;
 	}
@@ -3048,7 +3047,7 @@ void OutlineView::RecursiveDeleteRows(BRowContainer* List, bool IsOwner)
 {
 	if (List) {
 		while (true) {
-			BRow *row = List->RemoveItemAt(0L);
+			BRow *row = List->RemoveItemAt(0);
 			if (row == 0)
 				break;
 				

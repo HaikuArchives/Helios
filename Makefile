@@ -21,7 +21,6 @@ OBJS := MSHLanguageMgr.o \
 		ColorConfigView.o \
 		ColorListItem.o \
 		ColorTestView.o \
-		ColorTools.o \
 		ColumnListView.o \
 		ColumnTypes.o \
 		ConfigHeadLine.o \
@@ -86,7 +85,7 @@ CC := g++
 ASM := yasm
 LD := $(CC)
 
-LIBS := -lroot -lbe -lstdc++.r4 -ltranslation -ltextencoding -lmedia -ltracker
+LIBS := -lroot -lbe $(STDCPPLIBS) -ltranslation -ltextencoding -lmedia -ltracker
 CFLAGS := -O3 -I./includes -I./src/CDText -D_BEOS_HAIKU_BUILD_ -Wno-write-strings
 LDFLAGS := 
 

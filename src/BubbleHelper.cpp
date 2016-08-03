@@ -30,7 +30,7 @@
 
 #include "BubbleHelper.h"
 
-long BubbleHelper::runcount=0;
+int32 BubbleHelper::runcount=0;
 
 struct helppair
 {
@@ -44,7 +44,7 @@ BubbleHelper::BubbleHelper()
     if(atomic_add(&runcount,1)==0)
     {
         helplist=new BList(30);
-        helperthread=spawn_thread(_helper,"helper",B_LOW_PRIORITY,this);
+        helperthread=spawn_thread((thread_func)_helper,"helper",B_LOW_PRIORITY,this);
         if(helperthread>=0)
             resume_thread(helperthread);
         enabled=true;
@@ -180,7 +180,7 @@ void BubbleHelper::Helper()
     while(be_app_messenger.IsValid())
     {
         BPoint where;
-        ulong buttons;
+        uint32 buttons;
         if(enabled)
         {
             if(textwin->Lock())

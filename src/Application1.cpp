@@ -1799,7 +1799,7 @@ Application1::GetImageSize()
 						imgsize = GetBFSImageSize(base_folder.String());
 
 						window1->view1->box2->SetCDSize((off_t)imgsize);
-						delete ((BString *)list->RemoveItem(0L));
+						delete ((BString *)list->RemoveItem(0));
 						delete list;
 						return true;
 					}
@@ -1839,7 +1839,7 @@ Application1::GetImageSize()
 						imgsize = GetBFSImageSize(base_folder.String());
 
 						window1->view1->box2->SetCDSize((off_t)imgsize+sz);
-						delete ((BString *)list->RemoveItem(0L));
+						delete ((BString *)list->RemoveItem(0));
 						delete list;
 						return true;
 					}
@@ -1858,7 +1858,7 @@ Application1::GetImageSize()
 						imgsize = GetBFSImageSize(base_folder.String());
 
 						window1->view1->box2->SetCDSize((off_t)imgsize);
-						delete ((BString *)list->RemoveItem(0L));
+						delete ((BString *)list->RemoveItem(0));
 						delete list;
 						return true;
 					}
@@ -2474,7 +2474,7 @@ Application1::DoAudioMenu()
 	window1->Lock();
 
 	while (window1->view1->listview1->cmenu->CountItems()>0)
-		window1->view1->listview1->cmenu->RemoveItem(0L);
+		window1->view1->listview1->cmenu->RemoveItem(0);
 	window1->view1->listview1->cmenu->AddItem(window1->view1->listview1->deleteItem);
 	window1->view1->listview1->cmenu->AddSeparatorItem();
 	window1->view1->listview1->cmenu->AddItem(window1->view1->listview1->moveupItem);
@@ -2496,7 +2496,7 @@ Application1::DoDataMenu()
 	window1->Lock();
 
 	while (window1->view1->listview1->cmenu->CountItems()>0)
-		window1->view1->listview1->cmenu->RemoveItem(0L);
+		window1->view1->listview1->cmenu->RemoveItem(0);
 	window1->view1->listview1->cmenu->AddItem(window1->view1->listview1->deleteItem);
 	window1->view1->listview1->cmenu->AddItem(window1->view1->listview1->newfolderItem);
 	window1->view1->listview1->cmenu->AddItem(window1->view1->listview1->renamefileItem);
@@ -4465,7 +4465,7 @@ Application1::ShowRecentProjects()
 	filename=(char *)malloc(B_FILE_NAME_LENGTH);
 
 	window1->Lock();
-	while (window1->view1->openrecentSM->CountItems()>0) delete window1->view1->openrecentSM->RemoveItem(0L);
+	while (window1->view1->openrecentSM->CountItems()>0) delete window1->view1->openrecentSM->RemoveItem(0);
 	for (int i=0; i<CM->CountStrings(RECENTPROJECTS_LIST); i++) {
 		if (CM->GetStringI(RECENTPROJECTS_LIST, i)->Length()>0) {
 			// add if project exists, only
