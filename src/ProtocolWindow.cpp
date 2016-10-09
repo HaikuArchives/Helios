@@ -251,7 +251,7 @@ void ProtocolWindow::MessageReceived(BMessage *msg) {
 
 void ProtocolWindow::Clear() {
 	Lock();
-	contentView->SetText("", 0);
+	contentView->SetText("");
 	Unlock();
 }
 
