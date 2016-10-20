@@ -207,7 +207,7 @@ public:
 	virtual void MouseMoved(BPoint, uint32, const BMessage*);
 	virtual void MouseUp(BPoint position);
 	virtual void FrameResized(float width, float height);
-	
+
 	void MoveColumn(BColumn *column, int32 index);
 	void SetColumnFlags(column_flags flags);
 
@@ -227,7 +227,7 @@ private:
 	BList *fSortColumns;
 	float fColumnsWidth;
 	BRect fVisibleRect;
-	
+
 #if DOUBLE_BUFFERED_COLUMN_RESIZE
 	BBitmap *fDrawBuffer;
 	BView *fDrawBufferView;
@@ -255,7 +255,7 @@ private:
 	float fRightDragBoundry;
 	BPoint fCurrentDragPosition;
 
-	
+
 	BBitmap *fUpSortArrow;
 	BBitmap *fDownSortArrow;
 #if _INCLUDES_CLASS_CURSOR
@@ -264,8 +264,8 @@ private:
 	BCursor *fMaxResizeCursor;
 	BCursor *fColumnMoveCursor;
 #endif
-	
-	
+
+
 	typedef BView _inherited;
 };
 
@@ -279,7 +279,7 @@ public:
 
 			void				RedrawColumn(BColumn *column, float leftEdge, bool isFirstColumn);
 			void 				StartSorting();
-	
+
 			void				AddRow(BRow*, int32 index, BRow *TheRow);
 			BRow*				CurrentSelection(BRow *lastSelected) const;
 			void 				ToggleFocusRowSelection(bool selectRange);
@@ -315,17 +315,17 @@ public:
 			void				SetCurrentColumn(BColumn* column) { fCurrentColumn = column; }
 			void				SetCurrentRow   (BRow*    row)    { fCurrentRow    = row;    }
 			void				SetCurrentField (BField*  field)  { fCurrentField  = field;  }
-			
+
 			// find field(rect)
 			BField*				FindField(BPoint position, BRect* rect, BRow** out_row = NULL,
 										  int32* out_indent = NULL, float *out_top = NULL);
 			BField*				FindField(BRow* row, BColumn* column, BRect* rect,
 										  int32* out_indent = NULL, float *out_top = NULL);
 			BField*				GetField(BPoint position, BRow* row, BRect *rect);
-			
+
 			// draw guide-lines to show hierarchy and dependance of rows
 			void				DrawGuides(BRow* row, BRect destRect);
-			
+
 			//-HUGH
 			void				Clear();
 			void				SetSelectionMode(list_view_type);
@@ -353,7 +353,7 @@ private:
 			void				RecursiveDeleteRows(BRowContainer *list, bool owner);
 			void				InvalidateCachedPositions();
 			bool				FindVisibleRect(BRow *row, BRect *out_rect);
-			
+
 	BList*			fColumns;
 	BList*			fSortColumns;
 	float			fItemsHeight;
@@ -384,9 +384,9 @@ private:
 		ROW_CLICKED,
 		DRAGGING_ROWS
 	};
-	
+
 	CurrentState fCurrentState;
-	
+
 
 	BColumnListView*	fMasterView;
 	list_view_type		fSelectionMode;
@@ -450,7 +450,7 @@ BField::~BField()
 
 // #pragma mark -
 
-void BColumn::MouseMoved(BColumnListView */*parent*/, BRow */*row*/, BField */*field*/, 
+void BColumn::MouseMoved(BColumnListView */*parent*/, BRow */*row*/, BField */*field*/,
 						BRect /*field_rect*/, BPoint/*point*/, uint32 /*buttons*/, int32 /*code*/)
 {
 }
@@ -464,7 +464,7 @@ void BColumn::MouseDown( BColumnListView *parent, BRow */*row*/, BField *field,
 
 	kill_thread(parent->GetWaitingThreadID());
 
-	
+
 	//HUGH editing-support
 	if (buttons & B_PRIMARY_MOUSE_BUTTON)
 	{
@@ -480,9 +480,9 @@ void BColumn::MouseDown( BColumnListView *parent, BRow */*row*/, BField *field,
 			}
 			else return;		// don't swallow click inside edit-view
 		}
-		
+
 		//printf("BC: row = %ld, column = %ld\n", parent->IndexOf(parent->CurrentRow()), parent->IndexOf(parent->CurrentColumn()) );	//DB
-		
+
 		// now add new edit-view
 		// is this column editable?
 		if (GetColumnFlags() & B_ALLOW_COLUMN_EDIT)
@@ -518,12 +518,12 @@ BRow::BRow(float height)
 BRow::~BRow()
 {
 	while (true) {
-		BField *field = (BField*) fFields.RemoveItem(0);
+		BField *field = (BField*) fFields.RemoveItem(0L);
 		if (field == 0)
 			break;
-		
+
 		delete field;
-	}		
+	}
 }
 
 bool BRow::HasLatch() const
@@ -550,14 +550,14 @@ void BRow::SetField(BField *field, int32 logicalFieldIndex)
 {
 	if (fFields.ItemAt(logicalFieldIndex) != 0)
 		delete (BField*) fFields.RemoveItem(logicalFieldIndex);
-	
+
 	if( NULL != fList ) {
 		ValidateField(field, logicalFieldIndex);
 		BRect inv;
 		fList->GetRowRect(this, &inv);
 		fList->Invalidate(inv);
 	}
-	
+
 	fFields.AddItem(field, logicalFieldIndex);
 }
 
@@ -571,7 +571,7 @@ bool BRow::IsExpanded() const
 	return fIsExpanded;
 }
 
-void 
+void
 BRow::ValidateFields() const
 {
 	for( int32 i = 0; i < CountFields(); i++ )
@@ -589,7 +589,7 @@ BRow::ValidateFields() const
 	}
 }
 
-void 
+void
 BRow::ValidateField(const BField *field, int32 logicalFieldIndex) const
 {
 	// The Fields may be moved by the user, but the logicalFieldIndexes
@@ -603,7 +603,7 @@ BRow::ValidateField(const BField *field, int32 logicalFieldIndex) const
 		if( col->LogicalFieldNum() == logicalFieldIndex )
 			break;
 	}
-	
+
 	if( NULL == col )
 	{
 		BString dbmessage("\n\n\tThe parent BColumnListView does not have "
@@ -735,7 +735,7 @@ int32 BColumn::LogicalFieldNum() const
 	return fFieldID;
 }
 
-bool 
+bool
 BColumn::AcceptsField(const BField*) const
 {
 	return true;
@@ -754,7 +754,7 @@ void BColumn::SetColumnFlags(int flags)
 }
 
 void BColumn::AddEditView(BView* view, BField *field, BRect rect)
-{	
+{
 	if (view == NULL)
 	{
 		DEBUGGER(("Cannot add NULL as edit-view or abstract method called!"));
@@ -764,12 +764,12 @@ void BColumn::AddEditView(BView* view, BField *field, BRect rect)
 	BColumnListView* view_clv = GetMasterView();
 	ASSERT_WITH_MESSAGE(view_clv, "Column not attached to a ColumnListView!");
 	if (!view_clv) return;
-	
+
 	printf("AddEdit: row = %ld, column = %ld\n", view_clv->IndexOf(view_clv->CurrentRow()), view_clv->IndexOf(view_clv->CurrentColumn()) );	//DB
-	
+
 	// generate EditView if necessary
 	BView *viewEdit = view_clv->GetEditView();
-	
+
 	// already set up an edit-view?
 	if (viewEdit != NULL)
 	{
@@ -781,11 +781,11 @@ void BColumn::AddEditView(BView* view, BField *field, BRect rect)
 	view_clv->SetEditField(field);
 	view_clv->SetEditMode(true);
 	viewEdit = view;
-	
+
 	// set up new edit-view
 	viewEdit->MoveTo(rect.left, rect.top);
 	viewEdit->ResizeTo(rect.Width(), rect.Height());
-	
+
 	// add to OutlineView
 	BView* parent = view_clv->ScrollView();
 	if (parent->LockLooper())
@@ -794,12 +794,12 @@ void BColumn::AddEditView(BView* view, BField *field, BRect rect)
 		parent->Invalidate(viewEdit->Frame());
 		parent->UnlockLooper();
 	}
-	
+
 	if (viewEdit->LockLooper()) {
 		viewEdit->MakeFocus(true);
 		viewEdit->UnlockLooper();
 	}
-		
+
 	ASSERT_WITH_MESSAGE(field, "NULL-Field passed!");
 	if (field) field->SetEditMode(true);
 }
@@ -809,15 +809,15 @@ void BColumn::RemoveEditView(BField *field)
 	BColumnListView* view_clv = GetMasterView();
 	ASSERT_WITH_MESSAGE(view_clv, "Column not attached to a ColumnListView!");
 	if (!view_clv) return;
-	
+
 	BView* viewEdit = view_clv->GetEditView();
 	if (viewEdit == NULL) return;
-	
+
 	// leave edit-mode
 	view_clv->SetEditMode(false);
 	view_clv->SetEditView(NULL);
 	view_clv->SetEditField(NULL);
-	
+
 	// remove edit-view
 	BView* parent = view_clv->ScrollView();
 	if (parent->LockLooper())
@@ -827,10 +827,10 @@ void BColumn::RemoveEditView(BField *field)
 		viewEdit->RemoveSelf();
 		parent->UnlockLooper();
 	}
-	
+
 	// adjust field-info
 	ASSERT_WITH_MESSAGE(field, "field cannot be null here!");
-	
+
 	field->SetEditMode(false);
 }
 //-HUGH
@@ -856,10 +856,10 @@ BColumnListView::BColumnListView(BRect rect, const char *name, uint32 resizingMo
 
 	BRect bounds(rect);
 	bounds.OffsetTo(0, 0);
-	
+
 	for (int i = 0; i < (int)B_COLOR_TOTAL; i++)
 	  fColorList[i] = kColor[i];
-	
+
 	BRect titleRect(bounds);
 	titleRect.bottom = titleRect.top + kTitleHeight;
 #if !LOWER_SCROLLBAR
@@ -907,7 +907,7 @@ BColumnListView::BColumnListView(BRect rect, const char *name, uint32 resizingMo
 		hScrollBarRect.OffsetBy(0, -2);
 		hScrollBarRect.InsetBy(2, 0);
 	}
-	
+
 	fOutlineView = new OutlineView(outlineRect, &fColumns, &fSortColumns, this);
 	AddChild(fOutlineView);
 	fTitleView = new TitleView(titleRect, fOutlineView, &fColumns, &fSortColumns, this);
@@ -927,12 +927,12 @@ BColumnListView::BColumnListView(BRect rect, const char *name, uint32 resizingMo
 BColumnListView::~BColumnListView()
 {
 	while (true) {
-		BColumn *column = (BColumn*) fColumns.RemoveItem(0);
+		BColumn *column = (BColumn*) fColumns.RemoveItem(0L);
 		if (column == 0)
 			break;
-		
+
 		delete column;
-	}		
+	}
 }
 
 bool BColumnListView::InitiateDrag(BPoint, bool)
@@ -994,7 +994,7 @@ void BColumnListView::SetFocusRow(BRow* Row, bool Select)
 
 void BColumnListView::SetMouseTrackingEnabled(bool Enabled)
 {
-	fOutlineView->SetMouseTrackingEnabled(Enabled);	
+	fOutlineView->SetMouseTrackingEnabled(Enabled);
 }
 
 list_view_type BColumnListView::SelectionMode() const
@@ -1032,7 +1032,7 @@ void BColumnListView::SetSelectionMessage(BMessage *message)
 {
 	if (fSelectionMessage == message)
 		return;
-		
+
 	delete fSelectionMessage;
 	fSelectionMessage = message;
 }
@@ -1046,7 +1046,7 @@ uint32 BColumnListView::SelectionCommand() const
 {
 	if (fSelectionMessage)
 		return fSelectionMessage->what;
-		
+
 	return 0;
 }
 
@@ -1079,7 +1079,7 @@ void BColumnListView::SetSortColumn(BColumn *column, bool add, bool ascending)
 		fSortColumns.AddItem(column);
 
 	column->fSortAscending = ascending;
-	fTitleView->Invalidate();	
+	fTitleView->Invalidate();
 	fOutlineView->StartSorting();
 }
 
@@ -1110,7 +1110,7 @@ void BColumnListView::AddStatusView(BView *view)
 		viewRect.OffsetBy(1, -1);
 	else if (fBorderStyle == B_FANCY_BORDER)
 		viewRect.OffsetBy(2, -2);
-	
+
 	view->SetResizingMode(B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
 	view->ResizeTo(viewRect.Width(), viewRect.Height());
 	view->MoveTo(viewRect.left, viewRect.top);
@@ -1175,10 +1175,10 @@ void BColumnListView::RemoveColumn(BColumn *column)
 int32 BColumnListView::CountColumns(bool countVisible) const
 {
 	if (!countVisible) return fColumns.CountItems();
-	
+
 	int32 count = 0;
 	BColumn *column;
-	
+
 	for (int32 i=0; i < fColumns.CountItems(); i++)
 	{
 		column = static_cast<BColumn*>(fColumns.ItemAt(i));
@@ -1227,7 +1227,7 @@ bool BColumnListView::GetColumnRect(const BColumn *column, BRect *outRect) const
 const BRow* BColumnListView::RowAt(int32 Index, BRow* ParentRow) const
 {
 	if (ParentRow == 0)
-		return fOutlineView->RowList()->ItemAt(Index);	
+		return fOutlineView->RowList()->ItemAt(Index);
 
 	return ParentRow->fChildList ? ParentRow->fChildList->ItemAt(Index) : NULL;
 }
@@ -1235,7 +1235,7 @@ const BRow* BColumnListView::RowAt(int32 Index, BRow* ParentRow) const
 BRow* BColumnListView::RowAt(int32 Index, BRow* ParentRow)
 {
 	if (ParentRow == 0)
-		return fOutlineView->RowList()->ItemAt(Index);	
+		return fOutlineView->RowList()->ItemAt(Index);
 
 	return ParentRow->fChildList ? ParentRow->fChildList->ItemAt(Index) : 0;
 }
@@ -1273,7 +1273,7 @@ int32 BColumnListView::IndexOf(BRow *row)
 int32 BColumnListView::CountRows(BRow* ParentRow) const
 {
 	if (ParentRow == 0)
-		return fOutlineView->RowList()->CountItems();	
+		return fOutlineView->RowList()->CountItems();
 	if (ParentRow->fChildList)
 		return ParentRow->fChildList->CountItems();
 	else
@@ -1327,14 +1327,14 @@ void BColumnListView::SetFont(ColumnListViewFont font_num, const BFont* font, ui
 		case B_FONT_ROW:
 			fOutlineView->SetFont(font, mask);
 			break;
-		  
+
 		case B_FONT_HEADER:
 			fTitleView->SetFont(font, mask);
 			break;
-			
+
 		default:
 			ASSERT(false);
-			break;	
+			break;
 	};
 }
 
@@ -1344,14 +1344,14 @@ void BColumnListView::GetFont(ColumnListViewFont font_num, BFont* font) const
 		case B_FONT_ROW:
 			fOutlineView->GetFont(font);
 			break;
-		  
+
 		case B_FONT_HEADER:
 			fTitleView->GetFont(font);
 			break;
-			
+
 		default:
 			ASSERT(false);
-			break;	
+			break;
 	};
 }
 
@@ -1361,14 +1361,14 @@ void BColumnListView::SetColor(int color_num, const rgb_color color)
 	{
 		ASSERT(false);
 		color_num = 0;
-	}	
-		
+	}
+
 	if (color_num >= B_COLOR_TOTAL)
 	{
 		ASSERT(false);
 		color_num = B_COLOR_TOTAL - 1;
 	}
-  
+
 	fColorList[color_num] = color;
 }
 
@@ -1378,14 +1378,14 @@ rgb_color BColumnListView::Color(int color_num) const
 	{
 		ASSERT(false);
 		color_num = 0;
-	}	
-		
+	}
+
 	if (color_num >= B_COLOR_TOTAL)
 	{
 		ASSERT(false);
 		color_num = B_COLOR_TOTAL - 1;
 	}
-  
+
 	return fColorList[color_num];
 }
 
@@ -1440,18 +1440,18 @@ void BColumnListView::EditNavigate(int delta_x, int delta_y)
 {
 	// sanity check
 	if (!GetEditMode()) return;
-	
+
 	BField*	  field_edit = GetEditField();
 	// another sanity check
 	ASSERT(field_edit);
 	if (!field_edit) return;
-	
+
 	BRow*     row    = field_edit->GetRow();
 	BColumn*  column = field_edit->GetColumn();
-	
+
 	int32 index_row = IndexOf(row), index_column = IndexOf(column),
 	      old_row = index_row, old_column = index_column;	//DB to avoid endless loop
-	
+
 	while (true)
 	{
 		printf("NavLoop: row = %ld, column = %ld\n", index_row, index_column);	//DB
@@ -1471,7 +1471,7 @@ void BColumnListView::EditNavigate(int delta_x, int delta_y)
 					break;
 				}
 			}
-		}			
+		}
 		else if (delta_x < 0)		// edit previous field in row
 		{
 			index_column--;
@@ -1519,25 +1519,25 @@ void BColumnListView::EditNavigate(int delta_x, int delta_y)
 					break;
 				}
 			}
-		}		
+		}
 		// avoid infinite loop (if there is only 1 editlable field)
 		if ((index_row == old_row) && (index_column == old_column))
 		{
 			printf("No other editable field detected!\n");	//DB
 			break;
 		}
-		
+
 		printf("...row = %ld, column = %ld (NEW)\n\n", index_row, index_column);	//DB
-		
+
 		// now update row and column to new indices
 		row    = RowAt(index_row);
 		column = ColumnAt(index_column);
 		// sanity check
 		ASSERT(row != 0);
 		ASSERT(column != 0);
-		
+
 		if (!(column->IsVisible()) ) continue;
-		
+
 		// and get the field, if editable
 		if (column->IsEditable())
 		{
@@ -1577,7 +1577,7 @@ int32 waitForEditingThread(void *data) {
 	bundle *b=(bundle *)data;
 
 	snooze(1000000);
-	
+
 		ASSERT(b->column);
 		if (b->column!=NULL) {
 			if (b->field!=NULL) {
@@ -1594,28 +1594,28 @@ void BColumnListView::BeginEditing(BField *field, BRect fieldRect)
 {
 	ASSERT(field);
 	if (field == NULL) return;
-	
+
 	this->DeselectAll();
 	this->AddToSelection(field->GetRow());
 	this->Refresh();
 	// adjust field-rect
 	fieldRect.OffsetBy(2.0, 0.0);	// "2.0" instead of "6.0" //MOSHED
 	fieldRect.bottom -= 3.0;	// don't ask me why...
-	
+
 	// subclasses of BColumn insert their custom BView here
 	BColumn *column = field->GetColumn();
 	fOutlineView->SetCurrentColumn(column);
 	fOutlineView->SetCurrentRow(field->GetRow());
-	
+
 	bundle *b=new bundle();
 	b->fieldRect=fieldRect;
 	b->field=field;
 	b->column=column;
 	resume_thread((fWaitingThreadID=spawn_thread(waitForEditingThread, "waitForEditingThread", 1, b)));
-	
+
 
 /*	snooze(500000);
-	
+
 	ASSERT(column);
 	if (column) column->AddEditView(NULL, field, fieldRect);*/
 }
@@ -1637,7 +1637,7 @@ void BColumnListView::EndEditing()
 			msg->AddPointer("row",field->GetRow());				//MOSHED
 			be_app->PostMessage(msg);					//MOSHED
 			delete msg;
-		}			
+		}
 	}
 }
 //-HUGH
@@ -1683,17 +1683,17 @@ BPoint BColumnListView::SuggestTextPosition(const BRow* row, const BColumn* inCo
 			BColumn *column = (BColumn*) fColumns.ItemAt(index);
 			if (!column->IsVisible())
 				continue;
-			
+
 			if (column == inColumn) {
 				rect.left = leftEdge;
 				rect.right = rect.left + column->Width();
 				break;
 			}
-			
+
 			leftEdge += column->Width() + 1;
 		}
 	}
-	
+
 	font_height fh;
 	fOutlineView->GetFontHeight(&fh);
 	float baseline = floor(rect.top + fh.ascent
@@ -1727,29 +1727,29 @@ uint32 BColumnListView::LatchStyle() const
 void BColumnListView::DrawLatch(BView *view, BRect rect, LatchType position, BRow *)
 {
 	const int32 rectInset = 4;
-	
+
 	view->SetHighColor(0, 0, 0);
-	
+
 	// Make Square
 	int32 sideLen = rect.IntegerWidth();
 	if( sideLen > rect.IntegerHeight() )
 	{
 		sideLen = rect.IntegerHeight();
 	}
-	
+
 	// Make Center
 	int32 halfWidth  = rect.IntegerWidth() / 2;
 	int32 halfHeight = rect.IntegerHeight() / 2;
 	int32 halfSide   = sideLen / 2;
-	
+
 	float left = rect.left + halfWidth  - halfSide;
 	float top  = rect.top  + halfHeight - halfSide;
-	
+
 	BRect itemRect(left, top, left + sideLen, top + sideLen);
-	
+
 	// Why it is a pixel high? I don't know.
 	itemRect.OffsetBy(0, -1);
-	
+
 	itemRect.InsetBy(rectInset, rectInset);
 
 	// Make it an odd number of pixels wide, the latch looks better this way
@@ -1763,7 +1763,7 @@ void BColumnListView::DrawLatch(BView *view, BRect rect, LatchType position, BRo
 	float middle_horiz = (itemRect.left + itemRect.right) / 2;
 	float middle_vert  = (itemRect.top + itemRect.bottom) / 2;
 	rgb_color color_high = view->HighColor();
-	
+
 	switch (position) {
 		case B_OPEN_LATCH:
 		{
@@ -1789,7 +1789,7 @@ void BColumnListView::DrawLatch(BView *view, BRect rect, LatchType position, BRo
 				}
 			} // switch
 			break;
-		}	
+		}
 		case B_PRESSED_LATCH:
 		{
 			switch (fLatchStyle)
@@ -1818,7 +1818,7 @@ void BColumnListView::DrawLatch(BView *view, BRect rect, LatchType position, BRo
 			} // switch
 			fOutlineView->Invalidate(rect);
 			break;
-		}	
+		}
 		case B_CLOSED_LATCH:
 		{
 			switch (fLatchStyle)
@@ -1878,7 +1878,7 @@ void BColumnListView::KeyDown(const char *bytes, int32 numBytes)
 {
 	char c = bytes[0];
 	switch (c) {
-		case B_RIGHT_ARROW: 
+		case B_RIGHT_ARROW:
 		case B_LEFT_ARROW: {
 			float  minVal, maxVal;
 			fHorizontalScrollBar->GetRange(&minVal, &maxVal);
@@ -1912,7 +1912,7 @@ void BColumnListView::KeyDown(const char *bytes, int32 numBytes)
 			fOutlineView->ChangeFocusRow(true, (modifiers() & B_CONTROL_KEY) == 0,
 				(modifiers() & B_SHIFT_KEY) != 0);
 			break;
-		
+
 		case B_PAGE_UP:
 		case B_PAGE_DOWN: {
 			float minValue, maxValue;
@@ -1921,17 +1921,17 @@ void BColumnListView::KeyDown(const char *bytes, int32 numBytes)
 			fVerticalScrollBar->GetSteps(&smallStep, &largeStep);
 			float currentValue = fVerticalScrollBar->Value();
 			float newValue = currentValue;
-			
+
 			if (c == B_PAGE_UP)
 				newValue -= largeStep;
 			else
 				newValue += largeStep;
-			
+
 			if (newValue > maxValue)
 				newValue = maxValue;
 			else if (newValue < minValue)
 				newValue = minValue;
-				
+
 			fVerticalScrollBar->SetValue(newValue);
 
 			// Option + pgup or pgdn scrolls and changes the selection.
@@ -1939,10 +1939,10 @@ void BColumnListView::KeyDown(const char *bytes, int32 numBytes)
 				kill_thread(GetWaitingThreadID());
 				fOutlineView->MoveFocusToVisibleRect();
 			}
-			
+
 			break;
 		}
-			
+
 		case B_ENTER:
 			kill_thread(GetWaitingThreadID());
 			Invoke();
@@ -1954,7 +1954,7 @@ void BColumnListView::KeyDown(const char *bytes, int32 numBytes)
 			break;
 
 		case '+':
-			fOutlineView->ToggleFocusRowOpen();			
+			fOutlineView->ToggleFocusRowOpen();
 			break;
 
 		default:
@@ -1966,8 +1966,8 @@ void BColumnListView::AttachedToWindow()
 {
 	if (!Messenger().IsValid())
 		SetTarget(Window());
-		
-	if (SortingEnabled()) fOutlineView->StartSorting();	
+
+	if (SortingEnabled()) fOutlineView->StartSorting();
 }
 
 void BColumnListView::WindowActivated(bool active)
@@ -1987,9 +1987,9 @@ void BColumnListView::Draw(BRect)
 	BRect cornerRect(rect.right - B_V_SCROLL_BAR_WIDTH, rect.bottom - B_H_SCROLL_BAR_HEIGHT,
 		rect.right, rect.bottom);
 	if (fBorderStyle == B_PLAIN_BORDER) {
-		BView::SetHighColor(0, 0, 0); 
+		BView::SetHighColor(0, 0, 0);
 		StrokeRect(rect);
-		cornerRect.OffsetBy(-1, -1); 
+		cornerRect.OffsetBy(-1, -1);
 	} else if (fBorderStyle == B_FANCY_BORDER) {
 		bool isFocus = IsFocus() && Window()->IsActive();
 
@@ -2003,12 +2003,12 @@ void BColumnListView::Draw(BRect)
 			BView::SetHighColor(184, 184, 184);
 		else
 			BView::SetHighColor(152, 152, 152);
-			
+
 		rect.InsetBy(1,1);
 		StrokeRect(rect);
 		cornerRect.OffsetBy(-2, -2);
 	}
-	
+
 	BView::SetHighColor(215, 215, 215); // fills lower right rect between scroll bars
 	FillRect(cornerRect);
 	PopState();
@@ -2139,7 +2139,7 @@ TitleView::TitleView(BRect rect, OutlineView *horizontalSlave, BList *visibleCol
 					 B_ALLOW_COLUMN_REMOVE)
 {
 	SetViewColor(B_TRANSPARENT_32_BIT);
-	
+
 #if DOUBLE_BUFFERED_COLUMN_RESIZE
 	// xxx this needs to be smart about the size of the backbuffer.
 	BRect doubleBufferRect(0, 0, 1600, 35);
@@ -2170,7 +2170,7 @@ TitleView::~TitleView()
 {
 	delete fColumnPop;
 	fColumnPop = NULL;
-	
+
 	fDrawBuffer->Lock();
 	fDrawBufferView->RemoveSelf();
 	fDrawBuffer->Unlock();
@@ -2203,13 +2203,13 @@ void TitleView::SetColumnVisible(BColumn *column, bool visible)
 	// to invalidate.  If hiding it, do it last.
 	if (visible)
 		column->fVisible = visible;
-		
+
 	BRect titleInvalid;
 	GetTitleRect(column, &titleInvalid);
 
-	// Now really set the visibility	
+	// Now really set the visibility
 	column->fVisible = visible;
-	
+
 	if (visible)
 		fColumnsWidth += column->Width()+1;
 		//fColumnsWidth+=titleInvalid.Width()+1;
@@ -2220,7 +2220,7 @@ void TitleView::SetColumnVisible(BColumn *column, bool visible)
 		if (fColumnsWidth<0)
 			fColumnsWidth=0;		// moshed
 		//printf("titleInvalid.Width()=%0.0f\n", titleInvalid.Width());
-	
+
 	BRect outlineInvalid(fOutlineView->VisibleRect());
 	outlineInvalid.left = titleInvalid.left;
 	titleInvalid.right = outlineInvalid.right;
@@ -2243,7 +2243,7 @@ void TitleView::GetTitleRect(BColumn *findColumn, BRect *out_rect)
 			out_rect->Set(leftEdge, 0, leftEdge + column->Width(), fVisibleRect.bottom);
 			return;
 		}
-		
+
 		leftEdge += column->Width() + 1;
 	}
 
@@ -2291,7 +2291,7 @@ void TitleView::FixScrollBar(bool scrollToFit)
 				hScrollBar->SetRange(0.0, maxScrollBarValue);
 				hScrollBar->SetSteps(50, fVisibleRect.Width() );
 			}
-		} else 
+		} else
 			if (hScrollBar->Value() == 0.0) {
 				hScrollBar->SetRange(0.0, 0.0);	// disable scroll bar.
 			}
@@ -2327,14 +2327,14 @@ void TitleView::DragSelectedColumn(BPoint position)
 void TitleView::MoveColumn(BColumn *column, int32 index)
 {
 	fColumns->RemoveItem((void*) column);
-	
+
 	if (-1 == index)
 	{
 		// Re-add the column at the end of the list.
 		fColumns->AddItem((void*) column);
 	}
 	else
-	{ 
+	{
 		fColumns->AddItem((void*) column, index);
 	}
 }
@@ -2349,8 +2349,8 @@ void TitleView::ResizeSelectedColumn(BPoint position)
 {
 	float minWidth = fSelectedColumn->MinWidth();
 	float maxWidth = fSelectedColumn->MaxWidth();
-	
-	float originalEdge = fSelectedColumnRect.left + fSelectedColumn->Width(); 
+
+	float originalEdge = fSelectedColumnRect.left + fSelectedColumn->Width();
 	if (position.x > fSelectedColumnRect.left + maxWidth)
 		fSelectedColumn->SetWidth(maxWidth);
 	else if (position.x < fSelectedColumnRect.left + minWidth)
@@ -2395,9 +2395,9 @@ void TitleView::ResizeSelectedColumn(BPoint position)
 		fOutlineView->CopyBits(slaveSource, slaveDest);
 		fOutlineView->RedrawColumn(fSelectedColumn, fSelectedColumnRect.left,
 			fResizingFirstColumn);
-	
+
 		fColumnsWidth +=dX;
-		
+
 
 		// Update the cursor
 #if _INCLUDES_CLASS_CURSOR
@@ -2405,7 +2405,7 @@ void TitleView::ResizeSelectedColumn(BPoint position)
 			SetViewCursor(fMinResizeCursor, false);
 		else if (fSelectedColumn->Width() == maxWidth)
 			SetViewCursor(fMaxResizeCursor, false);
-		else			
+		else
 			SetViewCursor(fResizeCursor, false);
 #endif
 		FixScrollBar(false);	// moshed
@@ -2417,7 +2417,7 @@ void TitleView::ComputeDragBoundries(BColumn *findColumn, BPoint )
 {
 	float previousColumnLeftEdge = -1000000.0;
 	float nextColumnRightEdge = 1000000.0;
-	
+
 	bool foundColumn = false;
 	float leftEdge = LEFT_OFFSET;
 	int32 numColumns = fColumns->CountItems();
@@ -2425,8 +2425,8 @@ void TitleView::ComputeDragBoundries(BColumn *findColumn, BPoint )
 		BColumn *column = (BColumn*) fColumns->ItemAt(index);
 		if (!column->IsVisible())
 			continue;
-	
-		if (column == findColumn) { 
+
+		if (column == findColumn) {
 			foundColumn = true;
 			continue;
 		}
@@ -2439,8 +2439,8 @@ void TitleView::ComputeDragBoundries(BColumn *findColumn, BPoint )
 
 		leftEdge += column->Width() + 1;
 	}
-	
-	float rightEdge = leftEdge + findColumn->Width();		
+
+	float rightEdge = leftEdge + findColumn->Width();
 
 	fLeftDragBoundry = MIN(previousColumnLeftEdge + findColumn->Width(), leftEdge);
 	fRightDragBoundry = MAX(nextColumnRightEdge, rightEdge);
@@ -2473,20 +2473,20 @@ void TitleView::DrawTitle(BView *view, BRect rect, BColumn *column, bool depress
 	}
 
 	view->SetHighColor(borderColor);
-	view->StrokeRect(rect);	
+	view->StrokeRect(rect);
 	view->BeginLineArray(4);
 	view->AddLine(BPoint(rect.left+1, rect.top+1), BPoint(rect.right-1, rect.top+1), bevelHigh);
 	view->AddLine(BPoint(rect.left+1, rect.top+1), BPoint(rect.left+1, rect.bottom-1), bevelHigh);
 	view->AddLine(BPoint(rect.right-1, rect.top+1), BPoint(rect.right-1, rect.bottom-1), bevelLow);
-	view->AddLine(BPoint(rect.left+2, rect.bottom-1), BPoint(rect.right-1, rect.bottom-1), bevelLow);	
+	view->AddLine(BPoint(rect.left+2, rect.bottom-1), BPoint(rect.right-1, rect.bottom-1), bevelLow);
 	view->EndLineArray();
 
 	font_height fh;
 	GetFontHeight(&fh);
-	
+
 	float baseline = floor(drawRect.top + fh.ascent
 							+ (drawRect.Height()+1-(fh.ascent+fh.descent))/2);
-				   
+
 	view->SetHighColor(backgroundColor);
 	view->SetLowColor(backgroundColor);
 
@@ -2496,7 +2496,7 @@ void TitleView::DrawTitle(BView *view, BRect rect, BColumn *column, bool depress
 	// If no column given, nothing else to draw.
 	if (!column)
 		return;
-	
+
 	view->SetHighColor(fMasterView->Color(B_COLOR_HEADER_TEXT));
 
 	BFont font;
@@ -2507,25 +2507,25 @@ void TitleView::DrawTitle(BView *view, BRect rect, BColumn *column, bool depress
 	if (sortIndex >= 0) {
 		// Draw sort notation.
 		BPoint upperLeft(drawRect.right-kSortIndicatorWidth, baseline);
-	
+
 		if (fSortColumns->CountItems() > 1) {
 			char str[256];
 			sprintf(str, "%d", sortIndex + 1);
 			const float w = view->StringWidth(str);
 			upperLeft.x -= w;
-			
+
 			view->SetDrawingMode(B_OP_COPY);
 			view->MovePenTo(BPoint(upperLeft.x + kSortIndicatorWidth, baseline));
 			view->DrawString(str);
 		}
 
 		float bmh = fDownSortArrow->Bounds().Height()+1;
-		
+
 		view->SetDrawingMode(B_OP_OVER);
-		
+
 		if (column->fSortAscending) {
 			BPoint leftTop(upperLeft.x, drawRect.top + (drawRect.IntegerHeight()-fDownSortArrow->Bounds().IntegerHeight())/2);
-			view->DrawBitmapAsync(fDownSortArrow, leftTop); 
+			view->DrawBitmapAsync(fDownSortArrow, leftTop);
 		} else {
 			BPoint leftTop(upperLeft.x, drawRect.top + (drawRect.IntegerHeight()-fUpSortArrow->Bounds().IntegerHeight())/2);
 			view->DrawBitmapAsync(fUpSortArrow, leftTop);
@@ -2567,7 +2567,7 @@ void TitleView::Draw(BRect invalidRect)
 
 		if (columnLeftEdge > invalidRect.right)
 			break;
-			
+
 		if (columnLeftEdge + column->Width() >= invalidRect.left) {
 			BRect titleRect(columnLeftEdge, 0,
 							columnLeftEdge + column->Width(), fVisibleRect.Height());
@@ -2591,14 +2591,14 @@ void TitleView::Draw(BRect invalidRect)
 		DrawTitle(this, titleRect, NULL, false);
 	}
 
-#if DRAG_TITLE_OUTLINE	
-	// (Internal) Column Drag Indicator 
+#if DRAG_TITLE_OUTLINE
+	// (Internal) Column Drag Indicator
 	if (fCurrentState == DRAG_COLUMN_INSIDE_TITLE) {
 		BRect dragRect(fSelectedColumnRect);
 		dragRect.OffsetTo(fCurrentDragPosition.x - fClickPoint.x, 0);
 		if (dragRect.Intersects(invalidRect)) {
 			SetHighColor(0, 0, 255);
-			StrokeRect(dragRect);	
+			StrokeRect(dragRect);
 		}
 	}
 #endif
@@ -2646,7 +2646,7 @@ void TitleView::MouseDown(BPoint position)
 	if(fMasterView)
 		if (fMasterView->GetEditMode())	//HUGH - was fEditMode, which has moved to the ColumnListView
 			return;
-		
+
 
 	int32 buttons=1;
 	Window()->CurrentMessage()->FindInt32("buttons", &buttons);
@@ -2673,7 +2673,7 @@ void TitleView::MouseDown(BPoint position)
 		fColumnPop->Go(ConvertToScreen(position), true, false, sticky, true);
 		return;
 	}
-	
+
 	fResizingFirstColumn = true;
 	float leftEdge = LEFT_OFFSET;
 	for (int index = 0; index < fColumns->CountItems(); index++) {
@@ -2685,7 +2685,7 @@ void TitleView::MouseDown(BPoint position)
 			break;
 
 		//	Check for resizing a column
-		float rightEdge = leftEdge + column->Width();			
+		float rightEdge = leftEdge + column->Width();
 
 		if(column->ShowHeading()) {
 			if (position.x > rightEdge - kColumnResizeAreaWidth / 2
@@ -2703,7 +2703,7 @@ void TitleView::MouseDown(BPoint position)
 			fResizingFirstColumn = false;
 
 			//	Check for clicking on a column.
-			if (position.x > leftEdge && position.x < rightEdge) {		
+			if (position.x > leftEdge && position.x < rightEdge) {
 				fCurrentState = PRESSING_COLUMN;
 				fSelectedColumn = column;
 				fSelectedColumnRect.Set(leftEdge, 0, rightEdge, fVisibleRect.Height());
@@ -2724,7 +2724,7 @@ void TitleView::MouseMoved(BPoint position, uint32 transit, const BMessage *)
 	if (fMasterView)
 		if (fMasterView->GetEditMode())		//HUGH
 			return;
-		
+
 	// Handle column manipulation
 	switch (fCurrentState) {
 		case RESIZING_COLUMN:
@@ -2756,7 +2756,7 @@ void TitleView::MouseMoved(BPoint position, uint32 transit, const BMessage *)
 						fCurrentState = DRAG_COLUMN_OUTSIDE_TITLE;
 						fSelectedColumn->SetVisible(false);
 						BRect dragRect(fSelectedColumnRect);
-		
+
 						// There is a race condition where the mouse may have moved by the
 						// time we get to handle this message.  If the user drags a column very
 						// quickly, this results in the annoying bug where the cursor is outside
@@ -2775,7 +2775,7 @@ void TitleView::MouseMoved(BPoint position, uint32 transit, const BMessage *)
 
 			break;
 		}
-			
+
 		case DRAG_COLUMN_INSIDE_TITLE: {
 			if (transit == B_EXITED_VIEW && (fColumnFlags & B_ALLOW_COLUMN_REMOVE)) {
 				// Dragged outside view
@@ -2792,7 +2792,7 @@ void TitleView::MouseMoved(BPoint position, uint32 transit, const BMessage *)
 			} else if (position.x < fLeftDragBoundry || position.x > fRightDragBoundry)
 				DragSelectedColumn(position);
 
-#if DRAG_TITLE_OUTLINE		
+#if DRAG_TITLE_OUTLINE
 			// Set up the invalid rect to include the rect for the previous position
 			// of the drag rect, as well as the new one.
 			BRect invalidRect(fSelectedColumnRect);
@@ -2801,13 +2801,13 @@ void TitleView::MouseMoved(BPoint position, uint32 transit, const BMessage *)
 				invalidRect.left -= fCurrentDragPosition.x - position.x;
 			else
 				invalidRect.right += position.x - fCurrentDragPosition.x;
-				
+
 			fCurrentDragPosition = position;
 			Invalidate(invalidRect);
 #endif
 			break;
 		}
-		
+
 		case DRAG_COLUMN_OUTSIDE_TITLE:
 			if (transit == B_ENTERED_VIEW) {
 				// Drag back into view
@@ -2815,10 +2815,10 @@ void TitleView::MouseMoved(BPoint position, uint32 transit, const BMessage *)
 				fCurrentState = DRAG_COLUMN_INSIDE_TITLE;
 				fSelectedColumn->SetVisible(true);
 				DragSelectedColumn(position);
-			} 
+			}
 
 			break;
-	
+
 		case INACTIVE:
 			// Check for cursor changes if we are over the resize area for
 			// a column.
@@ -2828,18 +2828,18 @@ void TitleView::MouseMoved(BPoint position, uint32 transit, const BMessage *)
 				BColumn *column = (BColumn*) fColumns->ItemAt(index);
 				if (!column->IsVisible())
 					continue;
-		
+
 				if (leftEdge > position.x + kColumnResizeAreaWidth / 2)
 					break;
-		
-				float rightEdge = leftEdge + column->Width();			
+
+				float rightEdge = leftEdge + column->Width();
 				if (position.x > rightEdge - kColumnResizeAreaWidth / 2
 					&& position.x < rightEdge + kColumnResizeAreaWidth / 2
 					&& column->MaxWidth() > column->MinWidth()) {
 					resizeColumn = column;
 					break;
 				}
-		
+
 				leftEdge = rightEdge + 1;
 			}
 
@@ -2850,7 +2850,7 @@ void TitleView::MouseMoved(BPoint position, uint32 transit, const BMessage *)
 					SetViewCursor(fMinResizeCursor, false);
 				else if (resizeColumn->Width() == resizeColumn->MaxWidth())
 					SetViewCursor(fMaxResizeCursor, false);
-				else			
+				else
 					SetViewCursor(fResizeCursor, false);
 			} else
 				SetViewCursor(B_CURSOR_SYSTEM_DEFAULT, false);
@@ -2864,7 +2864,7 @@ void TitleView::MouseUp(BPoint position)
 	if (fMasterView)
 		if (fMasterView->GetEditMode())	//HUGH
 			return;
-		
+
 	switch (fCurrentState) {
 		case RESIZING_COLUMN:
 			ResizeSelectedColumn(position);
@@ -2882,20 +2882,20 @@ void TitleView::MouseUp(BPoint position)
 						fSortColumns->MakeEmpty();
 						fSortColumns->AddItem(fSelectedColumn);
 					}
-	
+
 					fSelectedColumn->fSortAscending = !fSelectedColumn->fSortAscending;
 				} else {
 					if ((modifiers() & B_CONTROL_KEY) == 0)
 						fSortColumns->MakeEmpty();
-	
+
 					fSortColumns->AddItem(fSelectedColumn);
 					fSelectedColumn->fSortAscending = true;
 				}
-				
+
 				fOutlineView->StartSorting();
 			}
-			
-			fCurrentState = INACTIVE;		
+
+			fCurrentState = INACTIVE;
 			Invalidate();
 			break;
 		}
@@ -2912,7 +2912,7 @@ void TitleView::MouseUp(BPoint position)
 			SetViewCursor(B_CURSOR_SYSTEM_DEFAULT, false);
 #endif
 			break;
-		
+
 		case DRAG_COLUMN_OUTSIDE_TITLE:
 			fCurrentState = INACTIVE;
 			EndRectTracking();
@@ -2920,7 +2920,7 @@ void TitleView::MouseUp(BPoint position)
 			SetViewCursor(B_CURSOR_SYSTEM_DEFAULT, false);
 #endif
 			break;
-			
+
 		default:
 			;
 	}
@@ -3002,7 +3002,7 @@ void OutlineView::Clear()
 
 void OutlineView::SetSelectionMode(list_view_type mode)
 {
-	DeselectAll();	
+	DeselectAll();
 	fSelectionMode = mode;
 }
 
@@ -3030,12 +3030,12 @@ void OutlineView::AddToSelection(BRow *row)
 		if (row->fNextSelected == 0) {
 			if (fSelectionMode == B_SINGLE_SELECTION_LIST)
 				DeselectAll();
-			
+
 			row->fNextSelected = fSelectionListDummyHead.fNextSelected;
 			row->fPrevSelected = &fSelectionListDummyHead;
 			row->fNextSelected->fPrevSelected = row;
 			row->fPrevSelected->fNextSelected = row;
-			
+
 			BRect invalidRect;
 			if (FindVisibleRect(row, &invalidRect))
 				Invalidate(invalidRect);
@@ -3050,13 +3050,13 @@ void OutlineView::RecursiveDeleteRows(BRowContainer* List, bool IsOwner)
 			BRow *row = List->RemoveItemAt(0);
 			if (row == 0)
 				break;
-				
+
 			if (row->fChildList)
 				RecursiveDeleteRows(row->fChildList, true);
-	
+
 			delete row;
 		}
-	
+
 		if (IsOwner)
 			delete List;
 	}
@@ -3069,7 +3069,7 @@ void OutlineView::RedrawColumn(BColumn *column, float leftEdge, bool isFirstColu
 	int       num_bands = fMasterView->GetColorBands(),	// total number of color-bands to use
 		      index_band = 0;							// index for Color()-array
 	rgb_color color_background;							// background-color of the current field
-	
+
 	if (column) {
 		font_height fh;
 		GetFontHeight(&fh);
@@ -3080,48 +3080,48 @@ void OutlineView::RedrawColumn(BColumn *column, float leftEdge, bool isFirstColu
 			float rowHeight = row->Height();
 			if (line > fVisibleRect.bottom)
 				break;
-			
+
 			//HUGH identical code as in Draw() - moved to OutlineView::CalculateRowColor()
 			index_band = ((int32) (line / rowHeight)) % num_bands;
 			color_background = CalculateRowColor(row, index_band);
 			//-HUGH
-			
+
 			if (line + rowHeight >= fVisibleRect.top) {
 				BRect sourceRect(0, 0, column->Width(), rowHeight);
 				BRect destRect(leftEdge, line, leftEdge + column->Width(), line + rowHeight);
-				
+
 	#if DOUBLE_BUFFERED_COLUMN_RESIZE
 				fDrawBuffer->Lock();
 				fDrawBufferView->SetLowColor(color_background);				//HUGH
 				fDrawBufferView->SetHighColor(color_background);
-				
+
 				BFont	font;
 				GetFont(&font);
 				fDrawBufferView->SetFont(&font);
 				fDrawBufferView->FillRect(sourceRect);
-				
+
 				if (isFirstColumn) {
 					// If this is the first column, double buffer drawing the latch too.
 					destRect.left += iterator.CurrentLevel() * kOutlineLevelIndent
 						- fMasterView->LatchWidth();
 					sourceRect.left += iterator.CurrentLevel() * kOutlineLevelIndent
 						- fMasterView->LatchWidth();
-					
+
 					LatchType pos = B_NO_LATCH;
 					if (row->HasLatch())
-						pos = row->fIsExpanded ? B_OPEN_LATCH : B_CLOSED_LATCH;					
-					
+						pos = row->fIsExpanded ? B_OPEN_LATCH : B_CLOSED_LATCH;
+
 					BRect latchRect(sourceRect);
 					latchRect.right = latchRect.left + fMasterView->LatchWidth();
 					fMasterView->DrawLatch(fDrawBufferView, latchRect, pos, row);
 				}
-				
+
 				BField *field = row->GetField(column->fFieldID);
 				if (field) {
 					BRect fieldRect(sourceRect);
 					if (isFirstColumn)
 						fieldRect.left += fMasterView->LatchWidth();
-					
+
 		#if CONSTRAIN_CLIPPING_REGION
 					BRegion clipRegion;
 					clipRegion.Set(fieldRect);
@@ -3138,30 +3138,30 @@ void OutlineView::RedrawColumn(BColumn *column, float leftEdge, bool isFirstColu
 					fDrawBufferView->ConstrainClippingRegion(NULL);
 		#endif
 				}
-								
+
 				if (fFocusRow == row) {
 					if(!fMasterView->GetEditMode()) {	//HUGH
 						fDrawBufferView->SetHighColor(0, 0, 0);
 						fDrawBufferView->StrokeRect(BRect(-1, sourceRect.top, 10000.0, sourceRect.bottom - 1));
 					}
 				}
-	
+
 				fDrawBufferView->SetHighColor(fMasterView->Color(B_COLOR_ROW_DIVIDER));
 		//		StrokeLine(BPoint(0, line + rowHeight - 2), BPoint(Bounds().Width(), line + rowHeight - 2));
 		//		StrokeLine(BPoint(0, line + rowHeight - 1), BPoint(Bounds().Width(), line + rowHeight - 1));
 				fDrawBufferView->StrokeLine(BPoint(0, rowHeight), BPoint(Bounds().Width(), rowHeight));
-	
+
 				fDrawBufferView->Sync();
 				fDrawBuffer->Unlock();
 				SetDrawingMode(B_OP_OVER);
 				DrawBitmap(fDrawBuffer, sourceRect, destRect);
-	
+
 	#else
 				SetHighColor(color_background);
 				SetLowColor(color_background);
-				
+
 				FillRect(destRect);
-				
+
 				BField *field = row->GetField(column->fFieldID);
 				if (field) {
 		#if CONSTRAIN_CLIPPING_REGION
@@ -3180,7 +3180,7 @@ void OutlineView::RedrawColumn(BColumn *column, float leftEdge, bool isFirstColu
 					ConstrainClippingRegion(NULL);
 		#endif
 				}
-				
+
 				//HUGH draw guides if wanted
 				if (isFirstColumn)	{
 					//if (Flags() & B_SHOW_GUIDES)
@@ -3190,14 +3190,14 @@ void OutlineView::RedrawColumn(BColumn *column, float leftEdge, bool isFirstColu
 					DrawGuides(row, guideRect);
 				}
 				//-HUGH
-				
+
 				if (fFocusRow == row) {
 					if(!fMasterView->GetEditMode()) {	//HUGH
 						SetHighColor(0, 0, 0);
 						StrokeRect(BRect(0, destRect.top, 10000.0, destRect.bottom - 1));
 					}
 				}
-	
+
 				rgb_color color = HighColor();
 				SetHighColor(fMasterView->Color(B_COLOR_ROW_DIVIDER));
 		//		StrokeLine(BPoint(0, line + rowHeight - 2), BPoint(Bounds().Width(), line + rowHeight - 2));
@@ -3219,7 +3219,7 @@ void OutlineView::Draw(BRect invalidBounds)
 
 	font_height fh;
 	GetFontHeight(&fh);
-	
+
 	float line = 0.0;
 	int32 numColumns = fColumns->CountItems();
 	//HUGH vars used for color-banding of rows
@@ -3229,31 +3229,31 @@ void OutlineView::Draw(BRect invalidBounds)
 	BRow*     row = NULL;								// was inside for
 	float     rowHeight = 0.0;							//TODO put remaining loop-vars here
 	//-HUGH
-	
+
 	for (RecursiveOutlineIterator iterator(&fRows); iterator.CurrentRow();
 		iterator.GoToNext()) {
 		row = iterator.CurrentRow();
 		if (line > invalidBounds.bottom)
 			break;
-		
+
 		rowHeight = row->Height();
 		//HUGH support for color-banding
 		index_band = ((int32) (line / rowHeight)) % num_bands;	//TODO IndexOf(row) seems buggy!
 		color_background = CalculateRowColor(row, index_band);
 		//-HUGH
-		
+
 		if (line > invalidBounds.top - rowHeight) {
 			bool isFirstColumn = true;
 			float fieldLeftEdge = LEFT_OFFSET;
-			
+
 			for (int columnIndex = 0; columnIndex < numColumns; columnIndex++) {
 				BColumn *column = (BColumn*) fColumns->ItemAt(columnIndex);
 				if (!column->IsVisible())
 					continue;
-				
+
 				if (!isFirstColumn && fieldLeftEdge > invalidBounds.right)
 					break;
-								
+
 				if (fieldLeftEdge + column->Width() >= invalidBounds.left) {
 					BRect fullRect(fieldLeftEdge, line,
 						fieldLeftEdge + column->Width(), line + rowHeight);
@@ -3263,27 +3263,27 @@ void OutlineView::Draw(BRect invalidBounds)
 						// beginning of the next column.
 					SetLowColor(color_background);	//HUGH was missing, but is important for antialiasing etc.
 					SetHighColor(color_background);
-					
+
 					BRect destRect(fullRect);
-					
+
 					if (isFirstColumn) {
 						fullRect.left -= fMasterView->LatchWidth();
 						destRect.left += iterator.CurrentLevel() * kOutlineLevelIndent;
 						if (destRect.left >= destRect.right) {
-							// clipped 
+							// clipped
 							FillRect(BRect(0, line, fieldLeftEdge + column->Width(),
 								line + rowHeight));
 							clippedFirstColumn = true;
 						}
-									
-						FillRect(BRect(0, line, LEFT_OFFSET, line + row->Height()));						
+
+						FillRect(BRect(0, line, LEFT_OFFSET, line + row->Height()));
 					}
-					
-					
+
+
 #if SMART_REDRAW
-					if (!clippedFirstColumn && invalidRegion.Intersects(fullRect)) 
+					if (!clippedFirstColumn && invalidRegion.Intersects(fullRect))
 #else
-					if (!clippedFirstColumn) 
+					if (!clippedFirstColumn)
 #endif
 					{
 						FillRect(fullRect);	// Using color set above
@@ -3306,7 +3306,7 @@ void OutlineView::Draw(BRect invalidBounds)
 								LatchType pos = B_NO_LATCH;
 								if (row->HasLatch())
 									pos = row->fIsExpanded ? B_OPEN_LATCH : B_CLOSED_LATCH;
-								
+
 								fMasterView->DrawLatch(this, BRect(destRect.left -
 									fMasterView->LatchWidth(),
 									destRect.top, destRect.left, destRect.bottom), pos,
@@ -3315,7 +3315,7 @@ void OutlineView::Draw(BRect invalidBounds)
 						}
 						SetLowColor(color_background);
 						SetHighColor(fMasterView->HighColor());
-						
+
 						// The master view just holds the high color for us.
 						BField *field = row->GetField(column->fFieldID);
 						if (field) {
@@ -3345,18 +3345,18 @@ void OutlineView::Draw(BRect invalidBounds)
 						//-HUGH
 					} //if (clipped...
 				} //if (leftEdge..
-	
+
 				isFirstColumn = false;
 				fieldLeftEdge += column->Width() + 1;
 			} //for (columns) (!!)
-	
+
 			if (fieldLeftEdge <= invalidBounds.right) {
 				SetHighColor(color_background);
 				FillRect(BRect(fieldLeftEdge, line, invalidBounds.right,
 					line + rowHeight));
 			}
 		} //if (line > invalidBounds... (!!)
-	
+
 		if (fFocusRow == row && fMasterView->IsFocus() && Window()->IsActive()) {
 			if(!fMasterView->GetEditMode()) {	//HUGH
 				SetHighColor(0, 0, 0);
@@ -3377,7 +3377,7 @@ void OutlineView::Draw(BRect invalidBounds)
 		FillRect(BRect(invalidBounds.left, line, invalidBounds.right, invalidBounds.bottom));
 	}
 
-	// Draw the drop target line	
+	// Draw the drop target line
 	if (fDropHighlightY != -1)
 		InvertRect(BRect(0, fDropHighlightY - kDropHighlightLineHeight / 2, 1000000,
 			fDropHighlightY + kDropHighlightLineHeight / 2));
@@ -3387,13 +3387,13 @@ void OutlineView::Draw(BRect invalidBounds)
 rgb_color OutlineView::CalculateRowColor(BRow *row, int band)
 {
 	rgb_color color_row, color_selection;
-	
+
 	if (fMasterView->GetColorBands() > 0)		// use different colors for odd/even/3rd/4h/... rows?
 	{
 		color_row = fMasterView->Color(B_COLOR_ROWS_1 + band);
 	}
-	else color_row = fMasterView->Color(B_COLOR_BACKGROUND);								
-	
+	else color_row = fMasterView->Color(B_COLOR_BACKGROUND);
+
 	// determine selection-color if row is selected
 	if (row->fNextSelected != 0) {
 		if (Window()->IsActive()) {
@@ -3404,7 +3404,7 @@ rgb_color OutlineView::CalculateRowColor(BRow *row, int band)
 		}
 		else
 			color_selection = fMasterView->Color(B_COLOR_NON_FOCUS_SELECTION);
-		
+
 		//TODO make this configurable
 		color_row = mix_color(color_selection, color_row, 200);
 	}
@@ -3417,14 +3417,14 @@ void OutlineView::DrawGuides(BRow* row, BRect destRect)
 {
 	rgb_color col_old = fMasterView->HighColor();
 	SetHighColor(fMasterView->Color(B_COLOR_GUIDES));
-	
+
 	float center_y = destRect.top + destRect.Height() / 2;
 	BRect rect_guide;
-	
+
 	// parent row
 	BRow* row_guide = row;
 	bool  guide_vert = false, guide_horiz = false, inner_most = true;
-	
+
 	for (float guide_left = destRect.left - kOutlineLevelIndent - fMasterView->LatchWidth() / 2;
 	           guide_left>= fMasterView->LatchWidth() / 2;
 	           guide_left-= kOutlineLevelIndent)
@@ -3433,7 +3433,7 @@ void OutlineView::DrawGuides(BRow* row, BRect destRect)
 		               guide_left + kOutlineLevelIndent + kTEXT_MARGIN,
 		               destRect.bottom);
 		if (row_guide->fParent)
-		{										
+		{
 			// check if horizontal guide should be drawn (if row_guide points to the innermost item)
 			if (inner_most)
 			{
@@ -3443,11 +3443,11 @@ void OutlineView::DrawGuides(BRow* row, BRect destRect)
 			 	// don't overdraw latch if item has one
 			 	if (row->HasLatch())
 			 		rect_guide.right -= fMasterView->LatchWidth();
-				
+
 				// if no more items in this level, end vertical guide in the middle
 				if (IndexOf(row_guide) == (row_guide->fParent -> fChildList->CountItems() - 1) )
 				{
-					rect_guide.bottom = center_y;												
+					rect_guide.bottom = center_y;
 				}
 			}
 			else
@@ -3457,7 +3457,7 @@ void OutlineView::DrawGuides(BRow* row, BRect destRect)
 				if (IndexOf(row_guide) < (row_guide->fParent -> fChildList->CountItems() - 1) )
 					guide_vert  = true;
 			}
-			
+
 			// vertical guide
 			if (guide_vert)
 			{
@@ -3496,9 +3496,9 @@ BField* OutlineView::FindField(BRow* row, BColumn* column,
 							   BRect* rect, int32* out_indent, float* out_top) // optionally return these in place
 {
 	BRect	rect_column;
-	
+
 	if (!rect) return NULL;		// must pass in rect
-	
+
 	if (FindRect(row, rect))  {
 		// find visible column-rect
 		if (FindRect(column, &rect_column, true))	{
@@ -3515,13 +3515,13 @@ BField* OutlineView::FindField(BPoint position, BRect *rect, BRow **out_row,
 //-	BField*  new_field = NULL;
 //-	BColumn* column;
 	BRow*    row = FindRow(position.y, rect, out_indent, out_top);
-	
+
 	ASSERT(row);
 	if (!row) return NULL;	// sanity check
-	
+
 	// later return row the field was found in
 	if (out_row) *out_row = row;
-	
+
 	return GetField(position, row, rect);
 }
 
@@ -3532,7 +3532,7 @@ BField* OutlineView::GetField(BPoint position, BRow* row, BRect *rect)
 {
 	BField*  new_field = NULL;
 	BColumn* column;
-	
+
 	if(position.y >= 0 ) {
 		if(position.x >= 0 ) {
 			float x = 0;
@@ -3541,7 +3541,7 @@ BField* OutlineView::GetField(BPoint position, BRow* row, BRect *rect)
 				column = static_cast<BColumn*>(fColumns->ItemAt(c));
 				if (!column->IsVisible())
 					continue;
-				
+
 				if ((LEFT_OFFSET + x) + column->Width() >= position.x)
 				{
 					if( column->WantsEvents())
@@ -3553,7 +3553,7 @@ BField* OutlineView::GetField(BPoint position, BRow* row, BRect *rect)
 					break;
 				}
 				x += column->Width();
-			}				
+			}
 		}
 	}
 	return new_field;
@@ -3563,12 +3563,12 @@ bool OutlineView::FindRect(const BColumn *column, BRect *out_rect, bool findVisi
 {
 	int32    index_col = fColumns->IndexOf((BColumn*)column);
 	float    pos_left = 0.0;
-	
+
 	// sanity check
 	if (index_col > fColumns->CountItems()) return false;
 	// trivial case (column to be found is not visible)
 	if ( findVisible && (!column->IsVisible()) ) return false;
-	
+
 	// get left-position of Column
 	BColumn* col = NULL;
 	for (int32 c = 0; c < index_col; c++)
@@ -3582,7 +3582,7 @@ bool OutlineView::FindRect(const BColumn *column, BRect *out_rect, bool findVisi
 	}
 	// col now holds our column, pos_left = left border of our column
 	out_rect->Set(LEFT_OFFSET + pos_left,
-				  fVisibleRect.top, 
+				  fVisibleRect.top,
 				  LEFT_OFFSET + pos_left + col->Width(),
 				  fVisibleRect.bottom);
 	return true;
@@ -3594,12 +3594,12 @@ bool OutlineView::FindRect(const BColumn *column, BRect *out_rect, bool findVisi
 // the list in the background, the widget rect will be incorrect, possibly
 // resulting in drawing glitches.  The code that adds items needs to be a little smarter
 // about invalidating state.
-// 
+//
 void OutlineView::MouseDown(BPoint position)
 {
 	if(!fMasterView->GetEditMode())
 		fMasterView->MakeFocus(true);
-	
+
 	// Check to see if the user is clicking on a widget to open a section
 	// of the list.
 	bool	reset_click_count = false;
@@ -3620,7 +3620,7 @@ void OutlineView::MouseDown(BPoint position)
 		if (row->CountFields()<0)
 			return;
 	// /moscht
-	
+
 	if (row) {
 		// Handle click into field
 		if (new_field != NULL) {
@@ -3636,12 +3636,12 @@ void OutlineView::MouseDown(BPoint position)
 			//-HUGH
 			fCurrentColumn->MouseDown(fMasterView,fCurrentRow,fCurrentField,fFieldRect,position,buttons);
 		}
-		
+
 		if(!fMasterView->GetEditMode())	{	//HUGH
 			fTargetRow = row;
 			fTargetRowTop = rowTop;
 			FindVisibleRect(fFocusRow, &fFocusRowRect);
-			
+
 			float leftWidgetBoundry = indent * kOutlineLevelIndent + LEFT_OFFSET -
 				fMasterView->LatchWidth();
 			fLatchRect.Set(leftWidgetBoundry, rowTop, leftWidgetBoundry +
@@ -3656,24 +3656,24 @@ void OutlineView::MouseDown(BPoint position)
 				}
 				else
 					SetHighColor(fMasterView->Color(B_COLOR_BACKGROUND));
-				
-				FillRect(fLatchRect);	
+
+				FillRect(fLatchRect);
 				if (fLatchRect.Contains(position))
 					fMasterView->DrawLatch(this, fLatchRect, B_PRESSED_LATCH, row);
 				else
 					fMasterView->DrawLatch(this, fLatchRect, fTargetRow->fIsExpanded
 						? B_OPEN_LATCH : B_CLOSED_LATCH, row);
-				
+
 			} else {
 				Invalidate(fFocusRowRect);
 				fFocusRow = fTargetRow;
 				FindVisibleRect(fFocusRow, &fFocusRowRect);
-				
+
 				ASSERT(fTargetRow != 0);
-				
+
 				if ((modifiers() & B_CONTROL_KEY) == 0)
 					DeselectAll();
-				
+
 				if ((modifiers() & B_SHIFT_KEY) != 0 && fFirstSelectedItem != 0
 					&& fSelectionMode == B_MULTIPLE_SELECTION_LIST) {
 					SelectRange(fFirstSelectedItem, fTargetRow);
@@ -3690,36 +3690,36 @@ void OutlineView::MouseDown(BPoint position)
 						// Select row
 						if (fSelectionMode == B_SINGLE_SELECTION_LIST)
 							DeselectAll();
-					
+
 						fTargetRow->fNextSelected = fSelectionListDummyHead.fNextSelected;
 						fTargetRow->fPrevSelected = &fSelectionListDummyHead;
 						fTargetRow->fNextSelected->fPrevSelected = fTargetRow;
 						fTargetRow->fPrevSelected->fNextSelected = fTargetRow;
 						fFirstSelectedItem = fTargetRow;
 					}
-					
+
 					Invalidate(BRect(fVisibleRect.left, fTargetRowTop, fVisibleRect.right,
 						fTargetRowTop + fTargetRow->Height()));
 				}	//HUGH if (modifiers()...
-				
+
 				fCurrentState = ROW_CLICKED;
 				if (fLastSelectedItem != fTargetRow)
 					reset_click_count = true;
 				fLastSelectedItem = fTargetRow;
 				fMasterView->SelectionChanged();
-				
+
 			}	//HUGH if (fLatchRect.Contains()... else
 		}	//HUGH if (fEditMode)
-		
+
 		SetMouseEventMask(B_POINTER_EVENTS, B_LOCK_WINDOW_FOCUS |
 			B_NO_POINTER_HISTORY);
-		
+
 	} else if (fFocusRow != 0) {
 		// User clicked in open space, unhighlight focus row.
 		fFocusRow = 0;
 		Invalidate(fFocusRowRect);
 	}
-	
+
 	// We stash the click counts here because the 'clicks' field
 	// is not in the CurrentMessage() when MouseUp is called... ;(
 	if (reset_click_count)
@@ -3727,13 +3727,13 @@ void OutlineView::MouseDown(BPoint position)
 	else
 		Window()->CurrentMessage()->FindInt32("clicks", &fClickCount);
 	fClickPoint = position;
-	
+
 } // end of MouseDown()
 
 void OutlineView::MouseMoved(BPoint position, uint32 /*transit*/, const BMessage */*message*/)
 {
 	static BRect rect_field_old(0.0, 0.0, 0.0, 0.0);	//HUGH remember old field-rect for optimisation
-	
+
 	if(!fMouseDown) {
 		// Update fCurrentField (if different from old field)
 		BField  *new_field = 0;
@@ -3750,12 +3750,12 @@ void OutlineView::MouseMoved(BPoint position, uint32 /*transit*/, const BMessage
 			rect_field_old = new_rect;
 		}
 		else new_field = fCurrentField;				// still inside old field
-		
+
 		// Handle mouse moved
 		if(new_field) {
 			if(new_field != fCurrentField) {
 				if(fCurrentField) {
-					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow, 
+					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow,
 						fCurrentField, fFieldRect, position, 0, fCurrentCode = B_EXITED_VIEW);
 				}
 				fCurrentColumn = new_field->GetColumn();
@@ -3763,19 +3763,19 @@ void OutlineView::MouseMoved(BPoint position, uint32 /*transit*/, const BMessage
 				fCurrentField = new_field;
 				fFieldRect = new_rect;
 				if(fCurrentField) {
-					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow, 
+					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow,
 						fCurrentField, fFieldRect, position, 0, fCurrentCode = B_ENTERED_VIEW);
 				}
 			} else {
 				if(fCurrentField) {
-					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow, 
+					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow,
 						fCurrentField, fFieldRect, position, 0, fCurrentCode = B_INSIDE_VIEW);
 				}
 			}
 		}
 		else {
 			if(fCurrentField) {
-				fCurrentColumn->MouseMoved(fMasterView, fCurrentRow, 
+				fCurrentColumn->MouseMoved(fMasterView, fCurrentRow,
 						fCurrentField, fFieldRect, position, 0, fCurrentCode = B_EXITED_VIEW);
 				fCurrentField = 0;
 				fCurrentColumn = 0;
@@ -3785,31 +3785,31 @@ void OutlineView::MouseMoved(BPoint position, uint32 /*transit*/, const BMessage
 	} else {
 		if(fCurrentField) {
 			if(fFieldRect.Contains(position)) {
-				if (   fCurrentCode == B_OUTSIDE_VIEW	
-					|| fCurrentCode == B_EXITED_VIEW	
-				) {	
-					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow, 
-						fCurrentField, fFieldRect, position, 1, fCurrentCode = B_ENTERED_VIEW);							
+				if (   fCurrentCode == B_OUTSIDE_VIEW
+					|| fCurrentCode == B_EXITED_VIEW
+				) {
+					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow,
+						fCurrentField, fFieldRect, position, 1, fCurrentCode = B_ENTERED_VIEW);
 				} else {
-					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow, 
-						fCurrentField, fFieldRect, position, 1, fCurrentCode = B_INSIDE_VIEW);							
+					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow,
+						fCurrentField, fFieldRect, position, 1, fCurrentCode = B_INSIDE_VIEW);
 				}
 			} else {
 				if (   fCurrentCode == B_INSIDE_VIEW
 					|| fCurrentCode == B_ENTERED_VIEW
 				) {
-					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow, 
-						fCurrentField, fFieldRect, position, 1, fCurrentCode = B_EXITED_VIEW);							
+					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow,
+						fCurrentField, fFieldRect, position, 1, fCurrentCode = B_EXITED_VIEW);
 				} else {
-					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow, 
-						fCurrentField, fFieldRect, position, 1, fCurrentCode = B_OUTSIDE_VIEW);							
+					fCurrentColumn->MouseMoved(fMasterView, fCurrentRow,
+						fCurrentField, fFieldRect, position, 1, fCurrentCode = B_OUTSIDE_VIEW);
 				}
 			}
 		}
 	} // if (!fMouseDown)
 
 	if(!fMasterView->GetEditMode()) {	//HUGH
-	
+
 		switch (fCurrentState) {
 			case LATCH_CLICKED:
 				if (fTargetRow->fNextSelected != 0) {
@@ -3820,17 +3820,17 @@ void OutlineView::MouseMoved(BPoint position, uint32 /*transit*/, const BMessage
 				}
 				else
 					SetHighColor(fMasterView->Color(B_COLOR_BACKGROUND));
-				
-				FillRect(fLatchRect);	
+
+				FillRect(fLatchRect);
 				if (fLatchRect.Contains(position))
 					fMasterView->DrawLatch(this, fLatchRect, B_PRESSED_LATCH, fTargetRow);
 				else
 					fMasterView->DrawLatch(this, fLatchRect, fTargetRow->fIsExpanded
 						? B_OPEN_LATCH : B_CLOSED_LATCH, fTargetRow);
-			
+
 				break;
-		
-			
+
+
 			case ROW_CLICKED:
 				if (abs((int)(position.x - fClickPoint.x)) > kRowDragSensitivity
 					|| abs((int)(position.y - fClickPoint.y)) > kRowDragSensitivity) {
@@ -3856,7 +3856,7 @@ void OutlineView::MouseMoved(BPoint position, uint32 /*transit*/, const BMessage
 #endif
 
 			default: {
-			
+
 				if (fTrackMouse /*&& message*/) {
 					// Draw a highlight line...
 					if (fVisibleRect.Contains(position)) {
@@ -3907,11 +3907,11 @@ void OutlineView::MouseUp(BPoint position)
 			case LATCH_CLICKED:
 				if (fLatchRect.Contains(position))
 					fMasterView->ExpandOrCollapse(fTargetRow, !fTargetRow->fIsExpanded);
-				
+
 				Invalidate(fLatchRect);
-				fCurrentState = INACTIVE;			
+				fCurrentState = INACTIVE;
 				break;
-			
+
 			case ROW_CLICKED:
 				if (fClickCount > 1
 					&& abs((int)fClickPoint.x - (int)position.x) < kDoubleClickMoveSensitivity
@@ -3919,8 +3919,8 @@ void OutlineView::MouseUp(BPoint position)
 					fMasterView->ItemInvoked();
 				}
 				fCurrentState = INACTIVE;
-				break;		
-			
+				break;
+
 			case DRAGGING_ROWS:
 				fCurrentState = INACTIVE;
 				// Falls through
@@ -3950,7 +3950,7 @@ void OutlineView::ChangeFocusRow(bool up, bool updateSelection, bool addToCurren
 	float top;
 	float newRowPos = 0;
 	float verticalScroll = 0;
-	
+
 	if (fFocusRow) {
 		// A row currently has the focus, get information about it
 		newRowPos = fFocusRowRect.top + (up ? -4 : fFocusRow->Height() + 4);
@@ -3986,7 +3986,7 @@ void OutlineView::ChangeFocusRow(bool up, bool updateSelection, bool addToCurren
 				fFocusRow->fNextSelected->fPrevSelected = fFocusRow;
 				fFocusRow->fPrevSelected->fNextSelected = fFocusRow;
 			}
-		
+
 			fLastSelectedItem = fFocusRow;
 		}
 	} else
@@ -4003,7 +4003,7 @@ void OutlineView::ChangeFocusRow(bool up, bool updateSelection, bool addToCurren
 
 		vScrollBar->SetValue(verticalScroll);
 	}
-	
+
 	if (newRow && updateSelection)
 		fMasterView->SelectionChanged();
 }
@@ -4021,8 +4021,8 @@ BRow* OutlineView::CurrentSelection(BRow *lastSelected) const
 		row = fSelectionListDummyHead.fNextSelected;
 	else
 		row = lastSelected->fNextSelected;
-		
-		
+
+
 	if (row == &fSelectionListDummyHead)
 		row = 0;
 
@@ -4033,7 +4033,7 @@ void OutlineView::ToggleFocusRowSelection(bool selectRange)
 {
 	if (fFocusRow == 0)
 		return;
-		
+
 	if (selectRange && fSelectionMode == B_MULTIPLE_SELECTION_LIST)
 		SelectRange(fLastSelectedItem, fFocusRow);
 	else {
@@ -4073,9 +4073,9 @@ void OutlineView::ExpandOrCollapse(BRow* ParentRow, bool Expand)
 	if (ParentRow) {
 		if (ParentRow->fIsExpanded == Expand)
 			return;
-			
+
 		ParentRow->fIsExpanded = Expand;
-	
+
 		BRect parentRect;
 		if (FindRect(ParentRow, &parentRect)) {
 			// Determine my new height
@@ -4097,14 +4097,14 @@ void OutlineView::ExpandOrCollapse(BRow* ParentRow, bool Expand)
 					subTreeHeight -= iterator.CurrentRow()->Height()+1;
 				}
 			fItemsHeight += subTreeHeight;
-	
+
 			// Adjust focus row if necessary.
 			if (FindRect(fFocusRow, &fFocusRowRect) == false) {
 				// focus row is in a subtree that has collapsed, move it up to the parent.
 				fFocusRow = ParentRow;
 				FindRect(fFocusRow, &fFocusRowRect);
 			}
-			
+
 			Invalidate(BRect(0, parentRect.top, fVisibleRect.right, fVisibleRect.bottom));
 			FixScrollBar(false);
 		}
@@ -4133,17 +4133,17 @@ void OutlineView::RemoveRow(BRow *row)
 		if (parentRow)
 			parentRow->fChildList->RemoveItem(row);
 		else
-			fRows.RemoveItem(row);		
-		
+			fRows.RemoveItem(row);
+
 		if (parentRow != 0 && parentRow->fChildList->CountItems() == 0) {
 			delete parentRow->fChildList;
 			parentRow->fChildList = 0;
 			if (parentIsVisible)
-				Invalidate();	// xxx crude way of redrawing latch	
+				Invalidate();	// xxx crude way of redrawing latch
 		}
 
 		if (parentIsVisible && (parentRow == 0 || parentRow->fIsExpanded))
-			Invalidate();	// xxx make me smarter.				
+			Invalidate();	// xxx make me smarter.
 
 
 		// Adjust focus row if necessary.
@@ -4153,7 +4153,7 @@ void OutlineView::RemoveRow(BRow *row)
 			if (fFocusRow)
 				FindRect(fFocusRow, &fFocusRowRect);
 		}
-		
+
 		// Remove this from the selection if necessary
 		if (row->fNextSelected != 0) {
 			row->fNextSelected->fPrevSelected = row->fPrevSelected;
@@ -4181,22 +4181,22 @@ void OutlineView::UpdateRow(BRow *row)
 		BRow *parentRow = NULL;
 		bool parentIsVisible = false;
 		FindParent(row, &parentRow, &parentIsVisible);
-		
+
 		BRowContainer* list = (parentRow == NULL) ? &fRows : parentRow->fChildList;
-		
+
 		if(list) {
 			int32 rowIndex = list->IndexOf(row);
 			ASSERT(rowIndex >= 0);
 			ASSERT(list->ItemAt(rowIndex) == row);
-			
+
 			bool rowMoved = false;
 			if (rowIndex > 0 && CompareRows(list->ItemAt(rowIndex - 1), row) > 0)
 				rowMoved = true;
-					
+
 			if (rowIndex < list->CountItems() - 1 && CompareRows(list->ItemAt(rowIndex + 1),
 				row) < 0)
 				rowMoved = true;
-					
+
 			if (rowMoved) {
 				// Sort location of this row has changed.
 				// Remove and re-add in the right spot
@@ -4214,13 +4214,13 @@ void OutlineView::AddRow(BRow* Row, int32 Index, BRow* ParentRow)
 {
 	if(Row) {
 		Row->fParent = ParentRow;
-	
+
 		if (fMasterView->SortingEnabled()) {
 			// Ignore index here.
 			if (ParentRow) {
 				if (ParentRow->fChildList == 0)
 					ParentRow->fChildList = new BRowContainer;
-				
+
 				AddSorted(ParentRow->fChildList, Row);
 			} else
 				AddSorted(&fRows, Row);
@@ -4229,34 +4229,34 @@ void OutlineView::AddRow(BRow* Row, int32 Index, BRow* ParentRow)
 			if (ParentRow) {
 				if (ParentRow->fChildList == 0)
 					ParentRow->fChildList = new BRowContainer;
-				
+
 				if (Index < 0 || Index > ParentRow->fChildList->CountItems())
 					ParentRow->fChildList->AddItem(Row);
-				else	
+				else
 					ParentRow->fChildList->AddItem(Row, Index);
 			} else {
 				if (Index < 0 || Index >= fRows.CountItems())
 					fRows.AddItem(Row);
-				else	
+				else
 					fRows.AddItem(Row, Index);
 			}
 		}
-			
+
 		if (ParentRow == 0 || ParentRow->fIsExpanded)
 			fItemsHeight += Row->Height() + 1;
-	
+
 		FixScrollBar(false);
-	
+
 		BRect newRowRect;
 		bool newRowIsInOpenBranch = FindRect(Row, &newRowRect);
-	
+
 		if (fFocusRow && fFocusRowRect.top > newRowRect.bottom) {
 			// The focus row has moved.
 			Invalidate(fFocusRowRect);
 			FindRect(fFocusRow, &fFocusRowRect);
 			Invalidate(fFocusRowRect);
 		}
-	
+
 		if (newRowIsInOpenBranch) {
 			if (fCurrentState == INACTIVE) {
 				if (newRowRect.bottom < fVisibleRect.top) {
@@ -4302,15 +4302,15 @@ void OutlineView::AddRow(BRow* Row, int32 Index, BRow* ParentRow)
 						ScrollBy(0, delta);
 						PopState();
 						ConstrainClippingRegion(NULL);
-			
+
 						fTargetRowTop += delta;
 						fClickPoint.y += delta;
 						fLatchRect.OffsetBy(0, delta);
 					}
 				}
-			} 
+			}
 		}
-	
+
 		// If the parent was previously childless, it will need to have a latch drawn.
 		BRect parentRect;
 		if (ParentRow && ParentRow->fChildList->CountItems() == 1
@@ -4336,7 +4336,7 @@ void OutlineView::FixScrollBar(bool scrollToFit)
 				vScrollBar->SetRange(0.0, maxScrollBarValue);
 				vScrollBar->SetSteps(20.0, fVisibleRect.Height());
 			}
-		} else if (vScrollBar->Value() == 0.0) 
+		} else if (vScrollBar->Value() == 0.0)
 			vScrollBar->SetRange(0.0, 0.0);		// disable scroll bar.
 	}
 }
@@ -4354,7 +4354,7 @@ void OutlineView::AddSorted(BRowContainer *list, BRow *row)
 			else if( cmp > 0 ) lower = middle+1;
 			else lower = upper = middle;
 		}
-		
+
 		// At this point, 'upper' and 'lower' at the last found item.
 		// Arbitrarily use 'upper' and determine the final insertion
 		// point -- either before or after this item.
@@ -4362,7 +4362,7 @@ void OutlineView::AddSorted(BRowContainer *list, BRow *row)
 		else if( upper < list->CountItems() ) {
 			if( CompareRows(row, list->ItemAt(upper)) > 0 ) upper++;
 		}
-		
+
 		if (upper >= list->CountItems())
 			list->AddItem(row);				// Adding to end.
 		else
@@ -4380,10 +4380,10 @@ int32 OutlineView::CompareRows(BRow *row1, BRow *row2)
 			BField *field2 = (BField*) row2->GetField(column->fFieldID);
 			if (field1 && field2)
 				comp = column->CompareFields(field1, field2);
-	
+
 			if (!column->fSortAscending)
 				comp = -comp;
-			
+
 			if (comp != 0)
 				return comp;
 		}
@@ -4413,7 +4413,7 @@ void OutlineView::ScrollTo(BPoint position)
 	vScrollBar->GetRange(&min, &max);
 	if (max != maxScrollBarValue && position.y > maxScrollBarValue)
 		FixScrollBar(true);
-	
+
 	_inherited::ScrollTo(position);
 }
 //HUGH moved 2nd ScrollTo here
@@ -4446,19 +4446,19 @@ bool OutlineView::FindRect(const BRow *row, BRect *out_rect, bool findVisible, i
 		float line = 0.0;
 		for (RecursiveOutlineIterator iterator(&fRows); iterator.CurrentRow();
 			iterator.GoToNext()) {
-			
+
 			if (findVisible)	{
 				if (line > fVisibleRect.bottom)
 					break;
 			}
-			
+
 			if (iterator.CurrentRow() == row) {
 				out_rect->Set(fVisibleRect.left, line, fVisibleRect.right, line + row->Height());
 				if (out_indent) *out_indent = iterator.CurrentLevel();	//+
 				if (out_top)    *out_top    = line;						//+
 				return true;
 			}
-			
+
 			line += iterator.CurrentRow()->Height() + 1;
 		}
 	}
@@ -4477,11 +4477,11 @@ BRow* OutlineView::FindRow(float ypos, BRect *out_rect, int32 *out_indent, float
 		float line = 0.0;
 		for (RecursiveOutlineIterator iterator(&fRows); iterator.CurrentRow();
 			iterator.GoToNext()) {
-			
+
 			BRow *row = iterator.CurrentRow();
 			if (line > ypos)
 				break;
-			
+
 			float rowHeight = row->Height();
 			if (ypos <= line + rowHeight) {
 				// row found
@@ -4490,7 +4490,7 @@ BRow* OutlineView::FindRow(float ypos, BRect *out_rect, int32 *out_indent, float
 				if (out_rect)	out_rect->Set(fVisibleRect.left, line, fVisibleRect.right, line + row->Height());	//+ forgot check! (out_rect can be NULL)
 				return row;
 			}
-	
+
 			line += rowHeight + 1;
 		}
 	//}
@@ -4505,14 +4505,14 @@ void OutlineView::DeselectAll()
 		iterator.GoToNext()) {
 		if (line > fVisibleRect.bottom)
 			break;
-			
+
 		BRow *row = iterator.CurrentRow();
 		if (line + row->Height() > fVisibleRect.top) {
 			if (row->fNextSelected != 0)
 				Invalidate(BRect(fVisibleRect.left, line, fVisibleRect.right,
 					line + row->Height()));
 		}
-	
+
 		line += row->Height() + 1;
 	}
 
@@ -4537,12 +4537,12 @@ void OutlineView::SetFocusRow(BRow* Row, bool Select)
 	{
 		if(Select)
 			AddToSelection(Row);
-			
+
 		if(fFocusRow == Row)
 			return;
-			
+
 		Invalidate(fFocusRowRect); // invalidate previous
-	
+
 		fTargetRow = fFocusRow = Row;
 
 		FindVisibleRect(fFocusRow, &fFocusRowRect);
@@ -4562,7 +4562,7 @@ bool OutlineView::SortList(BRowContainer *list, bool isVisible)
 		int h;
 		for (h = 1; h < numItems / 9; h = 3 * h + 1)
 			;
-			
+
 		for (;h > 0; h /= 3) {
 			for (int step = h; step < numItems; step++) {
 				BRow *temp = items[step];
@@ -4573,19 +4573,19 @@ bool OutlineView::SortList(BRowContainer *list, bool isVisible)
 					else
 						break;
 				}
-				
+
 				items[i + h] = temp;
 			}
 		}
-		
+
 		if (isVisible) {
 			Invalidate();
-	
+
 			InvalidateCachedPositions();
 			int lockCount = Window()->CountLocks();
-			for (int i = 0; i < lockCount; i++) 
+			for (int i = 0; i < lockCount; i++)
 				Window()->Unlock();
-	
+
 			while (lockCount--)
 				if (!Window()->Lock())
 					return false;	// Window is gone...
@@ -4652,14 +4652,14 @@ void OutlineView::DeepSort()
 					break;
 				}
 			}
-		
+
 			if (!foundNextList) {
 				// back up
 				if (--stackTop < 0) {
 					doneSorting = true;
 					break;
 				}
-				
+
 				currentEntry = &stack[stackTop];
 			}
 		}
@@ -4673,7 +4673,7 @@ void OutlineView::StartSorting()
 	// If this view is not yet attached to a window, don't start a sort thread!
 	if (Window() == NULL)
 		return;
-			
+
 	if (fSortThread != B_BAD_THREAD_ID) {
 		thread_info tinfo;
 		if (get_thread_info(fSortThread, &tinfo) == B_OK) {
@@ -4681,9 +4681,9 @@ void OutlineView::StartSorting()
 			// waiting to lock window).
 
 			int lockCount = Window()->CountLocks();
-			for (int i = 0; i < lockCount; i++) 
+			for (int i = 0; i < lockCount; i++)
 				Window()->Unlock();
-	
+
 			fSortCancelled = true;
 			int32 status;
 			wait_for_thread(fSortThread, &status);
@@ -4717,7 +4717,7 @@ void OutlineView::SelectRange(BRow *start, BRow *end)
 			break;
 		} else if (iterator.CurrentRow() == start)
 			break;
-	
+
 		iterator.GoToNext();
 	}
 
@@ -4735,7 +4735,7 @@ void OutlineView::SelectRange(BRow *start, BRow *end)
 
 		if (row == end)
 			break;
-		
+
 		iterator.GoToNext();
 	}
 
@@ -4747,7 +4747,7 @@ bool OutlineView::FindParent(BRow *row, BRow **outParent, bool *out_parentIsVisi
 	bool result = false;
 	if (row && outParent) {
 		*outParent = row->fParent;
-	
+
 		// Walk up the parent chain to determine if this row is visible
 		bool isVisible = true;
 		for (BRow *currentRow = row->fParent; currentRow; currentRow = currentRow->fParent) {
@@ -4756,11 +4756,11 @@ bool OutlineView::FindParent(BRow *row, BRow **outParent, bool *out_parentIsVisi
 				break;
 			}
 		}
-		
+
 		if (out_parentIsVisible) *out_parentIsVisible = isVisible;
 		result = (NULL != *outParent);
 	}
-	
+
 	return result;
 }
 
@@ -4769,11 +4769,11 @@ int32 OutlineView::IndexOf(BRow *row)
 	if (row) {
 		if (row->fParent == 0)
 			return fRows.IndexOf(row);
-		
+
 		ASSERT(row->fParent->fChildList);
 		return row->fParent->fChildList->IndexOf(row);
 	}
-	
+
 	return B_ERROR;
 }
 
@@ -4802,7 +4802,7 @@ BRow* RecursiveOutlineIterator::CurrentRow() const
 {
 	if (fCurrentList == 0)
 		return 0;
-		
+
 	return fCurrentList->ItemAt(fCurrentListIndex);
 }
 
@@ -4814,7 +4814,7 @@ void RecursiveOutlineIterator::GoToNext()
 		fCurrentList = 0;
 		return;
 	}
-	
+
 	BRow *currentRow = fCurrentList->ItemAt(fCurrentListIndex);
 	if(currentRow) {
 		if (currentRow->fChildList && (currentRow->fIsExpanded || !fOpenBranchesOnly)
@@ -4822,12 +4822,12 @@ void RecursiveOutlineIterator::GoToNext()
 			// Visit child.
 			// Put current list on the stack if it needs to be revisited.
 			if (fCurrentListIndex < fCurrentList->CountItems() - 1) {
-				fStack[fStackIndex].fRowSet = fCurrentList;		
+				fStack[fStackIndex].fRowSet = fCurrentList;
 				fStack[fStackIndex].fIndex = fCurrentListIndex + 1;
 				fStack[fStackIndex].fDepth = fCurrentListDepth;
 				fStackIndex++;
 			}
-			
+
 			fCurrentList = currentRow->fChildList;
 			fCurrentListIndex = 0;
 			fCurrentListDepth++;

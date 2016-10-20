@@ -6,8 +6,9 @@
 #include <StringView.h>
 #include <Font.h>
 #include <Application.h>
-#include <StatusBarView.h>
 #include <Button.h>
+
+#include "StatusBarView.h"
 
 class StatusView : public BView {
 public:

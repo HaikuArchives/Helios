@@ -196,7 +196,7 @@ Application1::Application1() :
 
 	ReadSettings();
 	SetHelpBubbles();
-	
+
 	// check for command line tools
 	BString		string;
 	// mkisofs
@@ -216,12 +216,12 @@ Application1::Application1() :
 	if (string.Length()!=0) CM->SetString(PATH_TO_CDDA2WAV, &string);
 	else exit=true;
 #ifdef _BEOS_HAIKU_BUILD_
-	// mkfs	
+	// mkfs
 	string=CheckCommandlineTool(CM->GetString(PATH_TO_MKBFS)->String(), "mkfs");
 	if (string.Length()!=0) CM->SetString(PATH_TO_MKBFS, &string);
 	else exit=true;
 #else
-	// mkbfs	
+	// mkbfs
 	string=CheckCommandlineTool(CM->GetString(PATH_TO_MKBFS)->String(), "mkbfs");
 	if (string.Length()!=0) CM->SetString(PATH_TO_MKBFS, &string);
 	else exit=true;
@@ -245,15 +245,15 @@ Application1::Application1() :
 			window1->view1->UpdatePanels();
 			window1->Unlock();
 		}
-	
-		
+
+
 		// starts the BLooper() of configW
 		if (configW->Lock()) {
 			float	left=configW->Frame().left;
 			float	top=configW->Frame().top;
 			configW->MoveTo(-10000, -10000);
 			configW->Show();
-			
+
 			// select the first view in the prefs instead of the last one
 			// unsafe but should go ok
 			configW->SelectView( 1 );
@@ -271,7 +271,7 @@ Application1::Application1() :
 			mkisofs_output->MoveTo(left, top);
 			mkisofs_output->Unlock();
 		}
-	
+
 		if (cdrecord_output->Lock()) {
 			float	left=cdrecord_output->Frame().left;
 			float	top=cdrecord_output->Frame().top;
@@ -281,7 +281,7 @@ Application1::Application1() :
 			cdrecord_output->MoveTo(left, top);
 			cdrecord_output->Unlock();
 		}
-	
+
 	// Add Tooltips...
 //	window1TT=new ToolTip(window1, "window1TT");
 //	window1TT->SetText(window1->view1->iconBAR->ChildViewAt("bar_update"), "Update display");
@@ -375,13 +375,13 @@ Application1::QuitRequested(void)
 				}
 				break;
 			}
-			
+
 			case EM_ASK_USER: {
 				if ((project_has_changed) && (IsProject(false))) {
 					ErrorBox	*eb=new ErrorBox(E_BLUE_COLOR, "",	_T("Save changes of current project?"), // "TASKFORSAVINGCHANGES"
 																	_T("Yes"),
 																	_T("No"),
-																	_T("Cancel")); 
+																	_T("Cancel"));
 					eb->SetShortcut(2, B_ESCAPE);
 					switch (eb->Go()) {
 						case 0: {
@@ -389,18 +389,18 @@ Application1::QuitRequested(void)
 							be_app->PostMessage(SAVEPROJECT_MIMSG);
 							return false;
 						}
-						
+
 						case 1: {
 							break;
 						}
-						
+
 						case 2: {
 							return false;
 						}
 					}
 				}
 			}
-			
+
 			case EM_DO_NOTHING: {
 				break;
 			}
@@ -415,7 +415,7 @@ Application1::QuitRequested(void)
 		entry->Unset();
 	}
 	delete entry;
-	
+
 	if (configW->Lock()) configW->Quit();
 	if (cdrecord_output->Lock()) cdrecord_output->Quit();
 	if (mkisofs_output->Lock()) mkisofs_output->Quit();
@@ -466,7 +466,7 @@ Application1::MessageReceived(BMessage *message)
 			}
 
 			window1->Lock();
-			if (BString(selected->GetFilename()).Compare("..")!=0) {	     		
+			if (BString(selected->GetFilename()).Compare("..")!=0) {
 				BEntry file;
 				BString str = "";
 				str << current_folder.String() << selected->GetFilename();
@@ -487,9 +487,9 @@ Application1::MessageReceived(BMessage *message)
 
 		case READAUDIOCD_MIMSG: {
 			status_t error=B_OK;
-			
+
 			error=ReadAudioCD();
-			
+
 			if (error<0) {
 				ErrorBox	*eb=new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok")); // "TOK"
 				PlayErrorSound();
@@ -512,12 +512,12 @@ Application1::MessageReceived(BMessage *message)
 	 		project_has_changed = true;
 			break;
 		}
-		
+
 		case 'mm01': // update display
 		{
 			window1->view1->box2->Refresh();
 			beep();
-	
+
 			break;
 		}
 
@@ -551,7 +551,7 @@ Application1::MessageReceived(BMessage *message)
 			UpdateTrackNumbers();
 			break;
 		}
-		
+
 		case 'mm40': {
 			break;
 		}
@@ -562,7 +562,7 @@ Application1::MessageReceived(BMessage *message)
 			audioW = NULL;
 			break;
 		}
-		
+
 		case GOTOPARENT_MSG: {
 			BString str="";
 
@@ -604,7 +604,7 @@ Application1::MessageReceived(BMessage *message)
 				}
 				break;
 			}
-		
+
 			FolderRow *cs = (FolderRow *)window1->view1->listview1->CurrentSelection();
 			if (cs == NULL) {
 				break;
@@ -660,7 +660,7 @@ Application1::MessageReceived(BMessage *message)
 			ShowFolder();
 			break;
 		}
-		
+
 		case 'mm04': // Liste updaten
 		{
 			ShowFolder();
@@ -819,7 +819,7 @@ Application1::MessageReceived(BMessage *message)
 			window2->Show();
 			break;
 		}
-	
+
 
 		case SETCDTEXTTITLE_MSG: {
 			window2->Lock();
@@ -832,7 +832,7 @@ Application1::MessageReceived(BMessage *message)
 			window2->Show();
 			break;
 		}
-		
+
 		case 'mm15': // cd-text title
 		{
 			BString str;
@@ -911,7 +911,7 @@ Application1::MessageReceived(BMessage *message)
 			}
 
 			window1->Lock();
-			if (BString(selected->GetFilename()).Compare("..") != 0) {	     		
+			if (BString(selected->GetFilename()).Compare("..") != 0) {
 				BString str = "";
 				str << current_folder.String() << selected->GetFilename();
 
@@ -941,7 +941,7 @@ Application1::MessageReceived(BMessage *message)
 			char dirname[2048];
 
 			window1->Lock();
-			
+
 			bool notCreatedYet = true;
 			do {
 				count++;
@@ -1054,7 +1054,7 @@ Application1::MessageReceived(BMessage *message)
 			BEntry	*folder_of_project = new BEntry(bf.String(), false);
 			BEntry	*projectfile = new BEntry(currentproject.String(), true);
 			printf("cp=%s\n", currentproject.String());
- 
+
 			ErrorBox	*eb=new ErrorBox(E_BLUE_COLOR, "",	_T("This will erase the project file and all of the links and folders the project contains. Select 'Move to Trash' if you are not certain. What shall happen with your project files?"), // "TAREYOUSURE"
 															_T("Cancel"), // "TCANCEL"
 															_T("To trash"), // "TMOVETOTRASH"
@@ -1066,7 +1066,7 @@ Application1::MessageReceived(BMessage *message)
 						DeleteAllIn(removeDir);
 						removeDir.Unset();
 					}
-					
+
 					folder_of_project->Remove();
 					projectfile->Remove();
 					CM->SetString(PATH_TO_LAST_PROJECT, "");
@@ -1105,7 +1105,7 @@ Application1::MessageReceived(BMessage *message)
 					ShowRecentProjects();
 					break;
 				}
-				
+
 				case 0: {
 					break;
 				}
@@ -1118,17 +1118,17 @@ Application1::MessageReceived(BMessage *message)
 			break;
 		}
 
-		case OPEN_FPMSG: {	
+		case OPEN_FPMSG: {
 			entry_ref ref;
 			if (message->FindRef("refs",  &ref) != B_OK) break;
-			
+
 			if (window1->Lock()) {
 				BString tmpstring;
 				tmpstring << _T("Opening project") << B_UTF8_ELLIPSIS; // "L:Opening Project..."
 				window1->view1->statusBAR->SetText( tmpstring.String(), 0);
 				window1->Unlock();
 			}
-			
+
 			BEntry *entry = new BEntry(&ref, true);
 			LoadProject(entry);
 			ShowFolder();
@@ -1141,7 +1141,7 @@ Application1::MessageReceived(BMessage *message)
 			break;
 		}
 
-		case FOLDER_FPMSG: {	
+		case FOLDER_FPMSG: {
 			entry_ref ref;
 			if (message->FindRef("refs",  &ref) != B_OK) {
 				break;
@@ -1195,7 +1195,7 @@ Application1::MessageReceived(BMessage *message)
 			} else {
 				sprintf(statustext, _T("Operation canceled.")); // "L:Operation cancelled."
 			}
-				
+
 			entry->Unset();
 			delete entry;
 			if (window1->Lock()) {
@@ -1204,7 +1204,7 @@ Application1::MessageReceived(BMessage *message)
 			}
 			break;
 		}
-		
+
 		case STANDARDPROJECT_MIMSG: {
 			if (!IsProject()) break;
 			SetAsStandardProject();
@@ -1254,14 +1254,14 @@ Application1::MessageReceived(BMessage *message)
 			}
 			break;
 		}
-		
+
 
 		case EXPORT_M3U_MIMSG: {
 			if (!IsProject()) break;
-			
+
 			char	name[1024];
 			sprintf(name, "%s.m3u", SuggestProjectName());
-			
+
 			BEntry	*entry=FileDialog::SaveDialog(_T("Export"), pathCV->GetProjectPath(), name); // "FP:Export"
 
 			if (entry->InitCheck()==B_OK) {
@@ -1286,16 +1286,16 @@ Application1::MessageReceived(BMessage *message)
 			delete entry;
 			break;
 		}
-		
+
 
 		case EXPORT_APML_MIMSG: {
 			if (!IsProject()) break;
-			
+
 			char	name[1024];
 			sprintf(name, "%s.apml", SuggestProjectName());
-			
+
 			BEntry	*entry=FileDialog::SaveDialog(_T("Export"), pathCV->GetProjectPath(), name); // "FP:Export"
-	
+
 			if (entry->InitCheck()==B_OK) {
 				if (window1->Lock()) {
 					BString tmpstring;
@@ -1318,14 +1318,14 @@ Application1::MessageReceived(BMessage *message)
 			delete entry;
 			break;
 		}
-		
+
 
 		case EXPORT_FILELIST_MIMSG: {
 			if (!IsProject()) break;
-			
+
 			char	name[1024];
 			sprintf(name, "%s.txt", SuggestProjectName());
-			
+
 			BEntry	*entry=FileDialog::SaveDialog(_T("FP:Export"), pathCV->GetProjectPath(), name);
 
 			if (entry->InitCheck()==B_OK) {
@@ -1350,7 +1350,7 @@ Application1::MessageReceived(BMessage *message)
 			delete entry;
 			break;
 		}
-		
+
 
 		case EXPORT_TRACKERTEMPLATE_MIMSG: {
 			if (!IsProject()) break;
@@ -1364,7 +1364,7 @@ Application1::MessageReceived(BMessage *message)
 			delete entry;
 			break;
 		}
-		
+
 
 		case FOLDERMENU_MSG: {	// user clicked on statusview's folders-popupmenu
 			BString folder;
@@ -1379,13 +1379,13 @@ Application1::MessageReceived(BMessage *message)
 		case IMAGE_MSG: {
 			break;
 		}
-		
-		
+
+
 		case BURNIMAGEFILE_MIMSG: {
 			status_t	error=B_OK;
 			BEntry 		*entry;
 			BPath		path;
-			
+
 			if (!CheckCDSize()) {
 				ErrorBox *alert=new ErrorBox(E_BLUE_COLOR,	_T("Error"), 	// "TERROR"
 															_T("The project data size is greater than the maximum size of a CD. Remove some files or select 'Overburning' in the preferences panel."), // "TOVERSIZED"
@@ -1500,7 +1500,7 @@ Application1::MessageReceived(BMessage *message)
 			} else {
 				error = CopyAudioCD();
 			}
-				
+
 			if (error>=0) {
 				PlayFinishedImageSound();
 			} else {
@@ -1560,17 +1560,17 @@ Application1::MessageReceived(BMessage *message)
 			window2->Show();
 			break;
 		}
-		
+
 		case 'mm14': // splits the selected track into two parts
 		{
 			AudioRow *ai=(AudioRow *)(window1->view1->listview1->CurrentSelection());
 			BString str=window2->view2->textcontrol3->Text();
 			size_t splitoffset; // in bytes
-			
+
 			if (str.FindFirst("f") == B_ERROR) {
 				// typed in as seconds
 				str.RemoveAll("s");
-				splitoffset=atol(str.String())*176400;			
+				splitoffset=atol(str.String())*176400;
 			} else {
 				// typed in as frames
 				str.RemoveAll("f");
@@ -1598,10 +1598,10 @@ Application1::MessageReceived(BMessage *message)
 
 		case HELIOS_LANGUAGE_UPDATE_MSG: {
 			BWindow	*window;
-			
+
 			for (int32 w=0; w<CountWindows(); w++) {
 				window=WindowAt(w);
-				
+
 					window->Lock();
 				for (int32 v=0; v<window->CountChildren(); v++) {
 					window->ChildAt(v)->Looper()->PostMessage(HELIOS_LANGUAGE_UPDATE_MSG, window->ChildAt(v));
@@ -1610,7 +1610,7 @@ Application1::MessageReceived(BMessage *message)
 			}
 			break;
 		}
-		
+
 		default: {
 			BApplication::MessageReceived(message);
 			break;
@@ -1632,7 +1632,7 @@ Application1::RefsReceived(BMessage *message)
 	entry_ref	ref;
 
 	message->GetInfo("refs", &type, &count);
-	
+
 	if (type != B_REF_TYPE) {
 		entry->Unset();
 		delete entry;
@@ -1646,7 +1646,7 @@ Application1::RefsReceived(BMessage *message)
 		}
 	}
 	entry->Unset();
-	delete entry;	
+	delete entry;
 
 	ShowFolder();
 }
@@ -1664,8 +1664,8 @@ Application1::ShowFolder(bool audio) {
 	BPath path;
 	int tracks=0;
 	entry_ref	ref;
-	
-	
+
+
 	dir.SetTo(current_folder.String());
 	dir.Rewind();
 	window1->Lock();
@@ -1688,7 +1688,7 @@ Application1::ShowFolder(bool audio) {
 					de.GetPath(&path);
 					if ((window1->view1->CDType()==DATACD_INDEX) ||
 						(window1->view1->CDType()==BOOTABLECD_INDEX) ||
-						(window1->view1->CDType()==DVDVIDEO_INDEX)) {	
+						(window1->view1->CDType()==DVDVIDEO_INDEX)) {
 							BFile file(&de, B_READ_ONLY);
 							off_t filesize;
 							file.GetSize(&filesize);
@@ -1702,7 +1702,7 @@ Application1::ShowFolder(bool audio) {
 				}
 			}
 			dir.Rewind();
-	
+
 			while (dir.GetNextEntry(&de,false)==B_OK)
 			{
 			if ((de.IsSymLink()) || (de.IsFile()))
@@ -1726,7 +1726,7 @@ Application1::ShowFolder(bool audio) {
 					{
 					float size;
 
-					
+
 					TrackLength *info=new TrackLength(new BEntry(path.Path(), true));
 					size=info->GetBytes();
 
@@ -1743,7 +1743,7 @@ Application1::ShowFolder(bool audio) {
 						}
 					}
 					delete info;
-					
+
 					}
 				}
 
@@ -1781,7 +1781,7 @@ Application1::GetImageSize()
 				float time=0;
 				for (int i=0; i<window1->view1->listview1->CountRows();i++) {
 					AudioRow *si=(AudioRow *)window1->view1->listview1->RowAt(i);
-	
+
 					time+=si->GetLength();
 					time+=(float)si->GetPregap();
 				}
@@ -1799,15 +1799,15 @@ Application1::GetImageSize()
 						imgsize = GetBFSImageSize(base_folder.String());
 
 						window1->view1->box2->SetCDSize((off_t)imgsize);
-						delete ((BString *)list->RemoveItem(0));
+						delete ((BString *)list->RemoveItem((long int)0));
 						delete list;
 						return true;
 					}
-					
+
 				for (int i=list->CountItems()-1; i>=0; i--)
 					delete ((BString *)list->RemoveItem(i));
 				delete list;
-				
+
 				break;
 			}
 
@@ -1823,7 +1823,7 @@ Application1::GetImageSize()
 
 			case CDEXTRA_INDEX: {
 				float time=0;
-		
+
 				for (int i=0; i<window1->view1->listview1->CountRows();i++) {
 					AudioRow *si=(AudioRow *)window1->view1->listview1->RowAt(i);
 					time+=si->GetLength();
@@ -1839,7 +1839,7 @@ Application1::GetImageSize()
 						imgsize = GetBFSImageSize(base_folder.String());
 
 						window1->view1->box2->SetCDSize((off_t)imgsize+sz);
-						delete ((BString *)list->RemoveItem(0));
+						delete ((BString *)list->RemoveItem((long int)0));
 						delete list;
 						return true;
 					}
@@ -1858,18 +1858,18 @@ Application1::GetImageSize()
 						imgsize = GetBFSImageSize(base_folder.String());
 
 						window1->view1->box2->SetCDSize((off_t)imgsize);
-						delete ((BString *)list->RemoveItem(0));
+						delete ((BString *)list->RemoveItem(0L));
 						delete list;
 						return true;
 					}
-					
+
 				for (int i=list->CountItems()-1; i>=0; i--)
 					delete ((BString *)list->RemoveItem(i));
 				delete list;
-				
+
 				break;
 			}
-			
+
 			default: {
 				break;
 			}
@@ -1912,13 +1912,13 @@ Application1::GetImageSize()
 					window1->view1->box2->SetCDSize((sz+atol(s.String())*2048));
 					cdextra_datasize=atol(s.String())*2048;
 					gotit=true;
-				} // strstr			
+				} // strstr
 			}
 			snooze(10000);
 		} while ((Thread==find_thread(MKISOFSTHREADNAME)) || (bytesread>0)/*|| (!gotit)*/);
 
 		close(in);close(out);close(err);
-			
+
 		free(args);
 	return true;
 }
@@ -1998,7 +1998,7 @@ Application1::ReadOutputOfCdrecord(int outstream, thread_id thread, int tracks) 
 
 		if (bytesread > 0) {
 			buffer[bytesread]=0;
-		
+
 			cdrecord_output->AddText(buffer);
 
 			// get speed
@@ -2011,7 +2011,7 @@ Application1::ReadOutputOfCdrecord(int outstream, thread_id thread, int tracks) 
 				sprintf(info,"%dx (%0.1f MB/s)",speed,153600.0*(float)speed/(1024.0*1024.0));
 				SetStatusInfo(info);
 			}
-			
+
 			// Performing OPC...
 			if (strstr(buffer,"Performing OPC...")) {
 				tmpstring << _T("Adjusting laser power")<< B_UTF8_ELLIPSIS; // "TPERFORMINGOPC"
@@ -2023,12 +2023,12 @@ Application1::ReadOutputOfCdrecord(int outstream, thread_id thread, int tracks) 
 			}
 				// start burning...
 			if (strstr(buffer,"Starting new track")) {
-				tmpstring << _T("Burning CD")<< B_UTF8_ELLIPSIS; // "TBURNING"				
+				tmpstring << _T("Burning CD")<< B_UTF8_ELLIPSIS; // "TBURNING"
 				SetStatus( tmpstring.String(),-1);
 			}
 				// Fixating...
 			if (strstr(buffer,"Fixating...")) {
-				tmpstring << _T("Fixating disc")<< B_UTF8_ELLIPSIS; // "TFIXATING"				
+				tmpstring << _T("Fixating disc")<< B_UTF8_ELLIPSIS; // "TFIXATING"
 				SetStatus( tmpstring.String(),-1);
 				SetPercentage(100.0);
 			}
@@ -2038,8 +2038,8 @@ Application1::ReadOutputOfCdrecord(int outstream, thread_id thread, int tracks) 
 				s.RemoveFirst("Track");
 				s.Remove(s.FindFirst(":"),s.Length()-s.FindFirst(":"));
 				track=atoi(s.String());
-			}	
-				
+			}
+
 			if (lasttrack!=track) {
 				lasttrack=track;
 				op=0;
@@ -2051,7 +2051,7 @@ Application1::ReadOutputOfCdrecord(int outstream, thread_id thread, int tracks) 
 				s.RemoveFirst("of");
 				s.Remove(s.FindFirst("MB"),s.Length()-s.FindFirst("MB"));
 				length=atof(s.String());
-			}		
+			}
 
 			// get write position
 			if (strstr(buffer,"Track")) {
@@ -2068,13 +2068,13 @@ Application1::ReadOutputOfCdrecord(int outstream, thread_id thread, int tracks) 
 						SetPercentage(100.0*(float)progressed/(float)length);
 					}
 				}
-			}		
+			}
 		}
 		snooze(250000);
 	}while (thread==find_thread(CDRECORDTHREADNAME));
-	
+
 	delete [] buffer;
-}	
+}
 
 
 status_t
@@ -2116,7 +2116,7 @@ Application1::MakeImage()
 		device << deviceCV->GetWriterDeviceNumber();
 		args = (const char **)malloc(sizeof(char *) * (50));
 		// Make MKISOFS options
-		
+
 		if (MKISOFS_CommandLine(args, &arguments)!=B_OK) {
 			HideStatus();
 			free(args);
@@ -2147,7 +2147,7 @@ Application1::MakeImage()
 		arguments=0;
 		CDRECORD_CommandLine(args, &arguments, window1->view1->IsMultisession(),
 				true /*isStreaming*/);
-		
+
 		args[arguments++] = strdup("tsize=");
 		str.SetTo("");
 		if (window1->view1->CDType()==CDEXTRA_INDEX) {
@@ -2160,7 +2160,7 @@ Application1::MakeImage()
 		args[arguments++] = strdup("-data");
 		args[arguments++] = strdup("-");
 		args[arguments]=NULL;
-		
+
 		printArguments("cdrecord streaming args",args);
 
 		// launch cdrecord thread now
@@ -2183,18 +2183,18 @@ Application1::MakeImage()
 		bf.buffersize=4*1024;
 		bf.in=mkisofs_out;
 		bf.out=cdrecord_in;
-		
+
 		buffer_Thread=spawn_thread(DataBuffer,BUFFERTHREADNAME,BUFFER_PRIORITY,(void *)(&bf));
-		resume_thread(buffer_Thread);	
-		resume_thread(mkisofs_Thread);	
-		resume_thread(cdrecord_Thread);	
-	
+		resume_thread(buffer_Thread);
+		resume_thread(mkisofs_Thread);
+		resume_thread(cdrecord_Thread);
+
 		mkisofs_output->Start(mkisofs_err);
-		
-	
-		ReadOutputOfCdrecord(cdrecord_out, cdrecord_Thread);		
-		
-		
+
+
+		ReadOutputOfCdrecord(cdrecord_out, cdrecord_Thread);
+
+
 		working=false;
 		bf.working=&working;
 		HideStatus();
@@ -2266,7 +2266,7 @@ Application1::ReadAudioCD() {
 		thread_id Thread;
 		BString str="", tmpstring;
 		int in, out, err;
-				
+
 		if (WaitForDisc(deviceCV->GetReaderDevicePath())==B_TIMEOUT) {
 			errtype=_T("Timeout"); // "TTIMEOUTTYPE"
 			errstring=_T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
@@ -2307,14 +2307,14 @@ Application1::ReadAudioCD() {
 		ShowStatus( tmpstring.String(),Thread);
 		rename_thread(Thread,CDDA2WAVTHREADNAME);
 		resume_thread(Thread);
-		
+
 		size_t bytesread=0;
 		char buffer[10000];
 		char info[40], info2[40];
 		float percentage, oldpercentage=1000;
 		BString	per="";
 		int	trackno=0;
-		
+
 		while (Thread==find_thread(CDDA2WAVTHREADNAME)) {
 			bytesread=read(err,(void *)buffer, 1000);
 			buffer[bytesread]=0;
@@ -2328,12 +2328,12 @@ Application1::ReadAudioCD() {
 						trackno++;
 						if (trackno>1) {
 							BString	path, leaf="Track_";
-							off_t size;			
-				
+							off_t size;
+
 							leaf << ((trackno-1<10)?"0":"") << trackno-1 << ".wav";
 							path=base_folder;
 							path.Append(leaf);
-		
+
 							TrackLength *info=new TrackLength(new BEntry(path.String(), true));
 							size=info->GetBytes();
 							if (size>0) {
@@ -2344,14 +2344,14 @@ Application1::ReadAudioCD() {
 								}
 							}
 							delete info;
-						}						
+						}
 					}
 					sprintf(info,"%0.0f%%", percentage);
 					sprintf(info2,"%s %d",_T("Track"), trackno); // "TTRACK"
 					SetStatusInfo(info, info2);
 					SetPercentage(percentage);
 					oldpercentage=percentage;
-				} // strstr			
+				} // strstr
 			}
 			snooze(250000);
 		}
@@ -2366,7 +2366,7 @@ Application1::ReadAudioCD() {
 		}
 		if (deviceCV->IsReaderEjected())
 			eject_media(deviceCV->GetReaderDevicePath());
-			
+
 		free(args);
 		return trackno;
 }
@@ -2445,7 +2445,7 @@ void
 Application1::ChangePauses()
 {
 	float pause=0;
-	
+
 	window1->Lock();
 	pause=atof(window1->view1->textcontrol2->Text());
 	if (pause>4800) pause=4800;
@@ -2474,7 +2474,7 @@ Application1::DoAudioMenu()
 	window1->Lock();
 
 	while (window1->view1->listview1->cmenu->CountItems()>0)
-		window1->view1->listview1->cmenu->RemoveItem(0);
+		window1->view1->listview1->cmenu->RemoveItem(0L);
 	window1->view1->listview1->cmenu->AddItem(window1->view1->listview1->deleteItem);
 	window1->view1->listview1->cmenu->AddSeparatorItem();
 	window1->view1->listview1->cmenu->AddItem(window1->view1->listview1->moveupItem);
@@ -2496,7 +2496,7 @@ Application1::DoDataMenu()
 	window1->Lock();
 
 	while (window1->view1->listview1->cmenu->CountItems()>0)
-		window1->view1->listview1->cmenu->RemoveItem(0);
+		window1->view1->listview1->cmenu->RemoveItem(0L);
 	window1->view1->listview1->cmenu->AddItem(window1->view1->listview1->deleteItem);
 	window1->view1->listview1->cmenu->AddItem(window1->view1->listview1->newfolderItem);
 	window1->view1->listview1->cmenu->AddItem(window1->view1->listview1->renamefileItem);
@@ -2582,7 +2582,7 @@ ReadData(BMediaFile *mfile, int fd, int64 start, int64 end) {
 		track->ReadFrames(audioData, &framesRead);
 		if (framesRead*4>length-j) framesRead=(length-j)/4;
 		if (framesRead>0)
-			write(fd, audioData,framesRead*4); 
+			write(fd, audioData,framesRead*4);
 		j+=framesRead*4;
 		//printf("BUFFER: %lld/%lld\n", j, length);
 	}
@@ -2610,9 +2610,9 @@ OpenFile(const char *filename, int fd, int64 start, int64 end) {
 	if (file->InitCheck()!=B_OK) {delete file; return false;}
 	if (file->GetRef(&ref)!=B_OK) {file->Unset();delete file; return false;}
 	file->Unset();
-	delete file; 
+	delete file;
 
-	mfile = new BMediaFile(&ref); 
+	mfile = new BMediaFile(&ref);
 	if (mfile->InitCheck()!=B_OK) {
 		OutPutRAW(filename, fd);
 		delete mfile;
@@ -2624,7 +2624,7 @@ OpenFile(const char *filename, int fd, int64 start, int64 end) {
 }
 
 
-typedef struct 
+typedef struct
 	audio_parameters {
 		char 	*filename[99];
 		int	trackcount;
@@ -2638,7 +2638,7 @@ typedef struct
  */
 int32 AudioBufferProducer(void *data) {
 	audio_parameters	*ap=(audio_parameters *)data;
-	
+
 	for (int i=0; i<ap->trackcount; i++) {
 		printf("HELIOS filename[%d/%d]: %s start: %lld stop: %lld\n", i,ap->trackcount, ap->filename[i], ap->start[i], ap->end[i]);
 		OpenFile(ap->filename[i],ap->fd, ap->start[i], ap->end[i]);
@@ -2681,10 +2681,10 @@ Application1::BurnAudio(bool multisession=false)
 		if (window1->view1->WriteCDText()) {
 			BString		cdt_path=base_folder;
 			char		albumtitle[161];
-		
+
 			cdt_path << "cdtext.data";
 			CDTextFile	*cdt=new CDTextFile(cdt_path.String(), B_READ_WRITE | B_CREATE_FILE);
-		
+
 			switch(window1->view1->CDType()) {
 				case AUDIOCD_INDEX: {
 					sprintf(albumtitle, "%s",window1->view1->GetCDAlbum());
@@ -2706,17 +2706,17 @@ Application1::BurnAudio(bool multisession=false)
 				if (strlen(si->GetCDTitle())>0)
 					cdt->SetTrack(i+1, si->GetCDTitle());
 			}
-		
+
 			cdt->SetCharacterCode(0x00);
 			cdt->SetLanguage(0x09);	// english
 			cdt->SetTracks(window1->view1->listview1->CountRows());
 			cdt->FlushAll();
 			delete cdt;
-	
+
 			args[arguments++] = strdup("-text");
 		}
-		
-		
+
+
 		if (window1->view1->WriteCDText()) {
 			//args[arguments++] = strdup("-text");
 			args[arguments++] = strdup("-useinfo");
@@ -2732,13 +2732,13 @@ Application1::BurnAudio(bool multisession=false)
 			args[arguments++] = strdup("-swab");
 			args[arguments++] = strdup("-audio");
 			args[arguments++] = strdup("-pad");
-			
+
 			/*if (window1->view1->WriteCDText()) {
 				str.SetTo("textfile=");
 				str << GenerateInfFilename(i);
 				args[arguments++] = strdup(str.String());
 			}*/
-			
+
 //			args[arguments++] = strdup("textfile=");
 //			args[arguments++] = strdup("-useinfo");
 			str.SetTo("tsize=");
@@ -2750,11 +2750,11 @@ Application1::BurnAudio(bool multisession=false)
 				str.Append(si->GetCdrecordReadyList());
 				args[arguments++] = strdup(str.String());
 			}
-			
+
 			args[arguments++] = strdup("-");
 			}
 		args[arguments]=NULL;
-	
+
 		printArguments("cdrecord non-streaming args",args);
 		//SaveCDTEXTAlbum();
 
@@ -2778,18 +2778,18 @@ Application1::BurnAudio(bool multisession=false)
 //		bf.buffersize=4096000;
 //		bf.in=toraw_out;
 //		bf.out=cdrecord_in;
-		
+
 //		//Parameter für "toRAW" erstellen
 		arguments=0;
 		AudioRow *si;
-		
+
 //		toraw="";
 //		toraw.Append(base_folder).append("cdtextfile.cdt");
 //		CDTextFile *textfile=new CDTextFile(new BEntry(toraw.String()));
 //		textfile->SetAlbum("");
-		
-		
-		
+
+
+
 		for (int i=0; i<window1->view1->listview1->iCountItems();i++)
 			{
 			si=(AudioRow *)window1->view1->listview1->RowAt(i);
@@ -2803,19 +2803,19 @@ Application1::BurnAudio(bool multisession=false)
 		ap.trackcount=arguments;
 		ap.fd=cdrecord_in;
 
-	
-	
+
+
 
 		// Check files
 		BEntry		entry;
 		entry_ref	ref;
 		BMediaFile	*mfile;
 		BString		st;
-	
+
 		for (int i=0; i<ap.trackcount; i++) {
 			entry.SetTo(ap.filename[i], true);
 			entry.GetRef(&ref);
-			mfile=new BMediaFile(&ref); 
+			mfile=new BMediaFile(&ref);
 			char nam[B_FILE_NAME_LENGTH];
 			entry.GetName(nam);
 			st=nam;
@@ -2850,14 +2850,14 @@ Application1::BurnAudio(bool multisession=false)
 						if (track->EncodedFormat(&mf)==B_OK) {
 							//printf("HELIOS: audio input is %0.0fHz/%ld channels\n", mf.u.raw_audio.frame_rate, mf.u.raw_audio.channel_count);
 							if (mf.u.raw_audio.frame_rate==44100) {
-								
+
 							} else error=-1;
 						} else error=-2;
 					} else error=-3;
 				} else error=-4;
-				
+
 				if (error<0) {
-				
+
 					switch(error) {
 						case -1: {
 							st << "\n\n" << _T("This audio file does not contain audio data sampled with 44100Hz."); // "TFRAMERATEERROR"
@@ -2910,8 +2910,8 @@ Application1::BurnAudio(bool multisession=false)
 			snooze(1000);
 			if (arguments>10000) break;
 		}
-		resume_thread(buffer_Thread);	
-		resume_thread(cdrecord_Thread);	
+		resume_thread(buffer_Thread);
+		resume_thread(cdrecord_Thread);
 
 		ReadOutputOfCdrecord(cdrecord_out, cdrecord_Thread, window1->view1->listview1->iCountItems());
 
@@ -2950,13 +2950,13 @@ status_t Application1::BlankRW(char *mode)
 		int in, out, err;
 		char info[40];
 		// wait till a disc is in the drive and drive is ready
-	
+
 		fStatusWindow->Lock();
 		if (heliosCV->IsSimulation())
 			fStatusWindow->SetTitle(_T("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
 		else
 			fStatusWindow->SetTitle(_T("Helios")); // "TSTATUSWINDOWTITLE"
-			
+
 		fStatusWindow->Unlock();
 
 		tmpstring << _T("Waiting for disc") << B_UTF8_ELLIPSIS; // "TWAITINGFORDISC"
@@ -2967,7 +2967,7 @@ status_t Application1::BlankRW(char *mode)
 			HideStatus();
 			return B_ERROR;
 		}
-		
+
 		device << deviceCV->GetWriterDeviceNumber();
 		args = (const char **)malloc(sizeof(char *) * (22));
 		args[arguments++] = strdup(CM->GetString(PATH_TO_CDRECORD)->String());
@@ -2979,7 +2979,7 @@ status_t Application1::BlankRW(char *mode)
 		endstr << "-speed=" << heliosCV->GetWriterSpeed();
 		args[arguments++] = strdup(endstr.String());
 		args[arguments]=NULL;
-		
+
 		printArguments("cdrecord non-streaming args",args);
 
 
@@ -2997,20 +2997,20 @@ status_t Application1::BlankRW(char *mode)
 		SetStatus( tmpstring.String(),Thread);
 		rename_thread(Thread,CDRECORDTHREADNAME);
 		resume_thread(Thread);
-		
+
 		size_t bytesread=0;
 		char buffer[10000];
 		int speed=0;
 		BString s;
-		
+
 		while (Thread==find_thread(CDRECORDTHREADNAME)) {
 			bytesread=read(out,(void *)buffer, 10000);
 			buffer[bytesread]=0;
-			
-			
+
+
 			cdrecord_output->AddText(buffer);
-			
-			
+
+
 			if (bytesread>0) {
 
 				// get speed
@@ -3023,7 +3023,7 @@ status_t Application1::BlankRW(char *mode)
 					sprintf(info,"%dx (%0.1f MB/s)",speed,176400.0*(float)speed/(1024.0*1024.0));
 					SetStatusInfo(info);
 				}
-				
+
 
 				// Fixating...
 				if (strstr(buffer,"Blanking time:")) {
@@ -3051,7 +3051,7 @@ status_t Application1::BlankRW(char *mode)
 			HideStatus();
 			return B_ERROR;
 		}
-		
+
 		if (deviceCV->IsWriterEjected())
 			eject_media(deviceCV->GetWriterDevicePath());
 
@@ -3108,7 +3108,7 @@ window1->Lock();
 				if (!((((AudioItem *)(window1->view1->listview1->ItemAt(i)))->IsSplitted()) ||
  					(((AudioItem *)(window1->view1->listview1->ItemAt(i)))->IsParentSplitterTrack())))
 					if (to<max) window1->view1->listview1->MoveItem(i,to);
-			} 
+			}
 window1->view1->listview1->Invalidate();
 window1->Unlock();
 */
@@ -3130,9 +3130,9 @@ Application1::ReadImage(BString *filename, bool alloweject) {
 		BString tmpstring;
 
 		// wait till a disc is in the drive and drive is ready
-	
+
 		tmpstring << _T("Waiting for disc") << B_UTF8_ELLIPSIS; // "TWAITINGFORDISC"
-		ShowStatus( tmpstring.String(),0); 
+		ShowStatus( tmpstring.String(),0);
 		if (WaitForDisc(deviceCV->GetReaderDevicePath())==B_TIMEOUT) {
 			errtype=_T("Timeout"); // "TTIMEOUTTYPE"
 			errstring=_T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
@@ -3173,7 +3173,7 @@ Application1::ReadImage(BString *filename, bool alloweject) {
 		SetStatus( tmpstring.String(),Thread);
 		rename_thread(Thread,READCDTHREADNAME);
 		resume_thread(Thread);
-		
+
 		size_t bytesread=0;
 		char buffer[10000];
 		float length=-1;
@@ -3182,7 +3182,7 @@ Application1::ReadImage(BString *filename, bool alloweject) {
 		BStopWatch *watch=new BStopWatch("MBps",true);
 
 		SetStatusInfo("--- MB/s");
-		
+
 		do {
 			bytesread=read(err,(void *)buffer, 10000);
 			buffer[bytesread]=0;
@@ -3194,7 +3194,7 @@ Application1::ReadImage(BString *filename, bool alloweject) {
 					s.RemoveFirst("end:");
 					//s.Remove(s.FindFirst("Blocks"),s.Length());
 					length=atof(s.String());
-				} // strstr			
+				} // strstr
 
 				if (strstr(buffer,"addr:")) {
 					s=strstr(buffer,"addr:");
@@ -3210,7 +3210,7 @@ Application1::ReadImage(BString *filename, bool alloweject) {
 						}
 						SetPercentage(100*progressed/length);
 					}
-				} // strstr			
+				} // strstr
 			}
 			snooze(100000);
 		} while (Thread==find_thread(READCDTHREADNAME)) ;
@@ -3228,7 +3228,7 @@ Application1::ReadImage(BString *filename, bool alloweject) {
 		if (alloweject)
 			if (deviceCV->IsReaderEjected())
 				eject_media(deviceCV->GetReaderDevicePath());
-			
+
 		free(args);
 		HideStatus();
 		//delete filename;
@@ -3241,14 +3241,14 @@ Application1::MakeImageOnly(const char *filename) {
 	status_t	error;
 	BList		*list;
 	bool		bfs=false;
-	
+
 	switch(window1->view1->CDType()) {
 		case DATACD_INDEX: {
 			list=window1->view1->datapanel->GetFilesystem();
 			if (list->CountItems()==1)
 				if (((BString *)list->ItemAt(0))->Compare("BFS")==0)
 					bfs=true;
-			
+
 			for (int i=list->CountItems()-1; i>=0; i--)
 				delete ((BString *)list->RemoveItem(i));
 			delete list;
@@ -3260,7 +3260,7 @@ Application1::MakeImageOnly(const char *filename) {
 			if (list->CountItems()==1)
 				if (((BString *)list->ItemAt(0))->Compare("BFS")==0)
 					bfs=true;
-			
+
 			for (int i=list->CountItems()-1; i>=0; i--)
 				delete ((BString *)list->RemoveItem(i));
 			delete list;
@@ -3271,7 +3271,7 @@ Application1::MakeImageOnly(const char *filename) {
 			if (list->CountItems()==1)
 				if (((BString *)list->ItemAt(0))->Compare("BFS")==0)
 					bfs=true;
-			
+
 			for (int i=list->CountItems()-1; i>=0; i--)
 				delete ((BString *)list->RemoveItem(i));
 			delete list;
@@ -3279,7 +3279,7 @@ Application1::MakeImageOnly(const char *filename) {
 		}
 		default:break;
 	}
-	
+
 	if (bfs) {
 		error=MakeBFSImage(strdup(filename));
 	} else {
@@ -3322,19 +3322,19 @@ Application1::load_media(const char * dev)
 status_t
 Application1::CopyAudioCD() {
 //	BString		oldbase=base_folder;
-	
+
 //	base_folder=pathCV->GetTemporaryPath();
 //	base_folder=&AppendTrailingSlash(base_folder);
 	if (ReadAudioCD()>0) {
 		eject_media(deviceCV->GetReaderDevicePath());
-		
-		if (window1->view1->CDType()!=AUDIOCD_INDEX)		
+
+		if (window1->view1->CDType()!=AUDIOCD_INDEX)
 			if (window1->Lock()) {
 				window1->view1->SetCDType(AUDIOCD_INDEX);
 				window1->Unlock();
 				ShowFolder(true);
 			}
-		
+
 		return BurnAudio();
 	} else {
 		errtype=_T("Error"); // "TERROR"
@@ -3419,7 +3419,7 @@ Application1::CopyDataCD()
 		// Ask the user to insert the disk to be written to.
 		ErrorBox *eb = new ErrorBox(E_BLUE_COLOR, "",	_T("Please insert the disc to burn"),	// "TPLEASEINSERTDISC"
 														_T("Ok"),
-														_T("Cancel")); 
+														_T("Cancel"));
 		eb->SetShortcut(1, B_ESCAPE);
 		okToBurn = (eb->Go() == 0);
 	}
@@ -3455,7 +3455,7 @@ Application1::CopyOnTheFlyAudio()
 			HideStatus();
 			return B_ERROR;
 		}
-		
+
 		fStatusWindow->Lock();
 		if (heliosCV->IsSimulation()) {
 			fStatusWindow->SetTitle(_T("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
@@ -3492,7 +3492,7 @@ Application1::CopyOnTheFlyAudio()
 			HideStatus();
 			return B_ERROR;
 		}
-		
+
 		BString tmpstring;
 		tmpstring << _T("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
 		SetStatus( tmpstring.String(),cdrecord_Thread);
@@ -3529,9 +3529,9 @@ Application1::CopyOnTheFlyAudio()
 			return B_ERROR;
 		}
 		rename_thread(cdda2wav_Thread,CDDA2WAVTHREADNAME);
-		resume_thread(cdrecord_Thread);	
+		resume_thread(cdrecord_Thread);
 
-		resume_thread(cdda2wav_Thread);	
+		resume_thread(cdda2wav_Thread);
 
 
 		ReadOutputOfCdrecord(cdrecord_out, cdrecord_Thread);
@@ -3544,7 +3544,7 @@ Application1::CopyOnTheFlyAudio()
 			HideStatus();
 			return B_ERROR;
 		}
-			
+
 		if (deviceCV->IsWriterEjected())
 			eject_media(deviceCV->GetWriterDevicePath());
 		if (deviceCV->IsReaderEjected())
@@ -3617,7 +3617,7 @@ Application1::CopyOnTheFly()
 	}
 
 	rename_thread(cdrecord_Thread, CDRECORDTHREADNAME);
-	resume_thread(cdrecord_Thread);	
+	resume_thread(cdrecord_Thread);
 
 	size_t bytesread = 0;
 	char buffer[10000];
@@ -3681,7 +3681,7 @@ Application1::CopyOnTheFly()
 				s.RemoveFirst("Track");
 				s.Remove(s.FindFirst(":"),s.Length()-s.FindFirst(":"));
 				track=atoi(s.String());
-			}		
+			}
 
 			// get track length
 			if (length==0)
@@ -3690,7 +3690,7 @@ Application1::CopyOnTheFly()
 				s.RemoveFirst("of");
 				s.Remove(s.FindFirst("MB"),s.Length()-s.FindFirst("MB"));
 				length=atof(s.String());
-			}		
+			}
 
 			// get write position
 			if (strstr(buffer,"Track")) {
@@ -3707,7 +3707,7 @@ Application1::CopyOnTheFly()
 						SetPercentage(100.0*(float)progressed/(float)length);
 					}
 				}
-			}		
+			}
 		}
 
 		snooze(250000);
@@ -3747,7 +3747,7 @@ FreeVolumeSpace(const char *path)
 			return (info.free_blocks * info.block_size);
 		}
 	}
-	return 0;	
+	return 0;
 }
 
 
@@ -3790,14 +3790,14 @@ Application1::MakeMKISOImage(const char *filename)
 		ShowStatus( tmpstring.String(),Thread);
 		rename_thread(Thread,MKISOFSTHREADNAME);
 		resume_thread(Thread);
-		
+
 		size_t bytesread=0;
 		char buffer[10000];
 		char prev;
 		char info[40];
 		int32 length;
 		float percentage;
-		
+
 		while (Thread==find_thread(MKISOFSTHREADNAME)) {
 			bytesread=read(err,(void *)buffer, 10000);
 			buffer[bytesread]=0;
@@ -3806,7 +3806,7 @@ Application1::MakeMKISOImage(const char *filename)
 				if (strstr(buffer," done, estimate")) {
 					buffer[(length=(bytesread-strlen(strstr(buffer," done, estimate"))-1))]=0;
 					if (buffer[length-1]==' ') {
-						prev=buffer[length-2];	
+						prev=buffer[length-2];
 						buffer[length-2]='0';
 						buffer[length-1]=prev;
 					}
@@ -3814,7 +3814,7 @@ Application1::MakeMKISOImage(const char *filename)
 					sprintf(info,"%0.1f%%",percentage);
 					SetStatusInfo(info);
 					SetPercentage(percentage);
-				} // strstr			
+				} // strstr
 			}
 			snooze(100000);
 		}
@@ -3827,7 +3827,7 @@ Application1::MakeMKISOImage(const char *filename)
 			errstring=_T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 			return B_ERROR;
 		}
-			
+
 		return B_OK;
 }
 
@@ -3841,9 +3841,9 @@ Application1::SaveSettings() {
 
 	// HeliosConfigView
 	heliosCV->GetSettings(msg);
-	
+
 	CM->SetMessage("Preferences", msg);
-	
+
 	// DeviceConfigView
 	CM->SetBool(EJECT_WRITER, deviceCV->IsWriterEjected());
 	CM->SetBool(EJECT_READER, deviceCV->IsReaderEjected());
@@ -3852,25 +3852,25 @@ Application1::SaveSettings() {
 	CM->SetInt8(READERDEVICE, deviceCV->GetReaderNumber());
 	CM->SetInt8(SCANNINGMETHOD, deviceCV->GetScanMethod());
 	CM->SetBool(SHOWALLDEVICES, deviceCV->GetShowsAllDevices());
-	
+
 	// PathConfigView
 	CM->SetString(TEMPORARY_PATH, pathCV->GetTemporaryPath());
 	CM->SetString(PROJECT_PATH, pathCV->GetProjectPath());
 	CM->SetString(DEFIMAGENAME, pathCV->GetDefaultImageName());
 	CM->SetString(DEFMOUNTPOINT, pathCV->GetDefaultMountPoint());
-	
+
 	// ImageConfigView
 	CM->SetString(I_PUBLISHER, imageCV->GetPublisher());
 	CM->SetString(I_PREPARER, imageCV->GetPreparer());
 	CM->SetString(I_APPLICATION, imageCV->GetApplication());
-	
+
 	// FilesystemConfigView
 	CM->SetBool(F_ISO9660_CB, fspanelCV->GetISO9660());
 	CM->SetBool(F_JOLIET_CB, fspanelCV->GetJoliet());
 	CM->SetBool(F_RR_CB, fspanelCV->GetRockRidge());
 	CM->SetBool(F_HFS_CB, fspanelCV->GetHFS());
 	CM->SetBool(F_UDF_CB, fspanelCV->GetUDF());
-	
+
 	CM->SetBool(F_83FN_RB, fspanelCV->GetISO96608Dot3());
 	CM->SetBool(F_31FN_RB, fspanelCV->GetISO966031());
 	CM->SetBool(F_37FN_RB, fspanelCV->GetISO966037());
@@ -3882,7 +3882,7 @@ Application1::SaveSettings() {
 	CM->SetBool(F_UDFDVD_RB, fspanelCV->GetUDFDVDVideo());
 	CM->SetBool(F_MAPPING_CB, fspanelCV->GetMapping());
 	CM->SetString(F_MAPPING_TC, fspanelCV->GetMappingFile());
-		
+
 	// StandardConfigView
 	CM->SetInt32(S_FILESYSTEM, standardCV->GetFilesystem());
 	CM->SetString(S_VOLUMENAME, standardCV->GetVolumeName());
@@ -3892,18 +3892,18 @@ Application1::SaveSettings() {
 	CM->SetString(S_APPLICATION, standardCV->GetApplication());
 	//CM->SetString(S_TEMPPATH, standardCV->GetTemporaryPath());
 	//CM->SetString(S_PROJECTPATH, standardCV->GetProjectPath());
-	
+
 	// ApplicationConfigView
 	CM->SetBool(APP_TIMEOUT, applicationCV->IsTimeout());
 	CM->SetInt16(APP_TIMEOUTLENGTH, applicationCV->GetTimeoutLength());
 	CM->SetBool(APP_AUTOUPDATE, applicationCV->IsAutoUpdating());
 	CM->SetInt16(APP_UPDATEFREQUENCY, applicationCV->GetUpdateFrequency());
-	
+
 	// SoundConfigView
 	CM->SetBool(BEEPWHENWRITTEN, soundCV->HasFinishedWritingSound());
 	CM->SetBool(BEEPWHENIMAGE, soundCV->HasFinishedImageSound());
 	CM->SetBool(BEEPWHENERROR, soundCV->HasErrorSound());
-	
+
 	// SaveConfigView
 	CM->SetBool(STREAMING_MODE, saveCV->IsStreamed());
 	CM->SetBool(SAVEWHENQUIT, saveCV->IsSavedWhenQuit());
@@ -3934,14 +3934,14 @@ Application1::SaveSettings() {
 	// DVDVIDEO
 	CM->SetInt32(DVDVIDEO_FILESYSTEM, window1->view1->GetFilesystemDVDVideo());
 	CM->SetString(DVDVIDEO_VOLUMENAME, window1->view1->GetVolumeNameDVDVideo());
-	
+
 	// WINDOW POSITIONS AND SIZES
 	CM->SetRect(MAINWINDOW_RECT, window1->Frame());
 	CM->SetRect(WINDOW2_RECT, window2->Frame());
 	CM->SetRect(PREFERENCESWINDOW_RECT, configW->Frame());
 	CM->SetRect(CDRECORDLOGWINDOW_RECT, cdrecord_output->Frame());
 	CM->SetRect(MKISOFSLOGWINDOW_RECT, mkisofs_output->Frame());
-	
+
 	// COLORS
 	CM->SetColor(BURNING_STATUS_BAR_COLOR, colorCV->GetColor(0));
 		if (fStatusWindow->Lock()) {
@@ -3976,7 +3976,7 @@ Application1::SaveSettings() {
 
 
 	window1->view1->listview1->SaveAllStates();
-	
+
 	// ProtocolWindow Settings
 	if (cdrecord_output->Lock()) {
 		CM->SetBool(CDRECORD_LOGWIN_VISIBLE, !cdrecord_output->IsHidden());
@@ -3984,14 +3984,14 @@ Application1::SaveSettings() {
 		CM->SetString(CDRECORD_LOGFILENAME, cdrecord_output->GetLogFileName());
 		cdrecord_output->Unlock();
 	}
-	
+
 	if (mkisofs_output->Lock()) {
 		CM->SetBool(MKISOFS_LOGWIN_VISIBLE, !mkisofs_output->IsHidden());
 		CM->SetBool(MKISOFS_LOG, mkisofs_output->DoesLogToFile());
 		CM->SetString(MKISOFS_LOGFILENAME, mkisofs_output->GetLogFileName());
 		mkisofs_output->Unlock();
 	}
-	
+
 	// Language settings.
 #if defined(_BEOS_R5_BUILD_) || defined(_BEOS_HAIKU_BUILD_)
 	BString langTag = langCV->GetLanguageTag();
@@ -4001,7 +4001,7 @@ Application1::SaveSettings() {
 	CM->WriteConfiguration();
 	configW->Unlock();
 	window1->Unlock();
-	
+
 	delete msg;
 	return;
 
@@ -4012,7 +4012,7 @@ Application1::SaveSettings() {
 void
 Application1::ReadSettings() {
 	BMessage *msg;
-	
+
 	msg=CM->GetMessage("Preferences");
 
 	// Set default values...
@@ -4044,7 +4044,7 @@ Application1::ReadSettings() {
 	if (!CM->HasData(TWODRIVECOPY))	CM->SetBool(TWODRIVECOPY, false);
 	if (!CM->HasData(SCANNINGMETHOD))	CM->SetInt8(SCANNINGMETHOD, DCV_DEFAULT_METHOD);
 	if (!CM->HasData(SHOWALLDEVICES))	CM->SetBool(SHOWALLDEVICES, false);
-	
+
 	// PathConfigView
 	if (!CM->HasData(TEMPORARY_PATH))	CM->SetString(TEMPORARY_PATH, "/boot/home/");
 	if (!CM->HasData(PROJECT_PATH))	CM->SetString(PROJECT_PATH, "/boot/home/Helios/");
@@ -4083,18 +4083,18 @@ Application1::ReadSettings() {
 	if (!CM->HasData(S_APPLICATION))	CM->SetString(S_APPLICATION, "Helios");
 	//if (!CM->HasData(S_TEMPPATH))		CM->SetString(S_TEMPPATH, "/boot/home/");
 	//if (!CM->HasData(S_PROJECTPATH))	CM->SetString(S_PROJECTPATH, "/boot/Helios/");
-	
+
 	// ApplicationConfigView
 	if (!CM->HasData(APP_AUTOUPDATE))		CM->SetBool(APP_AUTOUPDATE, false);
 	if (!CM->HasData(APP_UPDATEFREQUENCY))	CM->SetBool(APP_UPDATEFREQUENCY, 60);
 	if (!CM->HasData(APP_TIMEOUTLENGTH))	CM->SetBool(APP_TIMEOUTLENGTH, 90);
 	if (!CM->HasData(APP_TIMEOUT))			CM->SetBool(APP_TIMEOUT, true);
-	
+
 	// SoundConfigView
 	if (!CM->HasData(BEEPWHENWRITTEN))		CM->SetBool(BEEPWHENWRITTEN, false);
 	if (!CM->HasData(BEEPWHENIMAGE))		CM->SetBool(BEEPWHENIMAGE, false);
 	if (!CM->HasData(BEEPWHENERROR))		CM->SetBool(BEEPWHENERROR, false);
-	
+
 	// SaveConfigView
 	if (!CM->HasData(STREAMING_MODE))	CM->SetBool(STREAMING_MODE, true);
 	if (!CM->HasData(SAVEWHENQUIT))	CM->SetBool(SAVEWHENQUIT, true);
@@ -4139,7 +4139,7 @@ Application1::ReadSettings() {
 
 
 	if (!CM->HasData(PATHTOTHEIMAGE))		CM->SetString(PATHTOTHEIMAGE, "/boot/home/image.img");
-	
+
 	// ProtocolWindow Settings
 	if (!CM->HasData(CDRECORD_LOGWIN_VISIBLE))	CM->SetBool(CDRECORD_LOGWIN_VISIBLE, false);
 	if (!CM->HasData(MKISOFS_LOGWIN_VISIBLE))		CM->SetBool(MKISOFS_LOGWIN_VISIBLE, false);
@@ -4161,7 +4161,7 @@ Application1::ReadSettings() {
 
 	CM->WriteConfiguration();
 	CM->ReadConfiguration();
-	
+
 	// apply values to GUI elements...
 	/*heliosCV->SetBurnproof(CM->GetBool(BURNPROOF));
 	heliosCV->SetSimulation(CM->GetBool(SIMULATION));
@@ -4180,12 +4180,12 @@ Application1::ReadSettings() {
 	deviceCV->SetReaderNumber(CM->GetInt8(READERDEVICE));
 	deviceCV->SetScanMethod(CM->GetInt8(SCANNINGMETHOD));
 	deviceCV->SetShowAllDevices(CM->GetBool(SHOWALLDEVICES));
-	
+
 	pathCV->SetTemporaryPath(CM->GetString(TEMPORARY_PATH)->String());
 	pathCV->SetProjectPath(CM->GetString(PROJECT_PATH)->String());
 	pathCV->SetDefaultImageName(CM->GetString(DEFIMAGENAME)->String());
 	pathCV->SetDefaultMountPoint(CM->GetString(DEFMOUNTPOINT)->String());
-	
+
 	imageCV->SetPublisher(CM->GetString(I_PUBLISHER)->String());
 	imageCV->SetPreparer(CM->GetString(I_PREPARER)->String());
 	imageCV->SetApplication(CM->GetString(I_APPLICATION)->String());
@@ -4207,7 +4207,7 @@ Application1::ReadSettings() {
 	fspanelCV->SetMapping(CM->GetBool(F_MAPPING_CB));
 	fspanelCV->SetMappingFile(CM->GetString(F_MAPPING_TC)->String());
 
-	standardCV->SetFilesystem(CM->GetInt32(S_FILESYSTEM));	
+	standardCV->SetFilesystem(CM->GetInt32(S_FILESYSTEM));
 	standardCV->SetVolumeName(CM->GetString(S_VOLUMENAME)->String());
 	standardCV->SetCDType(CM->GetInt8(S_CDTYPE));
 	standardCV->SetPublisher(CM->GetString(S_PUBLISHER)->String());
@@ -4215,7 +4215,7 @@ Application1::ReadSettings() {
 	standardCV->SetApplication(CM->GetString(S_APPLICATION)->String());
 	//standardCV->SetTemporaryPath(CM->GetString(S_TEMPPATH)->String());
 	//standardCV->SetProjectPath(CM->GetString(S_PROJECTPATH)->String());
-	
+
 	applicationCV->SetAutoUpdating(CM->GetBool(APP_AUTOUPDATE));
 	applicationCV->SetTimeout(CM->GetBool(APP_TIMEOUT));
 	applicationCV->SetUpdateFrequency(CM->GetInt16(APP_UPDATEFREQUENCY));
@@ -4232,7 +4232,7 @@ Application1::ReadSettings() {
 	saveCV->SetAutoUpdate(CM->GetBool(AUTOUPDATE));
 //	saveCV->SetBalloonHelp(CM->GetBool(BUBBLEHELP));
 	saveCV->SetBurnPriority(CM->GetInt32(BURNPRIORITY));
-	
+
 	if (configW->Lock()) {
 		colorCV->SetColor(0, CM->GetColor(BURNING_STATUS_BAR_COLOR));
 			if (fStatusWindow->Lock()) {
@@ -4266,7 +4266,7 @@ Application1::ReadSettings() {
 			}
 		configW->Unlock();
 	}
-	
+
 	// CD-MODE-SPECIFIC...
 	// DATA-CD
 	window1->view1->SetVolumeName(CM->GetString(DATACD_VOLUMENAME)->String());
@@ -4289,7 +4289,7 @@ Application1::ReadSettings() {
 	// DATA-DVD
 	window1->view1->SetVolumeNameDVDVideo(CM->GetString(DVDVIDEO_VOLUMENAME)->String());
 	window1->view1->SetFilesystemDVDVideo(CM->GetInt32(DVDVIDEO_FILESYSTEM));
-	
+
 
 	if (CM->HasData(MAINWINDOW_RECT)) {
 		window1->ResizeTo(CM->GetRect(MAINWINDOW_RECT)->Width(), CM->GetRect(MAINWINDOW_RECT)->Height());
@@ -4334,7 +4334,7 @@ Application1::ReadSettings() {
 			window1->Unlock();
 		}
 	}
-	
+
 	// Language settings.
 #if defined(_BEOS_R5_BUILD_) || defined(_BEOS_HAIKU_BUILD_)
 	if (CM->HasData(CURRENT_LANG_TAG)) {
@@ -4342,7 +4342,7 @@ Application1::ReadSettings() {
 		gMSHLangMgr->SelectLanguageByName(langTag);
 	}
 #endif
-	
+
 	if (cdrecord_output->Lock()) {
 		cdrecord_output->SetLogToFile(CM->GetBool(CDRECORD_LOG));
 		cdrecord_output->SetLogFileName(CM->GetString(CDRECORD_LOGFILENAME)->String());
@@ -4369,7 +4369,7 @@ Application1::Calculate_time() {
 	r+=10; // und dann nochmal 10 sekunden, für alle fälle...
 	uint64 u=r-60*(uint32)(r/60);
 	char *s="";
-	
+
 	if (u<10) s="0"; else s="";
 	str << (off_t)(r/60) << "m " << s << (off_t)u << "s";
 	window1->Lock();
@@ -4465,18 +4465,18 @@ Application1::ShowRecentProjects()
 	filename=(char *)malloc(B_FILE_NAME_LENGTH);
 
 	window1->Lock();
-	while (window1->view1->openrecentSM->CountItems()>0) delete window1->view1->openrecentSM->RemoveItem(0);
+	while (window1->view1->openrecentSM->CountItems()>0) delete window1->view1->openrecentSM->RemoveItem(0L);
 	for (int i=0; i<CM->CountStrings(RECENTPROJECTS_LIST); i++) {
 		if (CM->GetStringI(RECENTPROJECTS_LIST, i)->Length()>0) {
 			// add if project exists, only
 			BEntry entry;
 			if (entry.SetTo(CM->GetStringI(RECENTPROJECTS_LIST, i)->String(), true)==B_OK) {
 				entry.GetName(filename);
-				BMessage *msg = new BMessage(OPEN_FPMSG);		
+				BMessage *msg = new BMessage(OPEN_FPMSG);
 
 				entry_ref	*ref = new entry_ref();
 				entry.GetRef(ref);
-				
+
 				msg->AddRef("refs", ref);
 				BMenuItem	*mi = new BMenuItem(filename, msg);
 				mi->SetTarget(be_app_messenger);
@@ -4500,23 +4500,23 @@ Application1::SuggestProjectName()
 		case DATACD_INDEX: {
 			return window1->view1->GetVolumeName();
 		}
-		
+
 		case AUDIOCD_INDEX: {
 			return window1->view1->GetCDAlbum();
 		}
-		
+
 		case BOOTABLECD_INDEX: {
 			return window1->view1->GetVolumeNameBootCD();
 		}
-		
+
 		case CDEXTRA_INDEX: {
 			return window1->view1->GetVolumeNameCDExtra();
 		}
-		
+
 		case DVDVIDEO_INDEX: {
 			return window1->view1->GetVolumeNameDVDVideo();
 		}
-		
+
 		default: {
 			return "";
 		}
@@ -4550,21 +4550,21 @@ Application1::LoadProject(BEntry *entry) {
 			delete file;
 			return;
 		}
-	
+
 
 
 	BPath	path;
 	int16	cdtype = 1;
 	BString	str;
 	char	projectname[B_FILE_NAME_LENGTH];
-	
+
 	window1->Lock();
 	entry->GetPath(&path);
 
 	ConfigManager	*projM=new ConfigManager(path.Path());
 	// determine which sort of project we will load
 	if (projM->HasData("cdtype")) cdtype=projM->GetInt16("cdtype");
-	
+
 	// set new window title (containing the project's name)
 	entry->GetName(projectname);
 	BString *s=new BString(_T("Helios")); // "TWINDOWTITLE"
@@ -4585,8 +4585,8 @@ Application1::LoadProject(BEntry *entry) {
 	if (projM->HasData("application"))
 		imageCV->SetApplication(projM->GetString("application")->String());
 
-	
-	
+
+
 	window1->view1->SetCDType(cdtype);
 	Update_DATA_AUDIO();
 	// load cd-mode-specific data
@@ -4607,7 +4607,7 @@ Application1::LoadProject(BEntry *entry) {
 				window1->view1->SetProtection(projM->GetBool("copyprotection"));
 			if (projM->HasData("cdtextalbum"))
 				window1->view1->SetCDAlbum(projM->GetString("cdtextalbum")->String());
-				
+
 			for (int32 t=0; t<projM->CountStrings("filename"); t++) {
 				AudioRow *item=new AudioRow(t+1, projM->GetStringI("filename", t)->String(), *(projM->GetInt64("pause", t)), (off_t)(*(projM->GetInt64("size", t))), (off_t)(*(projM->GetInt64("length", t))));
 				if (projM->GetInt64("startF", t)) {
@@ -4656,7 +4656,7 @@ Application1::LoadProject(BEntry *entry) {
 				window1->view1->SetCDTextCDExtra(projM->GetBool("writecdtext"));
 			if (projM->HasData("cdtextalbum"))
 				window1->view1->SetCDAlbumCDExtra(projM->GetString("cdtextalbum")->String());
-	
+
 			for (int32 t=0; t<projM->CountStrings("filename"); t++) {
 				AudioRow *item=new AudioRow(t+1, projM->GetStringI("filename", t)->String(), *(projM->GetInt64("pause", t)), (off_t)(*(projM->GetInt64("size", t))), (off_t)(*(projM->GetInt64("length", t))));
 				if (projM->GetInt64("startF", t)) {
@@ -4706,7 +4706,7 @@ Application1::LoadProject(BEntry *entry) {
 			break;
 		}
 	}
-	
+
 	UpdateTrackNumbers();
 	window1->Unlock();
 
@@ -4715,12 +4715,12 @@ Application1::LoadProject(BEntry *entry) {
 	ShowRecentProjects();
 	currentproject=path.Path();
 	project_has_changed=false;
-	
+
 	printf("currentproject=%s\n", currentproject.String());
-	
+
 	if (saveCV->AutoUpdate())
 		window1->view1->box2->Refresh();
-	
+
 	path.Unset();
 	file->Unset();
 	delete projM;
@@ -4734,23 +4734,23 @@ Application1::SaveProject(BEntry *entry, bool export_project) {
 	BPath path;
 	char	projectname[B_FILE_NAME_LENGTH];
 	BString	subdir=current_folder;
-	
+
 	subdir.RemoveFirst(base_folder);
-	
+
 	window1->Lock();
 	entry->GetName(projectname);
 
 	// set MIME type
 	BNode *node=new BNode(entry);
 	BNodeInfo	*nodeinfo=new BNodeInfo(node);
-	
+
 	nodeinfo->SetType(HELIOSPROJECTMIMETYPE);
 
 	node->Unset();
 	delete nodeinfo;
 	delete node;
-	
-	
+
+
 	// rename the base folder for the newly saved project
 	// and set the base_folder-variable to the new path
 	BString bf=base_folder;
@@ -4805,7 +4805,7 @@ Application1::SaveProject(BEntry *entry, bool export_project) {
 
 
 	ConfigManager	*projM=new ConfigManager(path.Path());
-	
+
 	projM->SetInt16("cdtype", window1->view1->CDType());
 	projM->SetString("current_folder", current_folder.String());
 	projM->SetString("base_folder", base_folder.String());
@@ -4826,23 +4826,23 @@ Application1::SaveProject(BEntry *entry, bool export_project) {
 			projM->SetBool("writecdtext", window1->view1->WriteCDText());
 			projM->SetBool("copyprotection", window1->view1->ProtectAudioCD());
 			projM->SetString("cdtextalbum", window1->view1->GetCDAlbum());
-				
+
 			for (int32 i=0; i<window1->view1->listview1->iCountItems(); i++) {
 				AudioRow	*ar=(AudioRow *)window1->view1->listview1->RowAt(i);
-				
+
 				projM->SetStringI("filename", ar->GetFilename(), i);
 				projM->SetStringI("cdtext title", ar->GetCDTitle(), i);
 				projM->SetInt64("pause", (int64)ar->GetPregap(), i);
 				projM->SetInt64("size", (int64)ar->GetBytes(), i);
 				projM->SetInt64("length", (int64)ar->GetLength(), i);
-				
+
 				projM->SetInt64("startF", ar->GetStartFrame(), i);
 				projM->SetInt64("endF", ar->GetEndFrame(), i);
-				
+
 				BList	*list=ar->GetIndexList();
 				char 	dataname[50];
 				sprintf(dataname, "indices track %ld", i+1);
-				
+
 				for (int32 j=0; j<list->CountItems(); j++) {
 					projM->SetFloat(dataname, (*((float *)(list->ItemAt(j)))), j);
 				}
@@ -4859,23 +4859,23 @@ Application1::SaveProject(BEntry *entry, bool export_project) {
 			projM->SetString("imagename", window1->view1->GetImageNameCDExtra());
 			projM->SetBool("writecdtext", window1->view1->WriteCDTextCDExtra());
 			projM->SetString("cdtextalbum", window1->view1->GetCDAlbumCDExtra());
-	
+
 			for (int32 i=0; i<window1->view1->listview1->iCountItems(); i++) {
 				AudioRow	*ar=(AudioRow *)window1->view1->listview1->RowAt(i);
-				
+
 				projM->SetStringI("filename", ar->GetFilename(), i);
 				projM->SetStringI("cdtext title", ar->GetCDTitle(), i);
 				projM->SetInt64("pause", (int64)ar->GetPregap(), i);
 				projM->SetInt64("size", (int64)ar->GetBytes(), i);
 				projM->SetInt64("length", (int64)ar->GetLength(), i);
-				
+
 				projM->SetInt64("startF", ar->GetStartFrame(), i);
 				projM->SetInt64("endF", ar->GetEndFrame(), i);
 
 				BList	*list=ar->GetIndexList();
 				char 	dataname[50];
 				sprintf(dataname, "indices track %ld", i+1);
-				
+
 				for (int32 j=0; j<list->CountItems(); j++) {
 					projM->SetFloat(dataname, (*((float *)(list->ItemAt(j)))), j);
 				}
@@ -4900,7 +4900,7 @@ Application1::SaveProject(BEntry *entry, bool export_project) {
 
 	projM->WriteConfiguration();
 	delete projM;
-	
+
 	//base_folder=oldbase_folder;
 	//current_folder=oldcurrent_folder;
 	// saved at quit?
@@ -4915,7 +4915,7 @@ Application1::NewProject()
 		imageCV->SetPublisher(standardCV->GetPublisher());
 		imageCV->SetPreparer(standardCV->GetPreparer());
 		imageCV->SetApplication(standardCV->GetApplication());
-		
+
 		//settingswindow->heliospathTC->SetText(base_folder.String());
 		window1->Lock();
 		window1->view1->SetVolumeName(standardCV->GetVolumeName());
@@ -4925,7 +4925,7 @@ Application1::NewProject()
 		window1->view1->SetFilesystem(standardCV->GetFilesystem());
 
 		BString	*p=new BString(pathCV->GetProjectPath());
-		
+
 		AppendTrailingSlash(p);
 
 		base_folder=p->String();
@@ -4935,7 +4935,7 @@ Application1::NewProject()
 		//printf("base_folder=\"%s\"\n", base_folder.String());
 		BDirectory HeliosDir;
 		BString bf=base_folder;
-		
+
 		//bf=*RemoveTrailingSlash(bf);
 		if (HeliosDir.SetTo(bf.String())!=B_OK)
 			//HeliosDir.CreateDirectory(bf.String(),&HeliosDir);
@@ -4988,16 +4988,16 @@ Application1::GetMultisessionSectors(int32 &start, int32 &end)
 		BString device="dev=";
 		BString endstr="";
 		int in, out, err;
-	
+
 		//if (WaitForDisc(deviceCV->GetWriterDevicePath())==B_TIMEOUT) return B_TIMEOUT;
-		
+
 		device << deviceCV->GetWriterDeviceNumber();
 		args = (const char **)malloc(sizeof(char *) * (22));
 		args[arguments++] = strdup(CM->GetString(PATH_TO_CDRECORD)->String());
 		args[arguments++] = strdup(device.String());
 		args[arguments++] = strdup("-msinfo");
 		args[arguments]=NULL;
-		
+
 		printArguments("cdrecord multisessioninfo", args);
 
 		Thread=pipe_command(arguments, args, in, out, err);
@@ -5012,11 +5012,11 @@ Application1::GetMultisessionSectors(int32 &start, int32 &end)
 		}
 		rename_thread(Thread,CDRECORDTHREADNAME);
 		resume_thread(Thread);
-		
+
 		size_t bytesread=1;
 		char buffer[10000];
 		BString s, startsec, endsec;
-		
+
 		end=-1;
 		start=0;
 		while ((bytesread>0) || (Thread==find_thread(CDRECORDTHREADNAME))) {
@@ -5034,7 +5034,7 @@ Application1::GetMultisessionSectors(int32 &start, int32 &end)
 					endsec=s.Remove(0,s.FindFirst(",")+1);
 					end=atol(endsec.String());
 					kill_thread(Thread);
-				} 
+				}
 
 			}
 			snooze(10000);
@@ -5061,13 +5061,13 @@ Application1::ExportAsM3U(BEntry *entry)
 	BString		title;
 	BString		time;
 	int32		count=0;
-	
+
 	list->AddItem("[playlist]");
 	window1->Lock();
 	if (window1->view1->listview1->iCountItems()>0) {
 		for (int32 index=0; index<window1->view1->listview1->iCountItems(); index++) {
 			ai=(AudioRow *)window1->view1->listview1->RowAt(index);
-			
+
 			if ((!ai->IsSplitted()) || (ai->GetSplitIndex()==0)) {
 				// create file number entry
 				// like this: "File3"
@@ -5096,7 +5096,7 @@ Application1::ExportAsM3U(BEntry *entry)
 					time << (int)ai->GetLength();
 					list->AddItem(new BString(time));
 				}
-				
+
 				list->AddItem(new BString(title));
 				filenumber.Append(pathtomusicfile.Path());
 				list->AddItem(new BString(filenumber));
@@ -5138,13 +5138,13 @@ Application1::ExportAsAPML(BEntry *entry)
 	BString		time;
 	BString		lastpath=":";
 	BDirectory	dir;
-	
+
 	list->AddItem("@*ApML*@");
 	window1->Lock();
 	if (window1->view1->listview1->iCountItems()>0) {
 		for (int32 index=0; index<window1->view1->listview1->iCountItems(); index++) {
 			ai=(AudioRow *)window1->view1->listview1->RowAt(index);
-			
+
 			// path
 			path.SetTo(ai->GetFilename()).Prepend(base_folder);
 			musicfile->SetTo(path.String(),true);
@@ -5212,7 +5212,7 @@ Application1::ExportAsFileList(BEntry *entry)
 	BEntry	*musicfile=new BEntry();
 	BString		lastpath=base_folder;
 	BDirectory	dir;
-	
+
 	if (lastpath[lastpath.Length()-1]=='/') lastpath.RemoveLast("/");
 	dir.SetTo(lastpath.String());
 	GetEntryNamesIn(dir, list);
@@ -5241,7 +5241,7 @@ Application1::CheckCDSize()
 	int64 	maxsize=80;
 	int	blocksize;
 	int64	maxsize_bytes;
-	
+
 	if (heliosCV->IsOverburning())
 		maxsize=90;
 	switch(window1->view1->CDType()) {
@@ -5275,9 +5275,9 @@ Application1::CheckCDSize()
 			break;
 		}
 	}
-		
+
 	maxsize_bytes=(int64)((maxsize*60*176400*(int64)blocksize)/2352);
-	
+
 	return window1->view1->box2->GetCDSize()<=maxsize_bytes;
 }
 
@@ -5288,9 +5288,9 @@ window1->Lock();
 	InfoFile		*inf=new InfoFile(filename);
 	AudioRow	*ai=(AudioRow *)window1->view1->listview1->RowAt(index);
 	char		albumtitle[160];
-	
 
-	
+
+
 	switch(window1->view1->CDType()) {
 		case AUDIOCD_INDEX: {
 			sprintf(albumtitle, "%s",window1->view1->GetCDAlbum());
@@ -5304,7 +5304,7 @@ window1->Lock();
 			break;
 		}
 	}
-	
+
 	inf->SetPerformer("");
 	inf->SetAlbumtitle(albumtitle);
 	inf->SetTracktitle(ai->GetCDTitle());
@@ -5320,7 +5320,7 @@ const char *Application1::GenerateInfFilename(int32 index) {
 	BString	basename;
 	BString	pathtoinf;
 	BString	final="";
-	
+
 	pathtoinf.SetTo(base_folder.String());
 
 	basename.SetTo(((AudioRow *)(window1->view1->listview1->RowAt(index)))->GetFilename());
@@ -5343,7 +5343,7 @@ const char *Application1::GenerateInfFilename(int32 index) {
 	//if (pathtoinf[pathtoinf.Length()-1]!='/') pathtoinf.Append("/");
 	AppendTrailingSlash(&pathtoinf);
 	basename << ".inf";
-		
+
 	final.SetTo(pathtoinf.String());
 	final.Append(basename.String());
 	printf("HELIOS: >%s<\n",final.String());
@@ -5352,13 +5352,13 @@ const char *Application1::GenerateInfFilename(int32 index) {
 
 // writes info files for all tracks kept by the current project
 void Application1::SaveCDTEXTAlbum() {
-	
+
 	window1->Lock();
 	for (int32 index=0; index<window1->view1->listview1->iCountItems();index++) {
 		// call export routine
 		ExportAsInf(GenerateInfFilename(index), index);
-	}	
-	window1->Unlock();	
+	}
+	window1->Unlock();
 }
 
 
@@ -5368,7 +5368,7 @@ void
 Application1::RemoveInfFiles()
 {
 	BEntry	*entry = new BEntry();
-	
+
 	window1->Lock();
 	for (int32 index=0; index<window1->view1->listview1->iCountItems();index++) {
 		entry->SetTo(GenerateInfFilename(index),true);
@@ -5376,9 +5376,9 @@ Application1::RemoveInfFiles()
 			entry->Remove();
 		}
 		entry->Unset();
-	}	
+	}
 	delete entry;
-	window1->Unlock();	
+	window1->Unlock();
 }
 
 
@@ -5386,7 +5386,7 @@ BString
 SubString(BString *string, int32 first, int32 last)
 {
 	BString temp;
-	
+
 	temp.SetTo(string->String());
 	temp.Remove(last,temp.Length()-last);
 	temp.Remove(0, first);
@@ -5403,10 +5403,10 @@ Application1::PopulateFoldersMenu()
 	BMessage	*msg;
 	BEntry		entry;
 	entry_ref	ref;
-	
+
 	window1->Lock();
 //	window1->view1->listview1->fStatusView->RemoveMenuItems();
-	if (current.Length()>base_folder.Length()) 
+	if (current.Length()>base_folder.Length())
 		current.Remove(current.FindLast("/"), current.Length()-current.FindLast("/"));
 
 	while (current.Length()>base_folder.Length()) {
@@ -5443,7 +5443,7 @@ Application1::GetDeviceSize(const char *path)
 {
 	int 	fd=open(path, O_RDONLY);
 	size_t	data;
-	
+
 	ioctl(fd, B_GET_DEVICE_SIZE, &data);
 	close(fd);
 	return data;
@@ -5451,7 +5451,7 @@ Application1::GetDeviceSize(const char *path)
 
 /*
 
-If you like to append a filesystem to a audio CD, first extract the 
+If you like to append a filesystem to a audio CD, first extract the
 CD by calling:
 
 	cdda2wav -B -v255
@@ -5518,7 +5518,7 @@ Application1::BurnCDExtra()
 
 			BString	bf=base_folder;
 			BString tp;
-		
+
 			base_folder=window1->view1->GetImageNameCDExtra();
 			AppendTrailingSlash(&base_folder);
 
@@ -5554,7 +5554,7 @@ Application1::DeleteAndCount(BDirectory dir)
 				}
 				entry.Unset();
 			}
-			
+
 			if (filecounter % 20==0) {
 				if (window1->Lock()) {
 					BString tmpstring;
@@ -5640,7 +5640,7 @@ Application1::ReadFloppyImage(const char *path)
 
 	src=new BFile("/dev/disk/floppy/raw", B_READ_ONLY);
 	dst=new BFile(path, B_READ_WRITE | B_CREATE_FILE);
-	
+
 	BStopWatch *watch=new BStopWatch("kBps",true);
 	tmpstring << _T("Reading image file") << B_UTF8_ELLIPSIS; // "Status:Reading Image File"
 	ShowStatus( tmpstring.String(), -1);
@@ -5648,7 +5648,7 @@ Application1::ReadFloppyImage(const char *path)
 
 	if ((src->InitCheck()==B_OK) && (dst->InitCheck()==B_OK)) {
 		dst->SetSize(0);
-		
+
 		numread=src->Read(buffer, buffersize);
 		while ((dst->Write(buffer, numread)==numread) && (buffersize>=sectorsize)) {
 			numread=src->Read(buffer, buffersize);

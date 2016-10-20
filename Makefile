@@ -1,115 +1,201 @@
-BINARY := Helios
+## Haiku Generic Makefile v2.6 ##
 
-OBJS := MSHLanguageMgr.o \
-		LanguageConfigView.o \
-		MSHLanguageFile.o \
-		DebugTools.o \
-		AboutWindow.o \
-		Application1.o \
-		ApplicationConfigView.o \
-		AudioCDPanel.o \
-		AudioOutput.o \
-		AudioRow.o \
-		AudioWindow.o \
-		BitmapMenuItem.o \
-		BootableCDPanel.o \
-		BrowseField.o \
-		BubbleHelper.o \
-		CDExtraPanel.o \
-		CDRECORDCmdLine.o \
-		CDTypeMenu.o \
-		ColorConfigView.o \
-		ColorListItem.o \
-		ColorTestView.o \
-		ColumnListView.o \
-		ColumnTypes.o \
-		ConfigHeadLine.o \
-		ConfigManager.o \
-		ConfigView.o \
-		ConfigWindow.o \
-		DataCDPanel.o \
-		DeviceConfigView.o \
-		DrawingTidbits.o \
-		EditMenuItem.o \
-		EditPopUpMenu.o \
-		EditView.o \
-		ErrorBox.o \
-		FSPanel.o \
-		FileChooser.o \
-		FileColumn.o \
-		FileDialog.o \
-		FileField.o \
-		FolderRow.o \
-		FileUtils.o \
-		HeliosConfigView.o \
-		IconBar.o \
-		ImageConfigView.o \
-		InfoBox.o \
-		InfoFile.o \
-		ListView1.o \
-		LogSettingsWindow.o \
-		M3UList.o \
-		MakeBFSImage.o \
-		MKISOFSCmdLine.o \
-		MString.o \
-		MediaInfo.o \
-		PathConfigView.o \
-		PipeCmd.o \
-		ProtocolWindow.o \
-		SaveConfigView.o \
-		SoundConfigView.o \
-		StandardConfigView.o \
-		StatusBar.o \
-		StatusView.o \
-		StatusWindow.o \
-		Stringview1.o \
-		TransportButton.o \
-		VersionConfigView.o \
-		VersionControl.o \
-		VideoDVDPanel.o \
-		View1.o \
-		View2.o \
-		Window1.o \
-		Window2.o \
-		main.o \
-		CDText/crc16.o \
-		CDText/CDText.o
-		
-OBJDIR := build
+## Fill in this file to specify the project being created, and the referenced
+## Makefile-Engine will do all of the hard work for you. This handles any
+## architecture of Haiku.
 
-RSRCS := res/HeliosCDRECORDer.rsrc
+# The name of the binary.
+NAME = Helios
 
-OBJS	:= $(addprefix $(OBJDIR)/,$(OBJS))
+# The type of binary, must be one of:
+#	APP:	Application
+#	SHARED:	Shared library or add-on
+#	STATIC:	Static library archive
+#	DRIVER: Kernel driver
+TYPE = APP
 
-CC := g++
-ASM := yasm
-LD := $(CC)
+# 	If you plan to use localization, specify the application's MIME signature.
+APP_MIME_SIG =
 
-LIBS := -lroot -lbe $(STDCPPLIBS) -ltranslation -ltextencoding -lmedia -ltracker
-CFLAGS := -O3 -I./includes -I./src/CDText -D_BEOS_HAIKU_BUILD_ -Wno-write-strings
-LDFLAGS := 
+#	The following lines tell Pe and Eddie where the SRCS, RDEFS, and RSRCS are
+#	so that Pe and Eddie can fill them in for you.
+#%{
+# @src->@
 
-.PHONY : clean build
+#	Specify the source files to use. Full paths or paths relative to the
+#	Makefile can be included. All files, regardless of directory, will have
+#	their object files created in the common object directory. Note that this
+#	means this Makefile will not work correctly if two source files with the
+#	same name (source.c or source.cpp) are included from different directories.
+#	Also note that spaces in folder names do not work well with this Makefile.
+SRCS = src/CDText/CDText.cpp \
+	src/CDText/crc16.cpp \
+	src/AboutWindow.cpp \
+	src/Application1.cpp \
+	src/ApplicationConfigView.cpp \
+	src/AudioCDPanel.cpp \
+	src/AudioOutput.cpp \
+	src/AudioRow.cpp \
+	src/AudioWindow.cpp \
+	src/BitmapMenuItem.cpp \
+	src/BootableCDPanel.cpp \
+	src/BrowseField.cpp \
+	src/BubbleHelper.cpp \
+	src/CDExtraPanel.cpp \
+	src/CDRECORDCmdLine.cpp \
+	src/CDTypeMenu.cpp \
+	src/ColorConfigView.cpp \
+	src/ColorListItem.cpp \
+	src/ColorTestView.cpp \
+	src/ColumnListView.cpp \
+	src/ColumnTypes.cpp \
+	src/ConfigHeadLine.cpp \
+	src/ConfigManager.cpp \
+	src/ConfigView.cpp \
+	src/ConfigWindow.cpp \
+	src/DataCDPanel.cpp \
+	src/DebugTools.cpp \
+	src/DeviceConfigView.cpp \
+	src/DrawingTidbits.cpp \
+	src/EditMenuItem.cpp \
+	src/EditPopUpMenu.cpp \
+	src/EditView.cpp \
+	src/ErrorBox.cpp \
+	src/FileChooser.cpp \
+	src/FileColumn.cpp \
+	src/FileDialog.cpp \
+	src/FileField.cpp \
+	src/FileUtils.cpp \
+	src/FolderRow.cpp \
+	src/FSPanel.cpp \
+	src/HeliosConfigView.cpp \
+	src/IconBar.cpp \
+	src/ImageConfigView.cpp \
+	src/InfoBox.cpp \
+	src/InfoFile.cpp \
+	src/LanguageConfigView.cpp \
+	src/ListView1.cpp \
+	src/LogSettingsWindow.cpp \
+	src/M3UList.cpp \
+	src/main.cpp \
+	src/MakeBFSImage.cpp \
+	src/MediaInfo.cpp \
+	src/MKISOFSCmdLine.cpp \
+	src/MSHLanguageFile.cpp \
+	src/MSHLanguageMgr.cpp \
+	src/MString.cpp \
+	src/PathConfigView.cpp \
+	src/PipeCmd.cpp \
+	src/ProtocolWindow.cpp \
+	src/SaveConfigView.cpp \
+	src/SoundConfigView.cpp \
+	src/StandardConfigView.cpp \
+	src/StatusBar.cpp \
+	src/StatusView.cpp \
+	src/StatusWindow.cpp \
+	src/Stringview1.cpp \
+	src/TransportButton.cpp \
+	src/VersionConfigView.cpp \
+	src/VersionControl.cpp \
+	src/VideoDVDPanel.cpp \
+	src/View1.cpp \
+	src/View2.cpp \
+	src/Window1.cpp \
+	src/Window2.cpp
 
-default : build
+#	Specify the resource definition files to use. Full or relative paths can be
+#	used.
+RDEFS =
 
-build : $(BINARY)
-	
-$(BINARY) : $(OBJDIR) $(OBJS) $(RSRCS)
-	$(LD) $(CFLAGS) $(LIBS) $(OBJS) -o $(BINARY) $(LDFLAGS)
-	xres -o $(BINARY) $(RSRCS)
-	mimeset -f $(BINARY)
+#	Specify the resource files to use. Full or relative paths can be used.
+#	Both RDEFS and RSRCS can be utilized in the same Makefile.
+RSRCS = res/HeliosCDRECORDer.rsrc
 
-clean:
-	rm -rf $(OBJDIR)/*.*
-	rm -rf $(BINARY)
+# End Pe/Eddie support.
+# @<-src@
+#%}
 
-$(OBJDIR)/%.o : src/%.cpp
-	@mkdir -p $(OBJDIR)
-	@mkdir -p $(OBJDIR)/CDText
-	$(CC) $(CFLAGS) -c $< -o $@
+#	Specify libraries to link against.
+#	There are two acceptable forms of library specifications:
+#	-	if your library follows the naming pattern of libXXX.so or libXXX.a,
+#		you can simply specify XXX for the library. (e.g. the entry for
+#		"libtracker.so" would be "tracker")
+#
+#	-	for GCC-independent linking of standard C++ libraries, you can use
+#		$(STDCPPLIBS) instead of the raw "stdc++[.r4] [supc++]" library names.
+#
+#	- 	if your library does not follow the standard library naming scheme,
+#		you need to specify the path to the library and it's name.
+#		(e.g. for mylib.a, specify "mylib.a" or "path/mylib.a")
+LIBS = be translation textencoding media tracker $(STDCPPLIBS)
 
-$(OBJDIR)/%.o : src/%.c
-	@mkdir -p $(OBJDIR)
-	@mkdir -p $(OBJDIR)/CDText
-	$(CC) $(CFLAGS) -c $< -o $@
+#	Specify additional paths to directories following the standard libXXX.so
+#	or libXXX.a naming scheme. You can specify full paths or paths relative
+#	to the Makefile. The paths included are not parsed recursively, so
+#	include all of the paths where libraries must be found. Directories where
+#	source files were specified are	automatically included.
+LIBPATHS =
+
+#	Additional paths to look for system headers. These use the form
+#	"#include <header>". Directories that contain the files in SRCS are
+#	NOT auto-included here.
+SYSTEM_INCLUDE_PATHS =
+
+#	Additional paths paths to look for local headers. These use the form
+#	#include "header". Directories that contain the files in SRCS are
+#	automatically included.
+LOCAL_INCLUDE_PATHS =
+
+#	Specify the level of optimization that you want. Specify either NONE (O0),
+#	SOME (O1), FULL (O2), or leave blank (for the default optimization level).
+OPTIMIZE := SOME
+
+# 	Specify the codes for languages you are going to support in this
+# 	application. The default "en" one must be provided too. "make catkeys"
+# 	will recreate only the "locales/en.catkeys" file. Use it as a template
+# 	for creating catkeys for other languages. All localization files must be
+# 	placed in the "locales" subdirectory.
+LOCALES =
+
+#	Specify all the preprocessor symbols to be defined. The symbols will not
+#	have their values set automatically; you must supply the value (if any) to
+#	use. For example, setting DEFINES to "DEBUG=1" will cause the compiler
+#	option "-DDEBUG=1" to be used. Setting DEFINES to "DEBUG" would pass
+#	"-DDEBUG" on the compiler's command line.
+DEFINES =  _BEOS_HAIKU_BUILD_
+
+#	Specify the warning level. Either NONE (suppress all warnings),
+#	ALL (enable all warnings), or leave blank (enable default warnings).
+WARNINGS =
+
+#	With image symbols, stack crawls in the debugger are meaningful.
+#	If set to "TRUE", symbols will be created.
+SYMBOLS :=
+
+#	Includes debug information, which allows the binary to be debugged easily.
+#	If set to "TRUE", debug info will be created.
+DEBUGGER :=
+
+#	Specify any additional compiler flags to be used.
+COMPILER_FLAGS =
+
+#	Specify any additional linker flags to be used.
+LINKER_FLAGS =
+
+#	Specify the version of this binary. Example:
+#		-app 3 4 0 d 0 -short 340 -long "340 "`echo -n -e '\302\251'`"1999 GNU GPL"
+#	This may also be specified in a resource.
+APP_VERSION :=
+
+#	(Only used when "TYPE" is "DRIVER"). Specify the desired driver install
+#	location in the /dev hierarchy. Example:
+#		DRIVER_PATH = video/usb
+#	will instruct the "driverinstall" rule to place a symlink to your driver's
+#	binary in ~/add-ons/kernel/drivers/dev/video/usb, so that your driver will
+#	appear at /dev/video/usb when loaded. The default is "misc".
+DRIVER_PATH =
+
+## Include the Makefile-Engine
+DEVEL_DIRECTORY := \
+	$(shell findpaths -r "makefile_engine" B_FIND_PATH_DEVELOP_DIRECTORY)
+include $(DEVEL_DIRECTORY)/etc/makefile-engine
