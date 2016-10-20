@@ -42,7 +42,9 @@ DONE:
 #include <String.h>
 #include <Window.h>
 
-#include "ObjectList.h"
+#include <ObjectList.h>
+#include <private/support/ObjectListPrivate.h>
+
 #include "ColumnListView.h"
 /*
 #ifndef _ARCHIVE_DEFS_H
@@ -4557,7 +4559,7 @@ bool OutlineView::SortList(BRowContainer *list, bool isVisible)
 {
 	if (list) {
 		// Shellsort
-		BRow **items = (BRow**) list->AsBList()->Items();
+		BRow **items = (BRow**) BObjectList<BRow>::Private(list).AsBList()->Items();
 		int32 numItems = list->CountItems();
 		int h;
 		for (h = 1; h < numItems / 9; h = 3 * h + 1)
