@@ -9,36 +9,33 @@
 #include <StringView.h>
 #include <RadioButton.h>
 
-
-class SoundConfigView : public ConfigView {
+class SoundConfigView : public ConfigView
+{
 public:
 	SoundConfigView(BRect frame);
 	~SoundConfigView();
-	
-	bool	HasFinishedWritingSound();
-	void	SetFinishedWritingSound(bool);
-	
-	bool	HasFinishedImageSound();
-	void	SetFinishedImageSound(bool);
-	
-	bool	HasErrorSound();
-	void	SetErrorSound(bool);
+
+	bool HasFinishedWritingSound();
+	void SetFinishedWritingSound(bool);
+
+	bool HasFinishedImageSound();
+	void SetFinishedImageSound(bool);
+
+	bool HasErrorSound();
+	void SetErrorSound(bool);
 
 	// following to be implemented later...
-	const char	*GetFinishedWritingSoundFile();
-	void		SetFinishedWritingSoundFile(const char *);
-	
-	const char	*GetFinishedImageSoundFile();
-	void		SetFinishedImageSoundFile(const char *);
+	const char* GetFinishedWritingSoundFile();
+	void SetFinishedWritingSoundFile(const char*);
+
+	const char* GetFinishedImageSoundFile();
+	void SetFinishedImageSoundFile(const char*);
 
 private:
-	
-	void	MessageReceived(BMessage*);
-	
-	BCheckBox	*writtensoundCB,
-			*imagesoundCB,
-			*errorsoundCB;
-	BString		string;
+	void MessageReceived(BMessage*);
+
+	BCheckBox* writtensoundCB, *imagesoundCB, *errorsoundCB;
+	BString string;
 };
 
 #endif

@@ -6,8 +6,8 @@
 
 #include "Application1.h"
 
-int
-main() {
+int main()
+{
 
 	Application1 app;
 	app.Run();

@@ -10,22 +10,23 @@
 
 #include "StatusView.h"
 
-class StatusWindow : public BWindow {
+class StatusWindow : public BWindow
+{
 public:
 	StatusWindow();
 	~StatusWindow();
 
-	virtual bool		QuitRequested();
-	virtual void		MessageReceived(BMessage *message);
-	virtual void		Show();
-	void						SetBarColor(rgb_color color);
+	virtual bool QuitRequested();
+	virtual void MessageReceived(BMessage* message);
+	virtual void Show();
+	void SetBarColor(rgb_color color);
 
-	void						DisableControls();
-	void						EnableControls();
+	void DisableControls();
+	void EnableControls();
 
-	StatusView			*fStatusView;
-	thread_id				Thread;
-	bool						interrupted;
+	StatusView* fStatusView;
+	thread_id Thread;
+	bool interrupted;
 };
 
 #endif

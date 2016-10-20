@@ -28,14 +28,14 @@
 //#include <sys/types.h>
 #include <SupportDefs.h>
 
-//typedef unsigned int UInt16_t;
-//typedef unsigned int uint16;
-//typedef unsigned char Uchar;
-//typedef unsigned char uchar;
-//typedef unsigned int Uint;
+// typedef unsigned int UInt16_t;
+// typedef unsigned int uint16;
+// typedef unsigned char Uchar;
+// typedef unsigned char uchar;
+// typedef unsigned int Uint;
 
-uint16 calcCRC(uchar *buf, uint16 bsize);
-uint16 fillcrc(uchar *buf, uint bsize);
-uint16 flip_crc_error_corr(uchar *b, uint bsize, uint p_crc);
+uint16 calcCRC(uchar* buf, uint16 bsize);
+uint16 fillcrc(uchar* buf, uint bsize);
+uint16 flip_crc_error_corr(uchar* b, uint bsize, uint p_crc);
 
 #endif

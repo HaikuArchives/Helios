@@ -5,8 +5,8 @@
 
 #include <fs_attr.h>
 
-status_t					MakeBFSImage(const char *filename);
-off_t							GetBFSImageSize(const char * baseFolder);
+status_t MakeBFSImage(const char* filename);
+off_t GetBFSImageSize(const char* baseFolder);
 
 #endif
 // _MAKE_BFS_IMAGE_

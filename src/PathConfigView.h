@@ -12,31 +12,29 @@
 #include <TextControl.h>
 #include "BrowseField.h"
 
-class PathConfigView : public ConfigView {
+class PathConfigView : public ConfigView
+{
 public:
 	PathConfigView(BRect frame);
 	~PathConfigView();
-	
-	const char 	*GetTemporaryPath();
-	void		SetTemporaryPath(const char *);
-	
-	const char	*GetProjectPath();
-	void		SetProjectPath(const char *);
 
-	const char	*GetDefaultImageName();
-	void		SetDefaultImageName(const char *);
+	const char* GetTemporaryPath();
+	void SetTemporaryPath(const char*);
 
-	const char	*GetDefaultMountPoint();
-	void		SetDefaultMountPoint(const char *);
-	
+	const char* GetProjectPath();
+	void SetProjectPath(const char*);
+
+	const char* GetDefaultImageName();
+	void SetDefaultImageName(const char*);
+
+	const char* GetDefaultMountPoint();
+	void SetDefaultMountPoint(const char*);
+
 private:
-	void	AllAttached();
-	void	MessageReceived(BMessage*);
+	void AllAttached();
+	void MessageReceived(BMessage*);
 
-	BrowseField	*temppathTC,
-			*projectpathTC,
-			*imagenameTC,
-			*mountpointTC;	
+	BrowseField* temppathTC, *projectpathTC, *imagenameTC, *mountpointTC;
 };
 
 #endif

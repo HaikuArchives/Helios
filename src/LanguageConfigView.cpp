@@ -5,16 +5,16 @@
 //												override.
 //=============================================================================
 
-const char kTagForOverrideZetaLocale[]	= "Override Zeta Localization";
-const char kTagForSelectLanguage[]			= "Select your language";
-const char kTagForRestartHelios[]				= "Note: You must restart Helios for changes to take effect.";
+const char kTagForOverrideZetaLocale[] = "Override Zeta Localization";
+const char kTagForSelectLanguage[] = "Select your language";
+const char kTagForRestartHelios[] = "Note: You must restart Helios for changes to take effect.";
 
 #if defined(_BEOS_R5_BUILD_) || defined(_BEOS_HAIKU_BUILD_)
 #include "MSHLanguageMgr.h"
 extern MSHLanguageMgr* gMSHLangMgr;
-#define _T(str)	gMSHLangMgr->_T(str).String()
-#define _TPS(str)	gMSHLangMgr->_T(str)
-//MSH: Next two lines commented out for possible future usage.
+#define _T(str) gMSHLangMgr->_T(str).String()
+#define _TPS(str) gMSHLangMgr->_T(str)
+// MSH: Next two lines commented out for possible future usage.
 //#else
 //#include <locale/Locale.h>
 
@@ -26,37 +26,36 @@ extern MSHLanguageMgr* gMSHLangMgr;
 #include <MenuItem.h>
 #include <Messenger.h>
 
-#define OVERRIDEZETACHECKBOX_CLICKED	'LCV0'
-#define LANGUAGEMENU_CLICKED					'LCV1'
+#define OVERRIDEZETACHECKBOX_CLICKED 'LCV0'
+#define LANGUAGEMENU_CLICKED 'LCV1'
 
-LanguageConfigView::LanguageConfigView(BRect& frame,
-		const BString& savedLanguageTag) :
-	ConfigView(frame), 
-	fLanguageMenu(NULL),
-	fLanguageListMF(NULL)
+LanguageConfigView::LanguageConfigView(BRect& frame, const BString& savedLanguageTag)
+	: ConfigView(frame), fLanguageMenu(NULL), fLanguageListMF(NULL)
 {
 	float currControlTopPos = 5;
 
 	// Language selection text.
 	BString tempstring;
 	tempstring << _T(kTagForSelectLanguage) << B_UTF8_ELLIPSIS;
-	fSelectLanguageSV = new BStringView(BRect(15, currControlTopPos, 280, 80), "lcv_selectlanguageSV", tempstring.String());
+	fSelectLanguageSV = new BStringView(BRect(15, currControlTopPos, 280, 80),
+										"lcv_selectlanguageSV", tempstring.String());
 	fSelectLanguageSV->ResizeToPreferred();
 	AddChild(fSelectLanguageSV);
 	currControlTopPos = fSelectLanguageSV->Frame().bottom + 5;
 
 	// Language menu.
 	SetupLanguageMenu(savedLanguageTag);
-	fLanguageListMF = new BMenuField(BRect(15, currControlTopPos, frame.Width() - 15, currControlTopPos + 15),
-			NULL,
-			NULL,
-			fLanguageMenu);
+	fLanguageListMF =
+		new BMenuField(BRect(15, currControlTopPos, frame.Width() - 15, currControlTopPos + 15),
+					   NULL, NULL, fLanguageMenu);
 	fLanguageListMF->ResizeToPreferred();
 	AddChild(fLanguageListMF);
 	currControlTopPos = fLanguageListMF->Frame().bottom + 5;
 
 	tempstring = _T(kTagForRestartHelios);
-	fRestartMessageSV = new BStringView(BRect(15, currControlTopPos, frame.Width() - 15, currControlTopPos + 15), "lcv_restartmessageSV", tempstring.String());
+	fRestartMessageSV =
+		new BStringView(BRect(15, currControlTopPos, frame.Width() - 15, currControlTopPos + 15),
+						"lcv_restartmessageSV", tempstring.String());
 	fRestartMessageSV->ResizeToPreferred();
 	AddChild(fRestartMessageSV);
 	currControlTopPos = fRestartMessageSV->Frame().bottom + 5;
@@ -66,8 +65,7 @@ LanguageConfigView::~LanguageConfigView()
 {
 }
 
-BString
-LanguageConfigView::GetLanguageTag()
+BString LanguageConfigView::GetLanguageTag()
 {
 	BString languageTag("enUS");
 
@@ -75,47 +73,43 @@ LanguageConfigView::GetLanguageTag()
 	if (NULL != firstMarkedItem) {
 		languageTag = BString(firstMarkedItem->Label());
 	}
-	
+
 	return languageTag;
 }
 
-void
-LanguageConfigView::AllAtached()
+void LanguageConfigView::AllAtached()
 {
 }
 
-void
-LanguageConfigView::AllDetached()
+void LanguageConfigView::AllDetached()
 {
 }
 
-void
-LanguageConfigView::MessageReceived(BMessage* msg)
+void LanguageConfigView::MessageReceived(BMessage* msg)
 {
-	switch(msg->what) {
+	switch (msg->what) {
 #if !defined(_BEOS_R5_BUILD_) && !defined(_BEOS_HAIKU_BUILD_)
-		case OVERRIDEZETACHECKBOX_CLICKED : {
-			// TODO: Future implementation.
-			break;
-		}
+	case OVERRIDEZETACHECKBOX_CLICKED: {
+		// TODO: Future implementation.
+		break;
+	}
 #endif
 
-		case LANGUAGEMENU_CLICKED: {
-			// Update the current language selection.
-			gMSHLangMgr->SelectLanguageByName(GetLanguageTag());
-			UpdateViewAfterLanguageChange();
-			break;
-		}
-		
-		default: {
-			ConfigView::MessageReceived(msg);
-			break;
-		}
+	case LANGUAGEMENU_CLICKED: {
+		// Update the current language selection.
+		gMSHLangMgr->SelectLanguageByName(GetLanguageTag());
+		UpdateViewAfterLanguageChange();
+		break;
+	}
+
+	default: {
+		ConfigView::MessageReceived(msg);
+		break;
+	}
 	}
 }
 
-void
-LanguageConfigView::UpdateViewAfterLanguageChange()
+void LanguageConfigView::UpdateViewAfterLanguageChange()
 {
 #if !defined(_BEOS_R5_BUILD_) && !defined(_BEOS_HAIKU_BUILD_)
 	fOverrideZetaLocaleCB->SetText(_T(kTagForRestartHelios));
@@ -124,8 +118,7 @@ LanguageConfigView::UpdateViewAfterLanguageChange()
 	fRestartMessageSV->SetText(_T(kTagForRestartHelios));
 }
 
-void
-LanguageConfigView::SetupLanguageMenu(const BString& savedLanguageTag)
+void LanguageConfigView::SetupLanguageMenu(const BString& savedLanguageTag)
 {
 	if (NULL == fLanguageMenu) {
 		fLanguageMenu = new BPopUpMenu("lcv_languagemenu");
@@ -133,9 +126,9 @@ LanguageConfigView::SetupLanguageMenu(const BString& savedLanguageTag)
 
 	const int32 numMenuItems = fLanguageMenu->CountItems();
 	for (int32 itemIndex = 0; itemIndex < numMenuItems; itemIndex++) {
-		fLanguageMenu->RemoveItem(static_cast<int32>( 0 ));
-			// Always remove the first item since they will change as
-			// the list shrinks.
+		fLanguageMenu->RemoveItem(static_cast<int32>(0));
+		// Always remove the first item since they will change as
+		// the list shrinks.
 	}
 
 	// Read the language names and add them to the menu list.
@@ -143,14 +136,14 @@ LanguageConfigView::SetupLanguageMenu(const BString& savedLanguageTag)
 	for (int32 currLang = 0; currLang < numLanguages; currLang++) {
 		BString languageTag = gMSHLangMgr->GetLanguageName(currLang);
 
-		//MSH:	Note: the following code does not work entirely yet.
+		// MSH:	Note: the following code does not work entirely yet.
 		//			I am attempting to make the menu item's send messages
 		//			when they are clicked upon (i.e. the language changes)
 		//			but the MessageReceived() function never received the
 		//			LANGUAGEMENU_CLICKED message. Any ideas? (I'm sure it's
 		//			an obvious mistake...)
 		BMessage* itemMessage = new BMessage(LANGUAGEMENU_CLICKED);
-		BMenuItem *menuItem = new BMenuItem(languageTag.String(), itemMessage);
+		BMenuItem* menuItem = new BMenuItem(languageTag.String(), itemMessage);
 		menuItem->SetTarget(this);
 		fLanguageMenu->AddItem(menuItem);
 
@@ -163,4 +156,4 @@ LanguageConfigView::SetupLanguageMenu(const BString& savedLanguageTag)
 }
 
 #endif
-// _BEOS_R5_BUILD_ 
+// _BEOS_R5_BUILD_

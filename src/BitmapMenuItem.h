@@ -1,9 +1,9 @@
 //--------------------------------------------------------------------
-//	
+//
 //	BitmapMenuItem.h
 //
 //	Written by: Owen Smith
-//	
+//
 //--------------------------------------------------------------------
 
 /*
@@ -27,27 +27,25 @@ class BitmapMenuItem : public BMenuItem
 	//	Constructors, destructors, operators
 
 public:
-					BitmapMenuItem(const char* name, const BBitmap& bitmap,
-						BMessage* message, char shortcut = 0,
-						uint32 modifiers = 0);
-				
-				
+	BitmapMenuItem(const char* name, const BBitmap& bitmap, BMessage* message, char shortcut = 0,
+				   uint32 modifiers = 0);
+
 	//----------------------------------------------------------------
 	//	Virtual member function overrides
 
-protected:	
-	void				Draw(void);
-	void				GetContentSize(float* width, float* height);
+protected:
+	void Draw(void);
+	void GetContentSize(float* width, float* height);
 
 	//----------------------------------------------------------------
 	//	Accessors
 
 public:
-	void				GetBitmapSize(float* width, float* height);
-	
+	void GetBitmapSize(float* width, float* height);
+
 	//----------------------------------------------------------------
 	//	Member variables
-	
+
 private:
 	BBitmap m_bitmap;
 	BString m_Text;

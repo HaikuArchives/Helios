@@ -11,29 +11,27 @@
 #include <Entry.h>
 #include <FilePanel.h>
 
-class FileChooser : public BWindow {
+class FileChooser : public BWindow
+{
 public:
 	FileChooser();
 	~FileChooser();
-	
-	void AddFile(const char *path);
-	void AddFile(BEntry *file);
-	
-	const char *Go();
+
+	void AddFile(const char* path);
+	void AddFile(BEntry* file);
+
+	const char* Go();
 
 private:
+	virtual void MessageReceived(BMessage* msg);
 
-	virtual void MessageReceived(BMessage *msg);
-
-	BList			*fileList;	// contains files shown in the list
-	BColumnListView	*listView;
-	BView			*winView;	// the window's main view
-	BButton		*okB,
-				*cancelB,
-				*browseB;
-	sem_id			sem;
-	BFilePanel		*filepanel;
-	BString			filename;
+	BList* fileList; // contains files shown in the list
+	BColumnListView* listView;
+	BView* winView; // the window's main view
+	BButton* okB, *cancelB, *browseB;
+	sem_id sem;
+	BFilePanel* filepanel;
+	BString filename;
 };
 
 #endif

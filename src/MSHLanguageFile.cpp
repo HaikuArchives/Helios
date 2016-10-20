@@ -14,21 +14,21 @@
 
 static const char kCommentChar = '#';
 
-MSHLanguageFile::MSHLanguageFile(const char* pathToLangFile) :
-	fStringTagList(NULL),
-	fStringTranslations(NULL),
-	fTranslationFileName(""),
-	fTranslationFileFullPath(pathToLangFile)
+MSHLanguageFile::MSHLanguageFile(const char* pathToLangFile)
+	: fStringTagList(NULL),
+	  fStringTranslations(NULL),
+	  fTranslationFileName(""),
+	  fTranslationFileFullPath(pathToLangFile)
 {
 	fStringTagList = new BList();
 	fStringTranslations = new BList();
-	
-	if ((fStringTagList != NULL) && (fStringTranslations != NULL )) {
+
+	if ((fStringTagList != NULL) && (fStringTranslations != NULL)) {
 		// Load the file and parse the strings.
 		// Then store them in the lists (tag and translation separately).
-//		BFile translationFile(pathToLangFile, B_READ_ONLY);
-//		ParseLanguageFileAndAddStrings(translationFile);
-//		translationFile.Unset();
+		//		BFile translationFile(pathToLangFile, B_READ_ONLY);
+		//		ParseLanguageFileAndAddStrings(translationFile);
+		//		translationFile.Unset();
 
 		BEntry transEntry(pathToLangFile);
 		if (B_OK == transEntry.InitCheck()) {
@@ -56,8 +56,7 @@ MSHLanguageFile::~MSHLanguageFile()
 	delete fStringTranslations;
 }
 
-bool
-MSHLanguageFile::GetStringForTag(const char* stringTag, BString& stringFound)
+bool MSHLanguageFile::GetStringForTag(const char* stringTag, BString& stringFound)
 {
 	bool foundString = false;
 
@@ -65,8 +64,8 @@ MSHLanguageFile::GetStringForTag(const char* stringTag, BString& stringFound)
 	// If yes, then don't allow strings to be obtained.
 	// Not the best solution - but without exceptions, or 2-phase construction,
 	// this is the easiest way to deal with it.
-	if ((fStringTagList != NULL) && (fStringTranslations != NULL )) {
-	
+	if ((fStringTagList != NULL) && (fStringTranslations != NULL)) {
+
 		if (fStringTagList->CountItems() == 0) {
 			BFile translationFile(fTranslationFileFullPath.String(), B_READ_ONLY);
 			ParseLanguageFileAndAddStrings(translationFile);
@@ -75,17 +74,19 @@ MSHLanguageFile::GetStringForTag(const char* stringTag, BString& stringFound)
 
 		const int32 numTags = fStringTagList->CountItems();
 		const int32 numStrings = fStringTranslations->CountItems();
-		
+
 		// Sanity check!
 		if (numTags == numStrings) {
 
 			const BString tagToFind(stringTag);
 			for (int32 stringIndex = 0; stringIndex < numTags; stringIndex++) {
-				BString* currentTag = reinterpret_cast<BString*>(fStringTagList->ItemAt(stringIndex));
+				BString* currentTag =
+					reinterpret_cast<BString*>(fStringTagList->ItemAt(stringIndex));
 				if (NULL != currentTag) {
 					if (tagToFind == *currentTag) {
 						// Found the tagged entry. Now get the translation.
-						BString* translationString = reinterpret_cast<BString*>(fStringTranslations->ItemAt(stringIndex));
+						BString* translationString =
+							reinterpret_cast<BString*>(fStringTranslations->ItemAt(stringIndex));
 						if (NULL != translationString) {
 							stringFound = *translationString;
 							foundString = true;
@@ -100,16 +101,13 @@ MSHLanguageFile::GetStringForTag(const char* stringTag, BString& stringFound)
 					break;
 				}
 			}
-
 		}
-
 	}
-	
+
 	return foundString;
 }
 
-void
-MSHLanguageFile::ParseLanguageFileAndAddStrings(BFile& translationFile)
+void MSHLanguageFile::ParseLanguageFileAndAddStrings(BFile& translationFile)
 {
 	// Some sanity checking first.
 	if (B_OK != translationFile.InitCheck()) {
@@ -136,7 +134,7 @@ MSHLanguageFile::ParseLanguageFileAndAddStrings(BFile& translationFile)
 		bool doneTranslation = false;
 
 		char readChar = '\0';
-		
+
 		for (off_t fileIndex = 0; fileIndex < fileSize; fileIndex++) {
 			// Read one character at a time.
 			translationFile.ReadAt(fileIndex, &readChar, 1);
@@ -148,17 +146,17 @@ MSHLanguageFile::ParseLanguageFileAndAddStrings(BFile& translationFile)
 			}
 
 			// End of the line - or end of file.
-			if ((readChar == '\n') || (fileIndex == (fileSize-1))) {
+			if ((readChar == '\n') || (fileIndex == (fileSize - 1))) {
 
 				// Finish off translation for this line.
 				if (doneTag) {
 					BString* newTag = new BString(currentTag);
-					fStringTagList->AddItem(reinterpret_cast<void *>(newTag));
-					
+					fStringTagList->AddItem(reinterpret_cast<void*>(newTag));
+
 					// Must always add an equivalent translation string (even if none was set)
 					// to keep lists at equal lengths.
 					BString* newTranslation = new BString(currentTranslation);
-					fStringTranslations->AddItem(reinterpret_cast<void *>(newTranslation));
+					fStringTranslations->AddItem(reinterpret_cast<void*>(newTranslation));
 				}
 
 				// Zap the strings and flags for the next line.
@@ -169,7 +167,7 @@ MSHLanguageFile::ParseLanguageFileAndAddStrings(BFile& translationFile)
 				doneTranslation = false;
 
 			} else {
-			
+
 				// Ignore everything on the line if we are in a comment.
 				if (!inComment) {
 
@@ -181,9 +179,10 @@ MSHLanguageFile::ParseLanguageFileAndAddStrings(BFile& translationFile)
 						if (!inQuotes) {
 							inQuotes = true;
 							continue;
-								// Back round the file reading loop.
+							// Back round the file reading loop.
 						} else {
-							// Still within quotes until this point - so we have found a closing quote.
+							// Still within quotes until this point - so we have found a closing
+							// quote.
 							inQuotes = false;
 
 							if (!doneTag) {
@@ -193,11 +192,12 @@ MSHLanguageFile::ParseLanguageFileAndAddStrings(BFile& translationFile)
 								// Still processing the translation string - so end it now.
 								doneTranslation = true;
 							} else {
-								// Done both strings, just parsing quoted garbage until the end of the line... ;-)
+								// Done both strings, just parsing quoted garbage until the end of
+								// the line... ;-)
 							}
 						}
 
-					}	// Quote detected?
+					} // Quote detected?
 
 					// If it gets here without being in quotes, the character will be discarded.
 					if (inQuotes) {
@@ -213,17 +213,13 @@ MSHLanguageFile::ParseLanguageFileAndAddStrings(BFile& translationFile)
 						}
 
 					} // inQuotes == true
-					
 				}
-
 			}
-				
 		}
 	}
 }
 
-const BString&
-MSHLanguageFile::GetTranslationFileName() const
+const BString& MSHLanguageFile::GetTranslationFileName() const
 {
 	return fTranslationFileName;
 }

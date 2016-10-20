@@ -13,10 +13,7 @@
 
 #include "MSHLanguageFile.h"
 
-MSHLanguageMgr::MSHLanguageMgr() :
-	fTransFiles(NULL),
-	fFileNameStub(""),
-	fCurrentLanguage(-1)
+MSHLanguageMgr::MSHLanguageMgr() : fTransFiles(NULL), fFileNameStub(""), fCurrentLanguage(-1)
 {
 }
 
@@ -25,8 +22,7 @@ MSHLanguageMgr::~MSHLanguageMgr()
 	DeleteAllLanguageFilesAndList();
 }
 
-bool
-MSHLanguageMgr::LoadLanguageFiles(const char * pathToFileStub)
+bool MSHLanguageMgr::LoadLanguageFiles(const char* pathToFileStub)
 {
 	if (NULL != fTransFiles) {
 		DeleteAllLanguageFilesAndList();
@@ -55,7 +51,8 @@ MSHLanguageMgr::LoadLanguageFiles(const char * pathToFileStub)
 	} else {
 		pathAndStub.CopyInto(pathOnly, 0 /*sourceOffset*/, posOfLastFolderSlash);
 		if (pathAndStub.Length() >= (posOfLastFolderSlash + 1)) {
-			pathAndStub.CopyInto(fFileNameStub, (posOfLastFolderSlash + 1), (pathAndStub.Length() - 1));
+			pathAndStub.CopyInto(fFileNameStub, (posOfLastFolderSlash + 1),
+								 (pathAndStub.Length() - 1));
 		}
 	}
 
@@ -77,7 +74,7 @@ MSHLanguageMgr::LoadLanguageFiles(const char * pathToFileStub)
 			}
 			pathOnly.Prepend(appPathOnly.Path());
 			appPathOnly.Unset();
-			appEntry.Unset();			
+			appEntry.Unset();
 		}
 
 		if (pathOnly.Length() > 0) {
@@ -110,8 +107,7 @@ MSHLanguageMgr::LoadLanguageFiles(const char * pathToFileStub)
 	return loadedAtLeastOne;
 }
 
-int32
-MSHLanguageMgr::CountLanguages() const
+int32 MSHLanguageMgr::CountLanguages() const
 {
 	int32 numTransFiles = 0;
 	if (NULL != fTransFiles) {
@@ -120,8 +116,7 @@ MSHLanguageMgr::CountLanguages() const
 	return numTransFiles;
 }
 
-void
-MSHLanguageMgr::SelectLanguage(const int32 index)
+void MSHLanguageMgr::SelectLanguage(const int32 index)
 {
 	const int32 numLanguages = CountLanguages();
 	if ((numLanguages > 0) && (index < numLanguages)) {
@@ -129,8 +124,7 @@ MSHLanguageMgr::SelectLanguage(const int32 index)
 	}
 }
 
-void
-MSHLanguageMgr::SelectLanguageByName(const BString& languageTag)
+void MSHLanguageMgr::SelectLanguageByName(const BString& languageTag)
 {
 	const int32 numLanguages = CountLanguages();
 	for (int32 langIndex = 0; langIndex < numLanguages; langIndex++) {
@@ -140,15 +134,15 @@ MSHLanguageMgr::SelectLanguageByName(const BString& languageTag)
 	}
 }
 
-BString
-MSHLanguageMgr::GetLanguageName(const int32 index)
+BString MSHLanguageMgr::GetLanguageName(const int32 index)
 {
 	BString languageName = "";
 
 	if (NULL != fTransFiles) {
 		const int32 numLanguages = CountLanguages();
 		if ((numLanguages > 0) && (index < numLanguages)) {
-			MSHLanguageFile* langFile = reinterpret_cast<MSHLanguageFile*>(fTransFiles->ItemAt(index));
+			MSHLanguageFile* langFile =
+				reinterpret_cast<MSHLanguageFile*>(fTransFiles->ItemAt(index));
 			if (NULL != langFile) {
 				BString transFileName = langFile->GetTranslationFileName();
 				transFileName.RemoveFirst(fFileNameStub);
@@ -161,8 +155,7 @@ MSHLanguageMgr::GetLanguageName(const int32 index)
 	return languageName;
 }
 
-BString
-MSHLanguageMgr::_T(const char * stringTag)
+BString MSHLanguageMgr::_T(const char* stringTag)
 {
 	BString translation = stringTag;
 	translation.Prepend("*");
@@ -173,7 +166,7 @@ MSHLanguageMgr::_T(const char * stringTag)
 		if ((numLanguages > 0)) {
 			if (fCurrentLanguage >= 0) {
 				MSHLanguageFile* langFile =
-						reinterpret_cast<MSHLanguageFile*>(fTransFiles->ItemAt(fCurrentLanguage));
+					reinterpret_cast<MSHLanguageFile*>(fTransFiles->ItemAt(fCurrentLanguage));
 				if (NULL != langFile) {
 					langFile->GetStringForTag(stringTag, translation);
 				}
@@ -184,22 +177,21 @@ MSHLanguageMgr::_T(const char * stringTag)
 	return translation;
 }
 
-void
-MSHLanguageMgr::DeleteAllLanguageFilesAndList()
+void MSHLanguageMgr::DeleteAllLanguageFilesAndList()
 {
 	if (NULL != fTransFiles) {
 		fCurrentLanguage = -1;
 		fFileNameStub = "";
-	
+
 		// Delete each individual language file.
 		const int32 numItems = fTransFiles->CountItems();
 		for (int32 itemIndex = 0; itemIndex < numItems; itemIndex++) {
 			MSHLanguageFile* langFile =
-							reinterpret_cast<MSHLanguageFile*>(fTransFiles->ItemAt(itemIndex));
+				reinterpret_cast<MSHLanguageFile*>(fTransFiles->ItemAt(itemIndex));
 			delete langFile;
 			langFile = NULL;
 		}
-	
+
 		delete fTransFiles;
 		fTransFiles = NULL;
 	}

@@ -5,16 +5,17 @@
 #include <MediaFile.h>
 #include <Bitmap.h>
 
-class TrackLength {
+class TrackLength
+{
 public:
-	TrackLength(BEntry *);
+	TrackLength(BEntry*);
 	~TrackLength();
-	
-	size_t		GetBytes();
-	bigtime_t	GetMicroSeconds() {return duration;};
-	
+
+	size_t GetBytes();
+	bigtime_t GetMicroSeconds() { return duration; };
+
 private:
-	bigtime_t	duration;
+	bigtime_t duration;
 };
 
 /*
@@ -23,7 +24,7 @@ class MMediaInfo {
 	public:
 		MMediaInfo(BEntry file);
 		virtual ~MMediaInfo();
-		
+
 		media_codec_info *CodecInfo();
 		off_t Size();
 		BBitmap *GetIcon();

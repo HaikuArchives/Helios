@@ -2,14 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 
-void AudioPlay(void *cookie, void *buffer, size_t bufferSize, const media_raw_audio_format &format)
+void AudioPlay(void* cookie, void* buffer, size_t bufferSize, const media_raw_audio_format& format)
 {
-	bool			update_trackTime;
-	int64			frame_count;
-	uint32			filled;
-	status_t		err;
-	AudioOutput		*ao;
-	media_header    mh;
+	bool update_trackTime;
+	int64 frame_count;
+	uint32 filled;
+	status_t err;
+	AudioOutput* ao;
+	media_header mh;
 
 	ao = (AudioOutput*)cookie;
 	ao->Lock();
@@ -21,16 +21,13 @@ void AudioPlay(void *cookie, void *buffer, size_t bufferSize, const media_raw_au
 		if ((err != B_OK) || (frame_count < 0)) {
 			memset((char*)buffer, ao->default_data, ao->buffer_size);
 			update_trackTime = false;
-		}
-		else {
+		} else {
 			filled = ao->frame_size * frame_count;
 			if (filled < ao->buffer_size)
-				memset((char*)buffer+filled, ao->default_data, ao->buffer_size-filled);
-			if (err != B_OK)
-				update_trackTime = false;
+				memset((char*)buffer + filled, ao->default_data, ao->buffer_size - filled);
+			if (err != B_OK) update_trackTime = false;
 		}
-	}
-	else
+	} else
 		memset((char*)buffer, ao->default_data, ao->buffer_size);
 
 	ao->perfTime = ao->player->PerformanceTime();
@@ -38,13 +35,14 @@ void AudioPlay(void *cookie, void *buffer, size_t bufferSize, const media_raw_au
 		ao->trackTime = ao->track->CurrentTime();
 	else
 		ao->trackTime +=
-			(bigtime_t)(1e6*(float)bufferSize/((float)ao->frame_size*ao->frame_rate));
+			(bigtime_t)(1e6 * (float)bufferSize / ((float)ao->frame_size * ao->frame_rate));
 
 	ao->Unlock();
 }
 
-AudioOutput::AudioOutput(BMediaTrack *new_track, const char *name) {
-	media_format	format;
+AudioOutput::AudioOutput(BMediaTrack* new_track, const char* name)
+{
+	media_format format;
 
 	lock_count = 0;
 	lock_sem = create_sem(0, "audio_output ben");
@@ -53,26 +51,26 @@ AudioOutput::AudioOutput(BMediaTrack *new_track, const char *name) {
 	perfTime = -1;
 	perfTime = -1;
 	trackTime = 0;
-	
+
 	track->DecodedFormat(&format);
 	switch (format.u.raw_audio.format) {
-	case media_raw_audio_format::B_AUDIO_UCHAR :
+	case media_raw_audio_format::B_AUDIO_UCHAR:
 		default_data = 0x80;
 		frame_size = 1;
 		break;
-	case media_raw_audio_format::B_AUDIO_SHORT :
+	case media_raw_audio_format::B_AUDIO_SHORT:
 		default_data = 0;
 		frame_size = 2;
 		break;
-	case media_raw_audio_format::B_AUDIO_INT :
+	case media_raw_audio_format::B_AUDIO_INT:
 		default_data = 0;
 		frame_size = 4;
 		break;
-	case media_raw_audio_format::B_AUDIO_FLOAT :
+	case media_raw_audio_format::B_AUDIO_FLOAT:
 		default_data = 0;
 		frame_size = 4;
 		break;
-	default :
+	default:
 		player = NULL;
 		return;
 	}
@@ -92,25 +90,26 @@ AudioOutput::AudioOutput(BMediaTrack *new_track, const char *name) {
 	}
 }
 
-AudioOutput::~AudioOutput() {
-	if (player)
-		player->Stop();
+AudioOutput::~AudioOutput()
+{
+	if (player) player->Stop();
 	delete player;
 	delete_sem(lock_sem);
 }
 
-void AudioOutput::Lock() {
-	if (atomic_add(&lock_count, 1) > 0)
-		acquire_sem(lock_sem);
+void AudioOutput::Lock()
+{
+	if (atomic_add(&lock_count, 1) > 0) acquire_sem(lock_sem);
 }
 
-void AudioOutput::Unlock() {
-	if (atomic_add(&lock_count, -1) > 1)
-		release_sem(lock_sem);
+void AudioOutput::Unlock()
+{
+	if (atomic_add(&lock_count, -1) > 1) release_sem(lock_sem);
 }
 
-status_t AudioOutput::SeekToTime(bigtime_t *inout_time) {
-	status_t	err;
+status_t AudioOutput::SeekToTime(bigtime_t* inout_time)
+{
+	status_t err;
 
 	Lock();
 	err = track->SeekToTime(inout_time);
@@ -119,8 +118,9 @@ status_t AudioOutput::SeekToTime(bigtime_t *inout_time) {
 	return err;
 }
 
-status_t AudioOutput::SeekToFrame(int64 *frame) {
-	status_t	err;
+status_t AudioOutput::SeekToFrame(int64* frame)
+{
+	status_t err;
 
 	Lock();
 	err = track->SeekToFrame(frame);
@@ -129,27 +129,31 @@ status_t AudioOutput::SeekToFrame(int64 *frame) {
 	return err;
 }
 
-
-status_t AudioOutput::Play() {
+status_t AudioOutput::Play()
+{
 	Lock();
 	isPlaying = true;
 	Unlock();
 	return B_NO_ERROR;
 }
 
-float AudioOutput::Volume() {
+float AudioOutput::Volume()
+{
 	return player->Volume();
 }
 
-void AudioOutput::SetVolume(float volume) {
+void AudioOutput::SetVolume(float volume)
+{
 	player->SetVolume(volume);
 }
 
-status_t AudioOutput::Stop() {
+status_t AudioOutput::Stop()
+{
 	isPlaying = false;
 	return B_NO_ERROR;
 }
 
-bigtime_t AudioOutput::TrackTimebase() {
+bigtime_t AudioOutput::TrackTimebase()
+{
 	return perfTime - trackTime;
 }

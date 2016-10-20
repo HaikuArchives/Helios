@@ -13,19 +13,18 @@
 #include <File.h>
 #include <ListItem.h>
 
-
-
-class Window1 : public BWindow {
+class Window1 : public BWindow
+{
 public:
-	Window1 ();
-	~Window1 (void);
+	Window1();
+	~Window1(void);
 
 	virtual bool QuitRequested(void);
-	virtual void MessageReceived(BMessage *message);
+	virtual void MessageReceived(BMessage* message);
 	virtual void WorkspaceActivated(int32 workspace, bool active);
-	View1 *view1;
-	bool Alert(char *text);
-//	void Update_sizes();
+	View1* view1;
+	bool Alert(char* text);
+	//	void Update_sizes();
 
 	int number;
 };

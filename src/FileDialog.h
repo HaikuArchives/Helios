@@ -6,30 +6,28 @@
 #include <Entry.h>
 #include <Window.h>
 
-class FileDialog {
+class FileDialog
+{
 public:
-	static BWindow	*fSourceWindow;
-	static BWindow	*fmainWindow;
-	static BEntry *OpenDialog(const char *title, const char *path=NULL, uint32 node_flavors=B_FILE_NODE);
-	static BEntry *SaveDialog(const char *title, const char *path=NULL, const char *filename=NULL);
+	static BWindow* fSourceWindow;
+	static BWindow* fmainWindow;
+	static BEntry* OpenDialog(const char* title, const char* path = NULL,
+							  uint32 node_flavors = B_FILE_NODE);
+	static BEntry* SaveDialog(const char* title, const char* path = NULL,
+							  const char* filename = NULL);
 };
 
-
-
-
-
-
-
-class DialogLooper : public BLooper {
+class DialogLooper : public BLooper
+{
 public:
 	DialogLooper();
 	~DialogLooper();
-	
-	virtual void 	MessageReceived(BMessage *);
-	BEntry			*GetEntry();
-	
+
+	virtual void MessageReceived(BMessage*);
+	BEntry* GetEntry();
+
 private:
-	BEntry			*fEntry;
+	BEntry* fEntry;
 };
 
 #endif

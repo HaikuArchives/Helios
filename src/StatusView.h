@@ -10,15 +10,16 @@
 
 #include "StatusBarView.h"
 
-class StatusView : public BView {
+class StatusView : public BView
+{
 public:
-								StatusView();
-								~StatusView();
+	StatusView();
+	~StatusView();
 
-	BStringView 	*stringview12;
-	BFont 				*font14;
-	BButton 			*button17;
-	BStatusBar		*progressSB;
+	BStringView* stringview12;
+	BFont* font14;
+	BButton* button17;
+	BStatusBar* progressSB;
 };
 
 #endif

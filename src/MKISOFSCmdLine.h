@@ -3,9 +3,7 @@
 
 #include <AppKit.h>
 
-
-status_t MKISOFS_CommandLine(const char **argv, int *argc, bool printsize=false, const char *outputFile=NULL);
-
+status_t MKISOFS_CommandLine(const char** argv, int* argc, bool printsize = false,
+							 const char* outputFile = NULL);
 
 #endif
-

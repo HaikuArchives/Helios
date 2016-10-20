@@ -11,31 +11,38 @@
 #include <string.h>
 #include <NodeInfo.h>
 
-bigtime_t xround(float f) {
+bigtime_t xround(float f)
+{
 
-	if ((float)(f-(bigtime_t)f)>0.000F) return ((bigtime_t)f)+1; else return (bigtime_t)f;
+	if ((float)(f - (bigtime_t)f) > 0.000F)
+		return ((bigtime_t)f) + 1;
+	else
+		return (bigtime_t)f;
 }
 
-TrackLength::TrackLength(BEntry *entry) {
-	entry_ref	ref;
-	
+TrackLength::TrackLength(BEntry* entry)
+{
+	entry_ref ref;
+
 	entry->GetRef(&ref);
 	entry->Unset();
 	delete entry;
-	
-	BMediaFile *mf=new BMediaFile(&ref);
-	
-	if (mf->InitCheck()==B_OK)
-		duration=mf->TrackAt(0)->Duration();
+
+	BMediaFile* mf = new BMediaFile(&ref);
+
+	if (mf->InitCheck() == B_OK)
+		duration = mf->TrackAt(0)->Duration();
 	else
-		duration=0;
+		duration = 0;
 }
 
-TrackLength::~TrackLength() {
+TrackLength::~TrackLength()
+{
 }
 
-size_t TrackLength::GetBytes() {
-	return xround(2352.0F*(float)duration/13333.3333333333333333333F);
+size_t TrackLength::GetBytes()
+{
+	return xround(2352.0F * (float)duration / 13333.3333333333333333333F);
 }
 /*
 
@@ -58,8 +65,8 @@ MMediaInfo::MMediaInfo(BEntry file) {
 			if (entry->GetRef(&ref)==B_OK)
 				{
 				node->SetTo(&ref);
-				BNodeInfo info(node);				
-				if (info.GetType(ftype)!=B_OK) 
+				BNodeInfo info(node);
+				if (info.GetType(ftype)!=B_OK)
 					{
 					media=false;
 					path.Unset();
@@ -116,7 +123,7 @@ off_t MMediaInfo::Size() {
 	off_t length=0;
 
 	//if (mfile==NULL) return -3;
-	if (media)	
+	if (media)
 	{
 	mfile->CountTracks();
 	track=mfile->TrackAt(0);
@@ -142,5 +149,3 @@ if (raw) entry->GetSize(&length); else return -1;
 //delete entry;
 	return (off_t)length;
 }*/
-
-

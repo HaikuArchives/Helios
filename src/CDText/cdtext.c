@@ -1,7 +1,6 @@
 /* @(#)cdtext.c	1.8 02/05/28 Copyright 1999-2002 J. Schilling */
 #ifndef lint
-static	char sccsid[] =
-	"@(#)cdtext.c	1.8 02/05/28 Copyright 1999-2002 J. Schilling";
+static char sccsid[] = "@(#)cdtext.c	1.8 02/05/28 Copyright 1999-2002 J. Schilling";
 #endif
 /*
  *	Generic CD-Text support functions
@@ -28,49 +27,48 @@ static	char sccsid[] =
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/types.h>	/* Include sys/types.h to make off_t available */
-
+#include <sys/types.h> /* Include sys/types.h to make off_t available */
 
 #include "cdtext.h"
 #include "crc16.h"
 
-#define	PTI_TITLE	0x80	/* Album name and Track titles */
-#define	PTI_PERFORMER	0x81	/* Singer/player/conductor/orchestra */
-#define	PTI_SONGWRITER	0x82	/* Name of the songwriter */
-#define	PTI_COMPOSER	0x83	/* Name of the composer */
-#define	PTI_ARRANGER	0x84	/* Name of the arranger */
-#define	PTI_MESSAGE	0x85	/* Message from content provider or artist */
-#define	PTI_DISK_ID	0x86	/* Disk identification information */
-#define	PTI_GENRE	0x87	/* Genre identification / information */
-#define	PTI_TOC		0x88	/* TOC information */
-#define	PTI_TOC2	0x89	/* Second TOC */
-#define	PTI_RES_8A	0x8A	/* Reserved 8A */
-#define	PTI_RES_8B	0x8B	/* Reserved 8B */
-#define	PTI_RES_8C	0x8C	/* Reserved 8C */
-#define	PTI_CLOSED_INFO	0x8D	/* For internal use by content provider */
-#define	PTI_ISRC	0x8E	/* UPC/EAN code of album and ISRC for tracks */
-#define	PTI_SIZE	0x8F	/* Size information of the block */
+#define PTI_TITLE 0x80		 /* Album name and Track titles */
+#define PTI_PERFORMER 0x81   /* Singer/player/conductor/orchestra */
+#define PTI_SONGWRITER 0x82  /* Name of the songwriter */
+#define PTI_COMPOSER 0x83	/* Name of the composer */
+#define PTI_ARRANGER 0x84	/* Name of the arranger */
+#define PTI_MESSAGE 0x85	 /* Message from content provider or artist */
+#define PTI_DISK_ID 0x86	 /* Disk identification information */
+#define PTI_GENRE 0x87		 /* Genre identification / information */
+#define PTI_TOC 0x88		 /* TOC information */
+#define PTI_TOC2 0x89		 /* Second TOC */
+#define PTI_RES_8A 0x8A		 /* Reserved 8A */
+#define PTI_RES_8B 0x8B		 /* Reserved 8B */
+#define PTI_RES_8C 0x8C		 /* Reserved 8C */
+#define PTI_CLOSED_INFO 0x8D /* For internal use by content provider */
+#define PTI_ISRC 0x8E		 /* UPC/EAN code of album and ISRC for tracks */
+#define PTI_SIZE 0x8F		 /* Size information of the block */
 
-int	xdebug;
+int xdebug;
 
 typedef struct textpack {
-	uchar	pack_type;	/* Pack Type indicator	*/
-	char	track_no;	/* Track Number (0..99)	*/
-	char	seq_number;	/* Sequence Number	*/
-	char	block_number;	/* Block # / Char pos	*/
-	char	text[12];	/* CD-Text Data field	*/
-	char	crc[2];		/* CRC 16		*/
+	uchar pack_type;   /* Pack Type indicator	*/
+	char track_no;	 /* Track Number (0..99)	*/
+	char seq_number;   /* Sequence Number	*/
+	char block_number; /* Block # / Char pos	*/
+	char text[12];	 /* CD-Text Data field	*/
+	char crc[2];	   /* CRC 16		*/
 } txtpack_t;
 
-#define	EXT_DATA 0x80		/* Extended data indicator in track_no */
-#define	DBCC	 0x80		/* Double byte char indicator in block */
+#define EXT_DATA 0x80 /* Extended data indicator in track_no */
+#define DBCC 0x80	 /* Double byte char indicator in block */
 
 /*
  *	CD-Text size example:
  *
  *	0  1  2  3  00 01 02 03 04 05 06 07 08 09 10 11 CRC16
  *
- *	8F 00 2B 00 01 01 0D 03 0C 0C 00 00 00 00 01 00 7B 3D 
+ *	8F 00 2B 00 01 01 0D 03 0C 0C 00 00 00 00 01 00 7B 3D
  *	8F 01 2C 00 00 00 00 00 00 00 12 03 2D 00 00 00 DA B7
  *	8F 02 2D 00 00 00 00 00 09 00 00 00 00 00 00 00 6A 24
  *
@@ -84,27 +82,24 @@ typedef struct textpack {
  */
 
 typedef struct textsizes {
-	char	charcode;
-	char	first_track;
-	char	last_track;
-	char	copyr_flags;
-	char	pack_count[16];
-	char	last_seqnum[8];
-	char	language_codes[8];
+	char charcode;
+	char first_track;
+	char last_track;
+	char copyr_flags;
+	char pack_count[16];
+	char last_seqnum[8];
+	char language_codes[8];
 } txtsize_t;
 
 typedef struct textargs {
-	txtpack_t	*tp;
-	char		*p;
-	txtsize_t	*tsize;
-	int		seqno;
+	txtpack_t* tp;
+	char* p;
+	txtsize_t* tsize;
+	int seqno;
 } txtarg_t;
 
-
-	Uchar	*textsub;
-	int	textlen;
-
-
+Uchar* textsub;
+int textlen;
 
 // bool checktextfile(char *fname) {
 //	FILE	*f;
@@ -185,58 +180,57 @@ typedef struct textargs {
 //	return (TRUE);
 //}
 
-void eight2six(register uchar *in, register uchar *out) {
-	register int	c;
+void eight2six(register uchar* in, register uchar* out)
+{
+	register int c;
 
 	c = in[0];
-	out[0]  = (c >> 2) & 0x3F;
-	out[1]  = (c & 0x03) << 4;
+	out[0] = (c >> 2) & 0x3F;
+	out[1] = (c & 0x03) << 4;
 
 	c = in[1];
 	out[1] |= (c & 0xF0) >> 4;
-	out[2]  = (c & 0x0F) << 2;
+	out[2] = (c & 0x0F) << 2;
 
 	c = in[2];
 	out[2] |= (c & 0xC0) >> 6;
-	out[3]  = c & 0x3F;
+	out[3] = c & 0x3F;
 }
 
 /*
  * 4 input bytes (6 bit based) are converted into 3 output bytes (8 bit based).
  */
-void six2eight(register uchar *in, register uchar *out) {
-	register int	c;
+void six2eight(register uchar* in, register uchar* out)
+{
+	register int c;
 
 	c = in[0] & 0x3F;
-	out[0]  = c << 2;
+	out[0] = c << 2;
 
 	c = in[1] & 0x3F;
 	out[0] |= c >> 4;
-	out[1]  = c << 4;
+	out[1] = c << 4;
 
 	c = in[2] & 0x3F;
 	out[1] |= c >> 2;
-	out[2]  = c << 6;
+	out[2] = c << 6;
 
 	c = in[3] & 0x3F;
 	out[2] |= c;
 }
 
-
-
-
-void setuptextdata(uchar *bp, int len) {
-	int	n;
-	int	i;
-	int	j;
-	Uchar	*p;
+void setuptextdata(uchar* bp, int len)
+{
+	int n;
+	int i;
+	int j;
+	Uchar* p;
 
 	if (xdebug) {
-		printf("%ld packs %% 4 = %ld\n",
-			(long)(len/sizeof(struct textpack)),
-			(long)(len/sizeof(struct textpack)) % 4);
+		printf("%ld packs %% 4 = %ld\n", (long)(len / sizeof(struct textpack)),
+			   (long)(len / sizeof(struct textpack)) % 4);
 	}
-	i = (len/sizeof(struct textpack)) % 4;
+	i = (len / sizeof(struct textpack)) % 4;
 	if (i == 0) {
 		n = len;
 	} else if (i == 2) {
@@ -245,12 +239,11 @@ void setuptextdata(uchar *bp, int len) {
 		n = 4 * len;
 	}
 	n = (n * 4) / 3;
-	p = (uchar *)malloc(n);
+	p = (uchar*)malloc(n);
 	if (p == NULL) {
-
 	}
-	for (i=0, j=0; j < n;) {
-		eight2six(&bp[i%len], &p[j]);
+	for (i = 0, j = 0; j < n;) {
+		eight2six(&bp[i % len], &p[j]);
 		i += 3;
 		j += 4;
 	}
@@ -258,54 +251,53 @@ void setuptextdata(uchar *bp, int len) {
 	textlen = n;
 
 	{
-	Uchar	sbuf[10000];
-	struct textpack *tp;
-	FILE		*f;
-	int		crc;
+		Uchar sbuf[10000];
+		struct textpack* tp;
+		FILE* f;
+		int crc;
 
-	tp = (struct textpack*)bp;
-	p = sbuf;
-	for (n=0; n < len; n += sizeof(struct textpack), tp++) {
-		crc = (tp->crc[0] & 0xFF) << 8 | (tp->crc[1] & 0xFF);
-		crc ^= 0xFFFF;
+		tp = (struct textpack*)bp;
+		p = sbuf;
+		for (n = 0; n < len; n += sizeof(struct textpack), tp++) {
+			crc = (tp->crc[0] & 0xFF) << 8 | (tp->crc[1] & 0xFF);
+			crc ^= 0xFFFF;
 
-		printf("Pack:%3d ", n/ sizeof(struct textpack));
-		printf("Pack type: %02X ", tp->pack_type & 0xFF);
-		printf("Track #: %2d ", tp->track_no & 0xFF);
-		printf("Sequence #:%3d ", tp->seq_number & 0xFF);
-		printf("Block #:%3d ", tp->block_number & 0xFF);
-		printf("CRC: %04X (%04X) ", crc, calcCRC((Uchar *)tp, sizeof(*tp)-2));
-		printf("Text: '%.12s'\n", tp->text);
-		memmove(tp->text, p, 12);
-		p += 12;
-	}
-	printf("len total: %d\n", n);
-	f = fopen("cdtext.out", "wctb");
-	if (f) {
-		fwrite((void *)(&sbuf), p - sbuf, 1, f);
-		fflush(f);
-		fclose(f);
-	}
+			printf("Pack:%3d ", n / sizeof(struct textpack));
+			printf("Pack type: %02X ", tp->pack_type & 0xFF);
+			printf("Track #: %2d ", tp->track_no & 0xFF);
+			printf("Sequence #:%3d ", tp->seq_number & 0xFF);
+			printf("Block #:%3d ", tp->block_number & 0xFF);
+			printf("CRC: %04X (%04X) ", crc, calcCRC((Uchar*)tp, sizeof(*tp) - 2));
+			printf("Text: '%.12s'\n", tp->text);
+			memmove(tp->text, p, 12);
+			p += 12;
+		}
+		printf("len total: %d\n", n);
+		f = fopen("cdtext.out", "wctb");
+		if (f) {
+			fwrite((void*)(&sbuf), p - sbuf, 1, f);
+			fflush(f);
+			fclose(f);
+		}
 	}
 }
 
-bool cdtext_crc_ok(struct textpack *p) {
-	int		crc;
-	struct textpack	newtp;
+bool cdtext_crc_ok(struct textpack* p)
+{
+	int crc;
+	struct textpack newtp;
 
 	memmove(p, &newtp, sizeof(struct textpack));
 	newtp.crc[0] ^= 0xFF;
 	newtp.crc[1] ^= 0xFF;
-	crc = calcCRC((Uchar *)&newtp, sizeof(struct textpack));
-	crc = flip_crc_error_corr((Uchar *)&newtp, sizeof(struct textpack), crc);
+	crc = calcCRC((Uchar*)&newtp, sizeof(struct textpack));
+	crc = flip_crc_error_corr((Uchar*)&newtp, sizeof(struct textpack), crc);
 	newtp.crc[0] ^= 0xFF;
 	newtp.crc[1] ^= 0xFF;
-	if (crc == 0)
-		memmove(&newtp, p, 18);
+	if (crc == 0) memmove(&newtp, p, 18);
 
 	return (crc == 0);
 }
-
 
 // void packtext(int tracks, track_t *trackp)
 //{
@@ -385,8 +377,8 @@ bool cdtext_crc_ok(struct textpack *p) {
 //#endif
 //}
 //
-//LOCAL BOOL
-//anytext(pack_type, tracks, trackp)
+// LOCAL BOOL
+// anytext(pack_type, tracks, trackp)
 //	int		pack_type;
 //	int	tracks;
 //	track_t	*trackp;
@@ -404,8 +396,8 @@ bool cdtext_crc_ok(struct textpack *p) {
 //	return (FALSE);
 //}
 //
-//LOCAL void
-//fillup_pack(ap)
+// LOCAL void
+// fillup_pack(ap)
 //	register txtarg_t *ap;
 //{
 //	if (ap->p) {
@@ -416,8 +408,8 @@ bool cdtext_crc_ok(struct textpack *p) {
 //	}
 //}
 //
-//LOCAL void
-//fillpacks(ap, from, len, track_no, pack_type)
+// LOCAL void
+// fillpacks(ap, from, len, track_no, pack_type)
 //	register txtarg_t	*ap;
 //	register char		*from;
 //	register int		len;
@@ -461,7 +453,7 @@ bool cdtext_crc_ok(struct textpack *p) {
 //}
 //
 // int
-//write_cdtext(scgp, dp, startsec)
+// write_cdtext(scgp, dp, startsec)
 //	SCSI	*scgp;
 //	cdr_t	*dp;
 //	long	startsec;
@@ -534,9 +526,8 @@ bool cdtext_crc_ok(struct textpack *p) {
 // * 3 input bytes (8 bit based) are converted into 4 output bytes (6 bit based).
 // */
 
-
-int main() {
-	setuptextdata((uchar *)strdup("text"), 4);
+int main()
+{
+	setuptextdata((uchar*)strdup("text"), 4);
 	return 0;
 }
-

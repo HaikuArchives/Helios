@@ -3,7 +3,6 @@
 
 #include <OS.h>
 
-static sem_id		streambuffer_sem;	// mutex for stream reader
-
+static sem_id streambuffer_sem; // mutex for stream reader
 
 #endif

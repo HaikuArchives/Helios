@@ -8,18 +8,18 @@
 #include <Application.h>
 #include <Button.h>
 
-
-class View2 : public BView {
+class View2 : public BView
+{
 public:
-	View2 ();
-	~View2 (void);
-
+	View2();
+	~View2(void);
 
 	virtual void AttachedToWindow(void);
-	BTextControl * textcontrol3;
+	BTextControl* textcontrol3;
+
 private:
-	BButton * button7;
-	BButton * button8;
+	BButton* button7;
+	BButton* button8;
 };
 
 #endif

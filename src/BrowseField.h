@@ -9,27 +9,29 @@
 #include <Entry.h>
 #include "FileDialog.h"
 
-class BrowseField : public BView {
+class BrowseField : public BView
+{
 public:
-	BrowseField(BRect frame, const char *name, uint32 resizingMode=B_FOLLOW_LEFT|B_FOLLOW_TOP, uint32 flags=B_WILL_DRAW);
+	BrowseField(BRect frame, const char* name, uint32 resizingMode = B_FOLLOW_LEFT | B_FOLLOW_TOP,
+				uint32 flags = B_WILL_DRAW);
 	~BrowseField();
 
-	void	Init(const char *title, const char *path=NULL, uint32 node_flavors=B_FILE_NODE);
-	
-	BButton	*GetButton();
-	BTextControl	*GetTextControl();
-	
+	void Init(const char* title, const char* path = NULL, uint32 node_flavors = B_FILE_NODE);
+
+	BButton* GetButton();
+	BTextControl* GetTextControl();
+
 protected:
-	virtual void	MessageReceived(BMessage *);
-	virtual void	AttachedToWindow();
-	
+	virtual void MessageReceived(BMessage*);
+	virtual void AttachedToWindow();
+
 private:
-	BTextControl	*fileTC;
-	BButton	*browseB;
-	
-	BString		fTitle;
-	BString		fPath;
-	uint32		fNodeFlavors;
+	BTextControl* fileTC;
+	BButton* browseB;
+
+	BString fTitle;
+	BString fPath;
+	uint32 fNodeFlavors;
 };
 
 #endif

@@ -9,38 +9,38 @@
 #include <TextView.h>
 #include <ScrollView.h>
 
-class AboutView : public BView {
+class AboutView : public BView
+{
 public:
-	AboutView(BRect frame, const char *name, BBitmap *icon);
+	AboutView(BRect frame, const char* name, BBitmap* icon);
 	~AboutView();
-	
-	virtual void 	Draw(BRect updateRect);
-	void			SetIcon(BBitmap *icon);
+
+	virtual void Draw(BRect updateRect);
+	void SetIcon(BBitmap* icon);
+
 private:
-	BBitmap	*bIcon;
+	BBitmap* bIcon;
 };
 
-class AboutWindow : public BWindow {
+class AboutWindow : public BWindow
+{
 public:
-	AboutWindow(BRect frame, const char *title);
+	AboutWindow(BRect frame, const char* title);
 	~AboutWindow();
-	
-	void SetApplicationName(const char *);
-	void SetVersionNumber(const char *);
-	void SetIcon(BBitmap *);
-	void SetCopyrightString(const char *);
-	void SetText(const char *);
-	
-	virtual bool QuitRequested();
-	
-private:
-	AboutView	*vAbout;
-	BStringView	*applicationNameSV,
-			*versionNumberSV,
-			*copyrightStringSV;
-	BTextView	*textTV;
-	BScrollView	*textSV;
-};
 
+	void SetApplicationName(const char*);
+	void SetVersionNumber(const char*);
+	void SetIcon(BBitmap*);
+	void SetCopyrightString(const char*);
+	void SetText(const char*);
+
+	virtual bool QuitRequested();
+
+private:
+	AboutView* vAbout;
+	BStringView* applicationNameSV, *versionNumberSV, *copyrightStringSV;
+	BTextView* textTV;
+	BScrollView* textSV;
+};
 
 #endif

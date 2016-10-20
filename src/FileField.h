@@ -3,19 +3,18 @@
 
 #include "ColumnTypes.h"
 
-
-class BFileField : public BStringField {
+class BFileField : public BStringField
+{
 public:
-				BFileField(const char* string, bool isFolder);
-							
-		bool		IsFolder();
-		void		SetFolder(bool);
-		bool		IsParentFolder();
-		void		SetParentFolder(bool);
-	
-	private:
-		bool	kIsFolder,
-			kIsParentFolder;
+	BFileField(const char* string, bool isFolder);
+
+	bool IsFolder();
+	void SetFolder(bool);
+	bool IsParentFolder();
+	void SetParentFolder(bool);
+
+private:
+	bool kIsFolder, kIsParentFolder;
 };
 
 #endif

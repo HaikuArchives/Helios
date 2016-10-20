@@ -3,18 +3,19 @@
 
 #include <View.h>
 
-class ConfigView : public BView {
+class ConfigView : public BView
+{
 public:
 	ConfigView(BRect frame);
 	~ConfigView();
-	
+
 	void Invalidate();
-	
-	virtual void MessageReceived(BMessage *);
-	
-	virtual void GetSettings(BMessage *);
-	virtual void SetSettings(BMessage *);
-	
+
+	virtual void MessageReceived(BMessage*);
+
+	virtual void GetSettings(BMessage*);
+	virtual void SetSettings(BMessage*);
+
 private:
 	void AttachedToWindow();
 };

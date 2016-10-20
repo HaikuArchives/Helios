@@ -3,7 +3,8 @@
 
 #include <ColumnListView.h>
 
-class HeliosColumn : public BColumn {
+class HeliosColumn : public BColumn
+{
 public:
 	HeliosColumn();
 	~HeliosColumn();

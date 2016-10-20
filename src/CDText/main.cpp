@@ -1,9 +1,9 @@
 #include "CDText.h"
 
+int main()
+{
 
-int main() {
-
-	CDTextFile *cdtext=new CDTextFile("/boot/home/cdtext.test", B_READ_WRITE  |  B_CREATE_FILE);
+	CDTextFile* cdtext = new CDTextFile("/boot/home/cdtext.test", B_READ_WRITE | B_CREATE_FILE);
 
 	cdtext->SetTracks(8);
 	cdtext->SetAlbum("STEREOPLAY SOUNDCHECK");
@@ -16,6 +16,6 @@ int main() {
 	cdtext->SetTrack(7, "ERIC BIBB:WORLD WAR BLUES");
 	cdtext->SetTrack(8, "SCOTT HOLT:DARK OF THE NIGHT");
 	cdtext->FlushAll();
-	delete cdtext;	
+	delete cdtext;
 	return 0;
 }

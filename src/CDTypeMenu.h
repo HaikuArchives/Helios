@@ -8,26 +8,23 @@
 #include <MenuField.h>
 #include "Defines.h"
 
-class CDTypeMenu : public BMenuField {
+class CDTypeMenu : public BMenuField
+{
 public:
-	CDTypeMenu(BRect frame, BMessage *msg);
+	CDTypeMenu(BRect frame, BMessage* msg);
 	~CDTypeMenu();
 
-	BPopUpMenu *GetMenu();
-	
+	BPopUpMenu* GetMenu();
+
 private:
-	BPopUpMenu	*CDTypeM;
-	BMenuItem	*audioCDTypeMI,
-			*dataCDTypeMI,
-			*extraCDTypeMI,
-			*bootableCDTypeMI;
-			
+	BPopUpMenu* CDTypeM;
+	BMenuItem* audioCDTypeMI, *dataCDTypeMI, *extraCDTypeMI, *bootableCDTypeMI;
+
 #ifdef INCLUDE_DVD
-	BMenuItem	*dvdvideoCDTypeMI;
+	BMenuItem* dvdvideoCDTypeMI;
 #endif
 
-	BMessage	*message;
+	BMessage* message;
 };
-
 
 #endif
