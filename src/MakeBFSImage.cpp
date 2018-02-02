@@ -2,14 +2,8 @@
 
 #include "MakeBFSImage.h"
 
-#if defined(_BEOS_R5_BUILD_) || defined(_BEOS_HAIKU_BUILD_)
-#include "MSHLanguageMgr.h"
-extern MSHLanguageMgr* gMSHLangMgr;
-#define _T(str) gMSHLangMgr->_T(str).String()
-#define _TPS(str) gMSHLangMgr->_T(str)
-#else
 #include <locale/Locale.h>
-#endif
+#include <locale/Catalog.h>
 
 #include <app/Roster.h>
 
@@ -18,6 +12,8 @@ extern MSHLanguageMgr* gMSHLangMgr;
 #include "ErrorBox.h"
 #include "FileUtils.h"
 #include "MString.h"
+
+#define B_TRANSLATION_CONTEXT "Make BFS"
 
 status_t MakeBFSImage(const char* filename)
 {
@@ -28,9 +24,9 @@ status_t MakeBFSImage(const char* filename)
 	{
 		//+MSH18/08/04: Feature currently enabled but with unmount issues unresolved!
 		ErrorBox* eb =
-			new ErrorBox(E_RED_COLOR, _T("Warning"),							 // "TWARNING"
-						 _T("BFS support is *experimental* - use at own risk!"), // "TBFSSUPPORT"
-						 _T("Ok"));												 // "TOK"
+			new ErrorBox(E_RED_COLOR, B_TRANSLATE("Warning"),							 // "TWARNING"
+						 B_TRANSLATE("BFS support is *experimental* - use at own risk!"), // "TBFSSUPPORT"
+						 B_TRANSLATE("Ok"));												 // "TOK"
 		eb->Go();
 	}
 
@@ -54,9 +50,9 @@ status_t MakeBFSImage(const char* filename)
 
 		const status_t resizeReturnValue = file->SetSize(imgsize);
 		if (resizeReturnValue == B_DEVICE_FULL) {
-			app->errtype = _T("Error"); // "TERROR"
+			app->errtype = B_TRANSLATE("Error"); // "TERROR"
 			app->errstring =
-				_T("No space left on target volume to create the image file!"); // "TNOSPACE"
+				B_TRANSLATE("No space left on target volume to create the image file!"); // "TNOSPACE"
 			file->Unset();
 			delete file;
 			file = NULL;
@@ -80,7 +76,7 @@ status_t MakeBFSImage(const char* filename)
 		// Locking check - sanity check really ;-)
 		// If this fails, then something still has a file ref to it.
 		if (file->Lock() != B_OK) {
-			app->errtype = _T("Error"); // "TERROR"
+			app->errtype = B_TRANSLATE("Error"); // "TERROR"
 			app->errstring = "Could not lock file!";
 			file->Unset();
 			delete file;
@@ -92,7 +88,7 @@ status_t MakeBFSImage(const char* filename)
 		{
 			printf("SIZE: imagesize is %lld bytes\n", imgsize);
 			BString tmpstring = "";
-			tmpstring << _T("Writing image file") << B_UTF8_ELLIPSIS; // "TCREATINGIMAGEFILE"
+			tmpstring << B_TRANSLATE("Writing image file") << B_UTF8_ELLIPSIS; // "TCREATINGIMAGEFILE"
 			app->ShowStatus(tmpstring.String(), 0);
 			app->SetStatusInfo("--- MB/s");
 		}
@@ -113,9 +109,9 @@ status_t MakeBFSImage(const char* filename)
 			if (app->fStatusWindow->interrupted) {
 				free(buffer);
 				delete watch;
-				app->errtype = _T("Error"); // "TERROR"
+				app->errtype = B_TRANSLATE("Error"); // "TERROR"
 				app->errstring =
-					_T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+					B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 				file->Unset();
 				delete file;
 				file = NULL;
@@ -191,14 +187,14 @@ status_t MakeBFSImage(const char* filename)
 	const thread_id mkbfsThread = load_image(arguments, args, (const char**)environ);
 	set_thread_priority(mkbfsThread, 20);
 	if (mkbfsThread < 0) {
-		app->errtype = _T("Error"); // "TERROR"
+		app->errtype = B_TRANSLATE("Error"); // "TERROR"
 #ifdef _BEOS_HAIKU_BUILD_
 		app->errstring = "mkfs\n\n";
 #else
 		app->errstring = "mkbfs\n\n";
 #endif
-		app->errstring << _T("Could not load this command line tool. Make sure it is in the ")
-						  _T("correct place."); // "TCOULDNOTLOAD"
+		app->errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the "
+						  "correct place."); // "TCOULDNOTLOAD"
 		free(args);
 		app->HideStatus();
 		return B_ERROR;
@@ -206,7 +202,7 @@ status_t MakeBFSImage(const char* filename)
 
 	{
 		BString tmpstring = "";
-		tmpstring << _T("Writing image file") << B_UTF8_ELLIPSIS; // "TCREATINGIMAGEFILE"
+		tmpstring << B_TRANSLATE("Writing image file") << B_UTF8_ELLIPSIS; // "TCREATINGIMAGEFILE"
 		app->SetStatus(tmpstring.String(), mkbfsThread);
 	}
 
@@ -217,9 +213,9 @@ status_t MakeBFSImage(const char* filename)
 
 	if (app->fStatusWindow->interrupted) {
 		free(args);
-		app->errtype = _T("Error"); // TERROR"
+		app->errtype = B_TRANSLATE("Error"); // TERROR"
 		app->errstring =
-			_T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+			B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 		app->HideStatus();
 		return B_ERROR;
 	}
@@ -244,10 +240,10 @@ status_t MakeBFSImage(const char* filename)
 	printf("HELIOS: mounting %s\n", filename);
 	if (MountBFSImage(strdup(filename), strdup(app->pathCV->GetDefaultMountPoint())) < 0) {
 		UnmountBFSImage(strdup(app->pathCV->GetDefaultMountPoint()));
-		app->errtype = _T("Error"); // "TERROR"
+		app->errtype = B_TRANSLATE("Error"); // "TERROR"
 		app->errstring = filename;
 		app->errstring << "\n\n"
-					   << _T("Could not mount the file system."); // "TMOUNTERROR"
+					   << B_TRANSLATE("Could not mount the file system."); // "TMOUNTERROR"
 		app->HideStatus();
 		free(args);
 		return B_ERROR;
@@ -291,10 +287,10 @@ status_t MakeBFSImage(const char* filename)
 		set_thread_priority(copyThread, 12);
 		if (copyThread < 0) {
 			UnmountBFSImage(app->pathCV->GetDefaultMountPoint());
-			app->errtype = _T("Error"); // "TERROR"
+			app->errtype = B_TRANSLATE("Error"); // "TERROR"
 			app->errstring = "cp\n\n";
-			app->errstring << _T("Could not load this command line tool. Make sure it is in the ")
-							  _T("correct place."); // "TCOULDNOTLOAD"
+			app->errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the "
+							  "correct place."); // "TCOULDNOTLOAD"
 			free(args);
 			app->HideStatus();
 			return B_ERROR;
@@ -302,7 +298,7 @@ status_t MakeBFSImage(const char* filename)
 
 		{
 			BString tmpstring = "";
-			tmpstring << _T("Copying files") << B_UTF8_ELLIPSIS; // "TCOPYINGFILES"
+			tmpstring << B_TRANSLATE("Copying files") << B_UTF8_ELLIPSIS; // "TCOPYINGFILES"
 			app->SetStatus(tmpstring.String(), copyThread);
 		}
 
@@ -319,18 +315,18 @@ status_t MakeBFSImage(const char* filename)
 				free(args);
 				UnmountBFSImage(app->pathCV->GetDefaultMountPoint());
 				app->HideStatus();
-				app->errtype = _T("Time out!"); // "TTIMEOUT"
+				app->errtype = B_TRANSLATE("Time out!"); // "TTIMEOUT"
 				app->errstring =
-					_T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
+					B_TRANSLATE("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
 				return B_ERROR;
 			}
 			if (app->fStatusWindow->interrupted) {
 				free(args);
 				UnmountBFSImage(app->pathCV->GetDefaultMountPoint());
 				app->HideStatus();
-				app->errtype = _T("Error"); // "TERROR"
+				app->errtype = B_TRANSLATE("Error"); // "TERROR"
 				app->errstring =
-					_T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+					B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 				return B_ERROR;
 			}
 			app->SetPercentage((float)timeout * 100 /
@@ -344,9 +340,9 @@ status_t MakeBFSImage(const char* filename)
 				free(args);
 				UnmountBFSImage(app->pathCV->GetDefaultMountPoint());
 				app->HideStatus();
-				app->errtype = _T("Error"); // "TERROR"
+				app->errtype = B_TRANSLATE("Error"); // "TERROR"
 				app->errstring =
-					_T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+					B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 				return B_ERROR;
 			}
 		}
@@ -371,10 +367,10 @@ status_t MakeBFSImage(const char* filename)
 
 	// unmount image file
 	if (UnmountBFSImage(app->pathCV->GetDefaultMountPoint()) < 0) {
-		app->errtype = _T("Error"); // "TERROR"
+		app->errtype = B_TRANSLATE("Error"); // "TERROR"
 		app->errstring = app->pathCV->GetDefaultImageName();
 		app->errstring << "\n\n"
-					   << _T("Could not unmount the file system."); // "TUNMOUNTERROR"
+					   << B_TRANSLATE("Could not unmount the file system."); // "TUNMOUNTERROR"
 		app->HideStatus();
 		free(args);
 		return B_ERROR;

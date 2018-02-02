@@ -1,13 +1,7 @@
 #include <Application.h>
 
-#if defined(_BEOS_R5_BUILD_) || defined(_BEOS_HAIKU_BUILD_)
-#include "MSHLanguageMgr.h"
-extern MSHLanguageMgr* gMSHLangMgr;
-#define _T(str) gMSHLangMgr->_T(str).String()
-#define _TPS(str) gMSHLangMgr->_T(str)
-#else
 #include <locale/Locale.h>
-#endif
+#include <locale/Catalog.h>
 
 #include "Defines.h"
 #include "FolderRow.h"
@@ -20,26 +14,27 @@ extern MSHLanguageMgr* gMSHLangMgr;
 // extern SyslogProt	*SYSLOG;
 
 #define CUSTOM_FS_MIMSG 'BCP0'
+#define B_TRANSLATION_CONTEXT "Bootable CD"
 
 BootableCDPanel::BootableCDPanel(BRect frame)
 	: BView(frame, "DataCDPanel", B_FOLLOW_LEFT | B_FOLLOW_TOP, B_WILL_DRAW)
 {
 	filesystemPUM = new BPopUpMenu("");
 	filesystemMF =
-		new BMenuField(BRect(0, 0, 200, 21), "bcdp_filesystemMF", _T("Filesystem"), // "TFILESYSTEM"
+		new BMenuField(BRect(0, 0, 200, 21), "bcdp_filesystemMF", B_TRANSLATE("Filesystem"), // "TFILESYSTEM"
 					   filesystemPUM, false);
-	filesystemMF->SetDivider(StringWidth(_T("Filesystem")) + 10); // "TFILESYSTEM"
+	filesystemMF->SetDivider(StringWidth(B_TRANSLATE("Filesystem")) + 10); // "TFILESYSTEM"
 	AddChild(filesystemMF);
 
-	filesystemPUM->AddItem(new BMenuItem(_T("ISO9660"), NULL));		   // "MI:ISO9660"
-	filesystemPUM->AddItem(new BMenuItem(_T("ISO9660 long"), NULL));   // "MI:ISO9660 long"
-	filesystemPUM->AddItem(new BMenuItem(_T("MacOS hfs"), NULL));	  // "MI:MacOS hfs"
-	filesystemPUM->AddItem(new BMenuItem(_T("Unix RockRidge"), NULL)); // "MI:Unix RockRidge"
-	filesystemPUM->AddItem(new BMenuItem(_T("Windows Joliet"), NULL)); // "MI:Windows Joliet"
-	filesystemPUM->AddItem(new BMenuItem(_T("UDF"), NULL));			   // "MI:UDF"
+	filesystemPUM->AddItem(new BMenuItem(B_TRANSLATE("ISO9660"), NULL));		   // "MI:ISO9660"
+	filesystemPUM->AddItem(new BMenuItem(B_TRANSLATE("ISO9660 long"), NULL));   // "MI:ISO9660 long"
+	filesystemPUM->AddItem(new BMenuItem(B_TRANSLATE("MacOS hfs"), NULL));	  // "MI:MacOS hfs"
+	filesystemPUM->AddItem(new BMenuItem(B_TRANSLATE("Unix RockRidge"), NULL)); // "MI:Unix RockRidge"
+	filesystemPUM->AddItem(new BMenuItem(B_TRANSLATE("Windows Joliet"), NULL)); // "MI:Windows Joliet"
+	filesystemPUM->AddItem(new BMenuItem(B_TRANSLATE("UDF"), NULL));			   // "MI:UDF"
 	filesystemPUM->AddSeparatorItem();
 	BString tmpstring;
-	tmpstring << _T("Custom") << B_UTF8_ELLIPSIS; // "MI:Custom..."
+	tmpstring << B_TRANSLATE("Custom") << B_UTF8_ELLIPSIS; // "MI:Custom..."
 	filesystemPUM->AddItem((mi = new BMenuItem(tmpstring.String(), new BMessage(CUSTOM_FS_MIMSG))));
 
 	//	iso9660MI=new BMenuItem("ISO 9660", NULL);
@@ -56,19 +51,19 @@ BootableCDPanel::BootableCDPanel(BRect frame)
 	//	filesystemPUM->AddItem(jolietMI);
 
 	volumenameTC = new BTextControl(BRect(0, 0, 200, 21), "bcdp_volumenameTC",
-									_T("Volume name"), // "TVOLUMENAME"
-									_T("Untitled"),	// "TUNTITLED"
+									B_TRANSLATE("Volume name"), // "TVOLUMENAME"
+									B_TRANSLATE("Untitled"),	// "TUNTITLED"
 									new BMessage('mm05'));
 	volumenameTC->SetAlignment(B_ALIGN_LEFT, B_ALIGN_LEFT);
-	volumenameTC->SetDivider(StringWidth(_T("Volume name")) + 28); // "TVOLUMENAME"
+	volumenameTC->SetDivider(StringWidth(B_TRANSLATE("Volume name")) + 28); // "TVOLUMENAME"
 	volumenameTC->TextView()->SetMaxBytes(32);
 	volumenameTC->SetModificationMessage(new BMessage('mm05'));
 	volumenameTC->SetTarget(be_app_messenger);
 	AddChild(volumenameTC);
 	eltoritoimageTC = new BTextControl(BRect(0, 0, 200, 21), "bcdp_eltoritoimageTC",
-									   _T("Floppy image"), // "TELTORITOIMAGE"
+									   B_TRANSLATE("Floppy image"), // "TELTORITOIMAGE"
 									   "", NULL);
-	eltoritoimageTC->SetDivider(StringWidth(_T("Volume name")) + 28); // "TVOLUMENAME"
+	eltoritoimageTC->SetDivider(StringWidth(B_TRANSLATE("Volume name")) + 28); // "TVOLUMENAME"
 	AddChild(eltoritoimageTC);
 	SetViewColor((rgb_color){216, 216, 216, 255});
 }
@@ -83,7 +78,7 @@ BootableCDPanel::~BootableCDPanel()
 void BootableCDPanel::AllAttached()
 {
 	mi->SetTarget(this, Looper());
-	filesystemMF->SetDivider(StringWidth(_T("Volume name")) + 30); // "TVOLUMENAME"
+	filesystemMF->SetDivider(StringWidth(B_TRANSLATE("Volume name")) + 30); // "TVOLUMENAME"
 	filesystemMF->MoveTo(5, 2);
 	filesystemMF->ResizeTo(200, 22);
 	volumenameTC->MoveTo(5, 28);
@@ -132,14 +127,14 @@ BList* BootableCDPanel::GetFilesystem()
 	if (list->CountItems() == 1) {
 		if (((BString*)list->ItemAt(0))->Compare("BFS") == 0) {
 			ErrorBox* eb =
-				new ErrorBox(E_ORANGE_COLOR, _T("Note"), // "L:Note"
-							 _T("Bootable BFS discs are not supported by Helios. Please select ")
-							 _T("another file system."), // "Error:BootableBFS"
-							 _T("Ok"));					 // "TOK"
+				new ErrorBox(E_ORANGE_COLOR, B_TRANSLATE("Note"), // "L:Note"
+							 B_TRANSLATE("Bootable BFS discs are not supported by Helios. Please select "
+							 "another file system."), // "Error:BootableBFS"
+							 B_TRANSLATE("Ok"));					 // "TOK"
 			// { DEBUG
 			/*	char debug[512];
 				sprintf(debug, "Helios|BootableCDPanel::GetFilesystem()|%s",
-						_T("Bootable BFS discs are not supported by Helios. Please select another file system.")); // "Error:BootableBFS"
+						B_TRANSLATE("Bootable BFS discs are not supported by Helios. Please select another file system.")); // "Error:BootableBFS"
 				SYSLOG->SendSyslogMessage(1, 7, debug);
 			*/ // } DEBUG
 			eb->Go();
@@ -204,7 +199,7 @@ void BootableCDPanel::MessageReceived(BMessage* msg)
 			((Application1*)be_app)
 				->configW->SelectView(
 					((Application1*)be_app)
-						->configW->GetConfigIndex(_T("Filesystem"))); // "OLV_FILESYSTEM"
+						->configW->GetConfigIndex(B_TRANSLATE("Filesystem"))); // "OLV_FILESYSTEM"
 			((Application1*)be_app)->configW->Unlock();
 		}
 		break;
@@ -229,11 +224,11 @@ void BootableCDPanel::MessageReceived(BMessage* msg)
 			// wrong size?
 			if ((filesize != 1440 * 1024) && (filesize != 2880 * 1024) &&
 				(filesize != 1200 * 1024)) {
-				ErrorBox* eb = new ErrorBox(E_RED_COLOR, _T("Error"), // "TERROR"
-											_T("The selected floppy image file has an unsupported ")
-											_T("length. Valid floppy image sizes are 1200kB, ")
-											_T("1440kB and 2880kB."), // "Error:Wrong Image Length"
-											_T("Ok"));				  // "TOK"
+				ErrorBox* eb = new ErrorBox(E_RED_COLOR, B_TRANSLATE("Error"), // "TERROR"
+											B_TRANSLATE("The selected floppy image file has an unsupported "
+											"length. Valid floppy image sizes are 1200kB, "
+											"1440kB and 2880kB."), // "Error:Wrong Image Length"
+											B_TRANSLATE("Ok"));				  // "TOK"
 				eb->Go();
 				break;
 			}

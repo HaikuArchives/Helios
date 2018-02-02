@@ -1,11 +1,5 @@
-#if defined(_BEOS_R5_BUILD_) || defined(_BEOS_HAIKU_BUILD_)
-#include "MSHLanguageMgr.h"
-extern MSHLanguageMgr* gMSHLangMgr;
-#define _T(str) gMSHLangMgr->_T(str).String()
-#define _TPS(str) gMSHLangMgr->_T(str)
-#else
 #include <locale/Locale.h>
-#endif
+#include <locale/Catalog.h>
 
 #include "Application1.h"
 #include "ConfigFields.h"
@@ -14,6 +8,8 @@ extern MSHLanguageMgr* gMSHLangMgr;
 #include "MKISOFSCmdLine.h"
 
 // extern SyslogProt	*SYSLOG;
+
+#define B_TRANSLATION_CONTEXT "mkisofs"
 
 status_t MKISOFS_CommandLine(const char** argv, int* argc, bool printsize, const char* outputFile)
 {
@@ -86,19 +82,19 @@ status_t MKISOFS_CommandLine(const char** argv, int* argc, bool printsize, const
 			// ask whether this session should be the first, last or another
 			// session of the disc
 			ErrorBox* alert =
-				new ErrorBox(E_ORANGE_COLOR, "", _T("Is this session going to be the first, the ")
-												 _T("last or another session of a multisession ")
-												 _T("disc?"), // "MULTISESSION_ALERT"
-							 _T("another"),					  // "MULTISESSION_ALERT_B0"
-							 _T("last"),					  // "MULTISESSION_ALERT_B1"
-							 _T("first"));					  // "MULTISESSION_ALERT_B2"
+				new ErrorBox(E_ORANGE_COLOR, "", B_TRANSLATE("Is this session going to be the first, the "
+												 "last or another session of a multisession "
+												 "disc?"), // "MULTISESSION_ALERT"
+							 B_TRANSLATE("another"),					  // "MULTISESSION_ALERT_B0"
+							 B_TRANSLATE("last"),					  // "MULTISESSION_ALERT_B1"
+							 B_TRANSLATE("first"));					  // "MULTISESSION_ALERT_B2"
 			int selected = alert->Go();
 
 			if (selected != 2)
 				if (app->GetMultisessionSectors(start_sec, end_sec) != B_OK) {
-					app->errtype = _T("Error"); // "TERROR"
+					app->errtype = B_TRANSLATE("Error"); // "TERROR"
 					app->errstring =
-						_T("Could not read inserted multisession disc!"); // "MULTISESSION_FAILS_ALERT"
+						B_TRANSLATE("Could not read inserted multisession disc!"); // "MULTISESSION_FAILS_ALERT"
 					return B_ERROR;
 				}
 			BString text = "";
@@ -194,8 +190,8 @@ status_t MKISOFS_CommandLine(const char** argv, int* argc, bool printsize, const
 		if (!printsize) {
 			//				argv[(*argc)++] = strdup("-C");
 			//				if (app->GetMultisessionSectors(start_sec, end_sec)!=B_OK) {
-			//					app->errtype=_T("Error"); // "TERROR"
-			//					app->errstring=_T("Could not read inserted multisession disc!"); //
+			//					app->errtype=B_TRANSLATE("Error"); // "TERROR"
+			//					app->errstring=B_TRANSLATE("Could not read inserted multisession disc!"); //
 			//"MULTISESSION_FAILS_ALERT"
 			//					return B_ERROR;
 			//				}

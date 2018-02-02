@@ -1,11 +1,5 @@
-#if defined(_BEOS_R5_BUILD_) || defined(_BEOS_HAIKU_BUILD_)
-#include "MSHLanguageMgr.h"
-extern MSHLanguageMgr* gMSHLangMgr;
-#define _T(str) gMSHLangMgr->_T(str).String()
-#define _TPS(str) gMSHLangMgr->_T(str)
-#else
+#include <locale/Catalog.h>
 #include <locale/Locale.h>
-#endif
 
 #include <app/Roster.h>
 #include <AppFileInfo.h>
@@ -54,6 +48,8 @@ extern MSHLanguageMgr* gMSHLangMgr;
 #endif
 #endif
 
+#define B_TRANSLATION_CONTEXT "Main app"
+
 sem_id quitandsave_sem;
 
 int32 QuitAndSaveThread(void* data)
@@ -78,15 +74,15 @@ void Application1::AboutRequested(void)
 			aboutW->SetIcon(&bmp);
 		}
 	}
-	aboutW->SetApplicationName(_T("Helios")); // "ABOUT_APPLICATIONNAME"
+	aboutW->SetApplicationName(B_TRANSLATE("Helios")); // "ABOUT_APPLICATIONNAME"
 	aboutW->SetVersionNumber(APP_VERSION);	// "ABOUT_VERSIONNUMBER"
-	BString copyrightStr(_T("Copyright"));	// "ABOUT_COPYRIGHTSTRING"
+	BString copyrightStr(B_TRANSLATE("Copyright"));	// "ABOUT_COPYRIGHTSTRING"
 	copyrightStr += " ";					  // Initial space - please leave.
 	copyrightStr += "Maurice Michalski, Mark Hogben";
 	aboutW->SetCopyrightString(copyrightStr.String());
 
 	BString aboutTextStr =
-		_T("Helios is freeware. Many thanks to (in alphabetical order):"); // "ABOUT_TEXT"
+		B_TRANSLATE("Helios is freeware. Many thanks to (in alphabetical order):"); // "ABOUT_TEXT"
 	aboutTextStr += " "; // Initial space - please leave.
 	aboutTextStr += "Bruno G. Albuquerque, Stephan Aßmus, Rémy Hessels, ";
 	aboutTextStr += "Philippe Houdoin, Cedric Maison, Atilla Ötztürk, ";
@@ -111,25 +107,25 @@ void Application1::SetHelpBubbles()
 {
 	//	extern BubbleHelper *HLP;
 
-	//	HLP->SetHelp(window1->view1->FindView("bar_newproject"), 	_T("New project")); // "TIP:B:New
+	//	HLP->SetHelp(window1->view1->FindView("bar_newproject"), 	B_TRANSLATE("New project")); // "TIP:B:New
 	//Project"
-	//	HLP->SetHelp(window1->view1->FindView("bar_openproject"), 	_T("Open project")); //
+	//	HLP->SetHelp(window1->view1->FindView("bar_openproject"), 	B_TRANSLATE("Open project")); //
 	//"TIP:B:Open Project"
-	//	HLP->SetHelp(window1->view1->FindView("bar_saveproject"), 	_T("Save project")); //
+	//	HLP->SetHelp(window1->view1->FindView("bar_saveproject"), 	B_TRANSLATE("Save project")); //
 	//"TIP:B:Save Project"
-	//	HLP->SetHelp(window1->view1->FindView("bar_preferences"), 	_T("Preferences")); //
+	//	HLP->SetHelp(window1->view1->FindView("bar_preferences"), 	B_TRANSLATE("Preferences")); //
 	//"TIP:B:Preferences"
-	//	HLP->SetHelp(window1->view1->FindView("bar_burnnow"),		_T("Burn!")); // "TIP:B:Burn
+	//	HLP->SetHelp(window1->view1->FindView("bar_burnnow"),		B_TRANSLATE("Burn!")); // "TIP:B:Burn
 	//Disc"
-	//	HLP->SetHelp(window1->view1->FindView("bar_newfolder"), 	_T("New folder")); // "TIP:B:New
+	//	HLP->SetHelp(window1->view1->FindView("bar_newfolder"), 	B_TRANSLATE("New folder")); // "TIP:B:New
 	//Folder"
-	//	HLP->SetHelp(window1->view1->FindView("bar_deleteitem"), 	_T("Delete selected item")); //
+	//	HLP->SetHelp(window1->view1->FindView("bar_deleteitem"), 	B_TRANSLATE("Delete selected item")); //
 	//"TIP:B:Delete Item"
-	//	HLP->SetHelp(window1->view1->FindView("bar_path"), 			_T("Current path")); //
+	//	HLP->SetHelp(window1->view1->FindView("bar_path"), 			B_TRANSLATE("Current path")); //
 	//"TIP:TC:Current Virtual Path"
-	//	HLP->SetHelp(window1->view1->FindView("bar_parent"), 		_T("Parent folder")); //
+	//	HLP->SetHelp(window1->view1->FindView("bar_parent"), 		B_TRANSLATE("Parent folder")); //
 	//"TIP:B:Parent Folder"
-	//	HLP->SetHelp(window1->view1->FindView("bar_update"), 		_T("Refresh")); //
+	//	HLP->SetHelp(window1->view1->FindView("bar_update"), 		B_TRANSLATE("Refresh")); //
 	//"TIP:B:Refresh"
 	//	HLP->EnableHelp();
 }
@@ -169,40 +165,40 @@ Application1::Application1() : BApplication("application/x-HeliosBurner.applicat
 
 	window1 = new Window1();
 	window2 = new Window2();
-	configW = new ConfigWindow(_T("Settings")); // "TSETTINGSWINDOWTITLE"
+	configW = new ConfigWindow(B_TRANSLATE("Settings")); // "TSETTINGSWINDOWTITLE"
 
 	BRect windowRect = configW->GetConfigViewFrame();
 	BRect windowSizeRect(0, 0, windowRect.Width(), windowRect.Height());
 
 	audioW = NULL;
-	configW->AddTopic(_T("Burning")); // "OLV_GENERALOPTIONS"
-	configW->AddConfigView(_T("Cdrecord switches"),
+	configW->AddTopic(B_TRANSLATE("Burning")); // "OLV_GENERALOPTIONS"
+	configW->AddConfigView(B_TRANSLATE("Cdrecord switches"),
 						   (heliosCV = new HeliosConfigView(windowSizeRect))); // "OLV_RECORDING"
-	configW->AddConfigView(_T("Devices"),
+	configW->AddConfigView(B_TRANSLATE("Devices"),
 						   (deviceCV = new DeviceConfigView(windowSizeRect))); // "OLV_DEVICES"
-	configW->AddConfigView(_T("Files & Folders"),
+	configW->AddConfigView(B_TRANSLATE("Files & Folders"),
 						   (pathCV = new PathConfigView(windowSizeRect))); // "OLV_FILESANDFOLDERS"
-	configW->AddConfigView(_T("Images"),
+	configW->AddConfigView(B_TRANSLATE("Images"),
 						   (imageCV = new ImageConfigView(windowSizeRect))); // "OLV_IMAGES"
-	configW->AddConfigView(_T("Filesystem"),
+	configW->AddConfigView(B_TRANSLATE("Filesystem"),
 						   (fspanelCV = new FSPanel(windowSizeRect))); // "OLV_FILESYSTEM"
-	configW->AddTopic(_T("Project"));								   // "OLV_PROJECTOPTIONS"
-	configW->AddConfigView(_T("New project"), (standardCV = new StandardConfigView(
+	configW->AddTopic(B_TRANSLATE("Project"));								   // "OLV_PROJECTOPTIONS"
+	configW->AddConfigView(B_TRANSLATE("New project"), (standardCV = new StandardConfigView(
 												   windowSizeRect))); // "OLV_NEWPROJECT"
-	configW->AddTopic(_T("Application"));							  // "OLV_APPLICATIONOPTIONS"
-	configW->AddConfigView(_T("Timeouts"), (applicationCV = new ApplicationConfigView(
+	configW->AddTopic(B_TRANSLATE("Application"));							  // "OLV_APPLICATIONOPTIONS"
+	configW->AddConfigView(B_TRANSLATE("Timeouts"), (applicationCV = new ApplicationConfigView(
 												windowSizeRect))); // "OLV_TIMEOUTS"
-	configW->AddConfigView(_T("Sounds"),
+	configW->AddConfigView(B_TRANSLATE("Sounds"),
 						   (soundCV = new SoundConfigView(windowSizeRect))); // "OLV_SOUND"
-	configW->AddConfigView(_T("General"),
+	configW->AddConfigView(B_TRANSLATE("General"),
 						   (saveCV = new SaveConfigView(windowSizeRect))); // "OLV_GENERAL"
-	configW->AddConfigView(_T("Colors"),
+	configW->AddConfigView(B_TRANSLATE("Colors"),
 						   (colorCV = new ColorConfigView(windowSizeRect))); // "OLV_COLORS"
 #if defined(_BEOS_R5_BUILD_) || defined(_BEOS_HAIKU_BUILD_)
 	langCV = new LanguageConfigView(windowSizeRect, currLangTag);
-	configW->AddConfigView(_T("Language"), langCV);
+	configW->AddConfigView(B_TRANSLATE("Language"), langCV);
 #endif
-	configW->AddConfigView(_T("Version info"),
+	configW->AddConfigView(B_TRANSLATE("Version info"),
 						   (versionCV = new VersionConfigView(windowSizeRect))); // "OLV_VERSION"
 	cdrecord_output = new ProtocolWindow(BRect(0, 0, 50, 50), "cdrecord", B_DOCUMENT_WINDOW, -1);
 	mkisofs_output = new ProtocolWindow(BRect(0, 0, 50, 50), "mkisofs", B_DOCUMENT_WINDOW, -1);
@@ -358,7 +354,7 @@ void Application1::ReadyToRun()
 			VersionControl::GetToolVersion(CM->GetString(PATH_TO_CDDA2WAV)->String()),
 			GetIcon(CM->GetString(PATH_TO_CDDA2WAV)->String()));
 
-		str = _T("Helios");		   // "ABOUT_APPLICATIONNAME"
+		str = B_TRANSLATE("Helios");		   // "ABOUT_APPLICATIONNAME"
 		str << " " << APP_VERSION; // "ABOUT_VERSIONNUMBER"
 		GetAppInfo(&ai);
 		versionCV->SetHeliosVersion(str.String(), GetIcon(&ai.ref));
@@ -408,8 +404,8 @@ bool Application1::QuitRequested(void)
 			if ((project_has_changed) && (IsProject(false))) {
 				ErrorBox* eb =
 					new ErrorBox(E_BLUE_COLOR, "",
-								 _T("Save changes of current project?"), // "TASKFORSAVINGCHANGES"
-								 _T("Yes"), _T("No"), _T("Cancel"));
+								 B_TRANSLATE("Save changes of current project?"), // "TASKFORSAVINGCHANGES"
+								 B_TRANSLATE("Yes"), B_TRANSLATE("No"), B_TRANSLATE("Cancel"));
 				eb->SetShortcut(2, B_ESCAPE);
 				switch (eb->Go()) {
 				case 0: {
@@ -519,7 +515,7 @@ void Application1::MessageReceived(BMessage* message)
 
 		if (error < 0) {
 			ErrorBox* eb =
-				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok")); // "TOK"
+				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), B_TRANSLATE("Ok")); // "TOK"
 			PlayErrorSound();
 			eb->Go();
 		}
@@ -528,7 +524,7 @@ void Application1::MessageReceived(BMessage* message)
 
 	case B_SILENT_RELAUNCH: {
 		if (window1->Lock()) {
-			window1->view1->statusBAR->SetText(_T("Helios can be launched only once."),
+			window1->view1->statusBAR->SetText(B_TRANSLATE("Helios can be launched only once."),
 											   4000000); // "L:Launch once"
 			window1->Unlock();
 		}
@@ -652,7 +648,7 @@ void Application1::MessageReceived(BMessage* message)
 			if (be_roster->Launch(&documentRef, 0, NULL, NULL) == B_OK | B_ALREADY_RUNNING) {
 				if (window1->Lock()) {
 					char text[200];
-					sprintf(text, "%s %s", cs->GetFilename(), _T("opened.")); // "L:opened."
+					sprintf(text, "%s %s", cs->GetFilename(), B_TRANSLATE("opened.")); // "L:opened."
 					window1->view1->statusBAR->SetText(text, 4000000);
 					window1->Unlock();
 				}
@@ -728,7 +724,7 @@ void Application1::MessageReceived(BMessage* message)
 	case UPDATEINFO_MSG: {
 		if (window1->Lock()) {
 			BString tmpstring;
-			tmpstring << _T("Updating") << B_UTF8_ELLIPSIS; // "L:Updating..."
+			tmpstring << B_TRANSLATE("Updating") << B_UTF8_ELLIPSIS; // "L:Updating..."
 			window1->view1->statusBAR->SetText(tmpstring.String(), 0);
 			window1->Unlock();
 		}
@@ -740,7 +736,7 @@ void Application1::MessageReceived(BMessage* message)
 		window1->view1->box2->Refresh();
 		ShowFolder();
 		if (window1->Lock()) {
-			window1->view1->statusBAR->SetText(_T("Updated."), 4000000); // "L:Updated."
+			window1->view1->statusBAR->SetText(B_TRANSLATE("Updated."), 4000000); // "L:Updated."
 			window1->Unlock();
 		}
 		break;
@@ -754,11 +750,11 @@ void Application1::MessageReceived(BMessage* message)
 
 		if (!CheckCDSize()) {
 			ErrorBox* alert = new ErrorBox(
-				E_BLUE_COLOR, _T("Error"), // "TERROR"
-				_T("The project data size is greater than the maximum size of a CD. Remove some ")
-				_T("files or select 'Overburning' in the preferences panel."), // "TOVERSIZED"
-				_T("Ok"),													   // "TOK"
-				_T("Ignore"));												   // "TIGNORE"
+				E_BLUE_COLOR, B_TRANSLATE("Error"), // "TERROR"
+				B_TRANSLATE("The project data size is greater than the maximum size of a CD. Remove some "
+				"files or select 'Overburning' in the preferences panel."), // "TOVERSIZED"
+				B_TRANSLATE("Ok"),													   // "TOK"
+				B_TRANSLATE("Ignore"));												   // "TIGNORE"
 			PlayErrorSound();
 			if (alert->Go() == 0) {
 				break;
@@ -767,9 +763,9 @@ void Application1::MessageReceived(BMessage* message)
 
 		fStatusWindow->Lock();
 		if (heliosCV->IsSimulation()) {
-			fStatusWindow->SetTitle(_T("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
+			fStatusWindow->SetTitle(B_TRANSLATE("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
 		} else {
-			fStatusWindow->SetTitle(_T("Helios")); // "TSTATUSWINDOWTITLE"
+			fStatusWindow->SetTitle(B_TRANSLATE("Helios")); // "TSTATUSWINDOWTITLE"
 		}
 		fStatusWindow->Unlock();
 
@@ -819,13 +815,13 @@ void Application1::MessageReceived(BMessage* message)
 			PlayFinishedBurningSound();
 		} else {
 			ErrorBox* eb =
-				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok"));
+				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), B_TRANSLATE("Ok"));
 			PlayErrorSound();
 			eb->Go();
 		}
 
 		fStatusWindow->Lock();
-		fStatusWindow->SetTitle(_T("Helios")); // "TSTATUSWINDOWTITLE"
+		fStatusWindow->SetTitle(B_TRANSLATE("Helios")); // "TSTATUSWINDOWTITLE"
 		fStatusWindow->Unlock();
 		break;
 	}
@@ -840,8 +836,8 @@ void Application1::MessageReceived(BMessage* message)
 		if (selected == NULL) break;
 		window2->Lock();
 		window2->todo = 1;
-		window2->SetTitle(_T("Rename"));						 // "TRENAMEITEM"
-		window2->view2->textcontrol3->SetLabel(_T("New name:")); // "TNEWNAME"
+		window2->SetTitle(B_TRANSLATE("Rename"));						 // "TRENAMEITEM"
+		window2->view2->textcontrol3->SetLabel(B_TRANSLATE("New name:")); // "TNEWNAME"
 		window2->view2->textcontrol3->SetText(selected->GetFilename());
 		window2->Unlock();
 		window2->Show();
@@ -851,8 +847,8 @@ void Application1::MessageReceived(BMessage* message)
 	case SETCDTEXTTITLE_MSG: {
 		window2->Lock();
 		window2->todo = 5;
-		window2->SetTitle(_T("CD text title"));				  // "TCDTEXTTITLE"
-		window2->view2->textcontrol3->SetLabel(_T("Title:")); // "T___CDTEXTTITLE"
+		window2->SetTitle(B_TRANSLATE("CD text title"));				  // "TCDTEXTTITLE"
+		window2->view2->textcontrol3->SetLabel(B_TRANSLATE("Title:")); // "T___CDTEXTTITLE"
 		AudioRow* selected = (AudioRow*)(window1->view1->listview1->CurrentSelection());
 		window2->view2->textcontrol3->SetText(selected->GetCDTitle());
 		window2->Unlock();
@@ -1001,7 +997,7 @@ void Application1::MessageReceived(BMessage* message)
 		if (entry->InitCheck() == B_OK) {
 			if (window1->Lock()) {
 				BString tmpstring;
-				tmpstring << _T("Opening project") << B_UTF8_ELLIPSIS; // "L:Opening Project..."
+				tmpstring << B_TRANSLATE("Opening project") << B_UTF8_ELLIPSIS; // "L:Opening Project..."
 				window1->view1->statusBAR->SetText(tmpstring.String(), 0);
 				window1->Unlock();
 			}
@@ -1009,14 +1005,14 @@ void Application1::MessageReceived(BMessage* message)
 			LoadProject(entry);
 			ShowFolder();
 			if (window1->Lock()) {
-				window1->view1->statusBAR->SetText(_T("Project opened."),
+				window1->view1->statusBAR->SetText(B_TRANSLATE("Project opened."),
 												   4000000); // "L:Project opened."
 				window1->Unlock();
 			}
 			save_and_quit = false;
 		} else {
 			if (window1->Lock()) {
-				window1->view1->statusBAR->SetText(_T("Operation cancelled."),
+				window1->view1->statusBAR->SetText(B_TRANSLATE("Operation cancelled."),
 												   4000000); // "L:Operation cancelled."
 				window1->Unlock();
 			}
@@ -1040,7 +1036,7 @@ void Application1::MessageReceived(BMessage* message)
 		if (entry->InitCheck() == B_OK) {
 			if (window1->Lock()) {
 				BString tmpstring;
-				tmpstring << _T("Saving project") << B_UTF8_ELLIPSIS; // "L:Saving Project..."
+				tmpstring << B_TRANSLATE("Saving project") << B_UTF8_ELLIPSIS; // "L:Saving Project..."
 				window1->view1->statusBAR->SetText(tmpstring.String(), 0);
 				window1->Unlock();
 			}
@@ -1050,17 +1046,17 @@ void Application1::MessageReceived(BMessage* message)
 					base_folder.String());
 			if (window1->Lock()) {
 				BString tmpstring;
-				tmpstring << _T("Copying files") << B_UTF8_ELLIPSIS; // "TCOPYINGFILES"
+				tmpstring << B_TRANSLATE("Copying files") << B_UTF8_ELLIPSIS; // "TCOPYINGFILES"
 				window1->view1->statusBAR->SetText(tmpstring.String(), 0);
 				window1->Unlock();
 			}
 			system(cmdline);
 			// printf("new path=%s\n", base_folder.String());
 
-			sprintf(statustext, _T("Project saved.")); // "L:Project saved."
+			sprintf(statustext, B_TRANSLATE("Project saved.")); // "L:Project saved."
 			save_and_quit = false;
 		} else {
-			sprintf(statustext, _T("Operation cancelled.")); // "L:Operation cancelled."
+			sprintf(statustext, B_TRANSLATE("Operation cancelled.")); // "L:Operation cancelled."
 		}
 
 		entry->Unset();
@@ -1086,13 +1082,13 @@ void Application1::MessageReceived(BMessage* message)
 		printf("cp=%s\n", currentproject.String());
 
 		ErrorBox* eb =
-			new ErrorBox(E_BLUE_COLOR, "", _T("This will erase the project file and all of the ")
-										   _T("links and folders the project contains. Select ")
-										   _T("'Move to Trash' if you are not certain. What shall ")
-										   _T("happen with your project files?"), // "TAREYOUSURE"
-						 _T("Cancel"),											  // "TCANCEL"
-						 _T("To trash"),										  // "TMOVETOTRASH"
-						 _T("Erase"));											  // "TERASE"
+			new ErrorBox(E_BLUE_COLOR, "", B_TRANSLATE("This will erase the project file and all of the "
+										   "links and folders the project contains. Select "
+										   "'Move to Trash' if you are not certain. What shall "
+										   "happen with your project files?"), // "TAREYOUSURE"
+						 B_TRANSLATE("Cancel"),											  // "TCANCEL"
+						 B_TRANSLATE("To trash"),										  // "TMOVETOTRASH"
+						 B_TRANSLATE("Erase"));											  // "TERASE"
 		switch (eb->Go()) {
 		case 2: {
 			{
@@ -1108,7 +1104,7 @@ void Application1::MessageReceived(BMessage* message)
 			base_folder = "";
 			current_folder = "";
 			ShowFolder();
-			window1->SetTitle(_T("Helios")); // "TWINDOWTITLE"
+			window1->SetTitle(B_TRANSLATE("Helios")); // "TWINDOWTITLE"
 			PostMessage(NEWPROJECT_MIMSG);
 			ShowRecentProjects();
 			break;
@@ -1118,12 +1114,12 @@ void Application1::MessageReceived(BMessage* message)
 			// first, find the trash directory of this volume
 			char path_buffer[B_FILE_NAME_LENGTH];
 #if !defined(_BEOS_R5_BUILD_) && !defined(_BEOS_HAIKU_BUILD_)
-			if (find_directory(B_TRASH_DIRECTORY, dev_for_path(currentproject.String()), true,
+			if (find_directory(BB_TRANSLATERASH_DIRECTORY, dev_for_path(currentproject.String()), true,
 							   path_buffer, B_FILE_NAME_LENGTH) != B_OK) {
 				ErrorBox* eb = new ErrorBox(
-					E_RED_COLOR, _T("Error"),							// "TERROR"
-					_T("Could not move the project files into trash."), // "Error:Removing Project"
-					_T("Ok"));											// "TOK"
+					E_RED_COLOR, B_TRANSLATE("Error"),							// "TERROR"
+					B_TRANSLATE("Could not move the project files into trash."), // "Error:Removing Project"
+					B_TRANSLATE("Ok"));											// "TOK"
 				eb->Go();
 				break;
 			}
@@ -1136,7 +1132,7 @@ void Application1::MessageReceived(BMessage* message)
 			base_folder = "";
 			current_folder = "";
 			ShowFolder();
-			window1->SetTitle(_T("Helios")); // "TWINDOWTITLE"
+			window1->SetTitle(B_TRANSLATE("Helios")); // "TWINDOWTITLE"
 			PostMessage(NEWPROJECT_MIMSG);
 			ShowRecentProjects();
 			break;
@@ -1160,7 +1156,7 @@ void Application1::MessageReceived(BMessage* message)
 
 		if (window1->Lock()) {
 			BString tmpstring;
-			tmpstring << _T("Opening project") << B_UTF8_ELLIPSIS; // "L:Opening Project..."
+			tmpstring << B_TRANSLATE("Opening project") << B_UTF8_ELLIPSIS; // "L:Opening Project..."
 			window1->view1->statusBAR->SetText(tmpstring.String(), 0);
 			window1->Unlock();
 		}
@@ -1171,7 +1167,7 @@ void Application1::MessageReceived(BMessage* message)
 		entry->Unset();
 		delete entry;
 		if (window1->Lock()) {
-			window1->view1->statusBAR->SetText(_T("Project opened."),
+			window1->view1->statusBAR->SetText(B_TRANSLATE("Project opened."),
 											   4000000); // "L:Project opened."
 			window1->Unlock();
 		}
@@ -1222,15 +1218,15 @@ void Application1::MessageReceived(BMessage* message)
 		if (entry->InitCheck() == B_OK) {
 			if (window1->Lock()) {
 				BString tmpstring;
-				tmpstring << _T("Saving project") << B_UTF8_ELLIPSIS; // "L:Saving Project..."
+				tmpstring << B_TRANSLATE("Saving project") << B_UTF8_ELLIPSIS; // "L:Saving Project..."
 				window1->view1->statusBAR->SetText(tmpstring.String(), 0);
 				window1->Unlock();
 			}
 			SaveProject(entry);
-			sprintf(statustext, _T("Project saved.")); // "L:Project saved."
+			sprintf(statustext, B_TRANSLATE("Project saved.")); // "L:Project saved."
 			save_and_quit = false;
 		} else {
-			sprintf(statustext, _T("Operation canceled.")); // "L:Operation cancelled."
+			sprintf(statustext, B_TRANSLATE("Operation canceled.")); // "L:Operation cancelled."
 		}
 
 		entry->Unset();
@@ -1253,7 +1249,7 @@ void Application1::MessageReceived(BMessage* message)
 			PlayFinishedBurningSound();
 		else {
 			ErrorBox* eb =
-				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok"));
+				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), B_TRANSLATE("Ok"));
 			PlayErrorSound();
 			eb->Go();
 		}
@@ -1265,7 +1261,7 @@ void Application1::MessageReceived(BMessage* message)
 			PlayFinishedBurningSound();
 		else {
 			ErrorBox* eb =
-				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok"));
+				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), B_TRANSLATE("Ok"));
 			PlayErrorSound();
 			eb->Go();
 		}
@@ -1277,7 +1273,7 @@ void Application1::MessageReceived(BMessage* message)
 			PlayFinishedBurningSound();
 		else {
 			ErrorBox* eb =
-				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok"));
+				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), B_TRANSLATE("Ok"));
 			PlayErrorSound();
 			eb->Go();
 		}
@@ -1289,7 +1285,7 @@ void Application1::MessageReceived(BMessage* message)
 			PlayFinishedBurningSound();
 		else {
 			ErrorBox* eb =
-				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok"));
+				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), B_TRANSLATE("Ok"));
 			PlayErrorSound();
 			eb->Go();
 		}
@@ -1303,25 +1299,25 @@ void Application1::MessageReceived(BMessage* message)
 		sprintf(name, "%s.m3u", SuggestProjectName());
 
 		BEntry* entry =
-			FileDialog::SaveDialog(_T("Export"), pathCV->GetProjectPath(), name); // "FP:Export"
+			FileDialog::SaveDialog(B_TRANSLATE("Export"), pathCV->GetProjectPath(), name); // "FP:Export"
 
 		if (entry->InitCheck() == B_OK) {
 			if (window1->Lock()) {
 				BString tmpstring;
-				tmpstring << _T("Exporting project") << B_UTF8_ELLIPSIS; // "L:Exporting project..."
+				tmpstring << B_TRANSLATE("Exporting project") << B_UTF8_ELLIPSIS; // "L:Exporting project..."
 				window1->view1->statusBAR->SetText(tmpstring.String(), 0);
 				window1->Unlock();
 			}
 			ExportAsM3U(entry);
 			if (window1->Lock()) {
-				window1->view1->statusBAR->SetText(_T("Project exported."),
+				window1->view1->statusBAR->SetText(B_TRANSLATE("Project exported."),
 												   4000000); // "L:Project exported."
 				window1->Unlock();
 			}
 			entry->Unset();
 		} else {
 			if (window1->Lock()) {
-				window1->view1->statusBAR->SetText(_T("Operation canceled."),
+				window1->view1->statusBAR->SetText(B_TRANSLATE("Operation canceled."),
 												   4000000); // "L:Operation cancelled."
 				window1->Unlock();
 			}
@@ -1337,25 +1333,25 @@ void Application1::MessageReceived(BMessage* message)
 		sprintf(name, "%s.apml", SuggestProjectName());
 
 		BEntry* entry =
-			FileDialog::SaveDialog(_T("Export"), pathCV->GetProjectPath(), name); // "FP:Export"
+			FileDialog::SaveDialog(B_TRANSLATE("Export"), pathCV->GetProjectPath(), name); // "FP:Export"
 
 		if (entry->InitCheck() == B_OK) {
 			if (window1->Lock()) {
 				BString tmpstring;
-				tmpstring << _T("Exporting project") << B_UTF8_ELLIPSIS; // "L:Exporting project..."
+				tmpstring << B_TRANSLATE("Exporting project") << B_UTF8_ELLIPSIS; // "L:Exporting project..."
 				window1->view1->statusBAR->SetText(tmpstring.String(), 0);
 				window1->Unlock();
 			}
 			ExportAsAPML(entry);
 			if (window1->Lock()) {
-				window1->view1->statusBAR->SetText(_T("Project exported."),
+				window1->view1->statusBAR->SetText(B_TRANSLATE("Project exported."),
 												   4000000); // "L:Project exported."
 				window1->Unlock();
 			}
 			entry->Unset();
 		} else {
 			if (window1->Lock()) {
-				window1->view1->statusBAR->SetText(_T("Operation canceled."),
+				window1->view1->statusBAR->SetText(B_TRANSLATE("Operation canceled."),
 												   4000000); // "L:Operation cancelled."
 				window1->Unlock();
 			}
@@ -1370,25 +1366,25 @@ void Application1::MessageReceived(BMessage* message)
 		char name[1024];
 		sprintf(name, "%s.txt", SuggestProjectName());
 
-		BEntry* entry = FileDialog::SaveDialog(_T("FP:Export"), pathCV->GetProjectPath(), name);
+		BEntry* entry = FileDialog::SaveDialog(B_TRANSLATE("FP:Export"), pathCV->GetProjectPath(), name);
 
 		if (entry->InitCheck() == B_OK) {
 			if (window1->Lock()) {
 				BString tmpstring;
-				tmpstring << _T("Exporting project") << B_UTF8_ELLIPSIS; // "L:Exporting project..."
+				tmpstring << B_TRANSLATE("Exporting project") << B_UTF8_ELLIPSIS; // "L:Exporting project..."
 				window1->view1->statusBAR->SetText(tmpstring.String(), 0);
 				window1->Unlock();
 			}
 			ExportAsFileList(entry);
 			if (window1->Lock()) {
-				window1->view1->statusBAR->SetText(_T("Project exported."),
+				window1->view1->statusBAR->SetText(B_TRANSLATE("Project exported."),
 												   4000000); // "L:Project exported."
 				window1->Unlock();
 			}
 			entry->Unset();
 		} else {
 			if (window1->Lock()) {
-				window1->view1->statusBAR->SetText(_T("Operation canceled."),
+				window1->view1->statusBAR->SetText(B_TRANSLATE("Operation canceled."),
 												   4000000); // "L:Operation cancelled."
 				window1->Unlock();
 			}
@@ -1400,7 +1396,7 @@ void Application1::MessageReceived(BMessage* message)
 	case EXPORT_TRACKERTEMPLATE_MIMSG: {
 		if (!IsProject()) break;
 		BEntry* entry = FileDialog::SaveDialog(
-			_T("Export"), // "FP:Export"
+			B_TRANSLATE("Export"), // "FP:Export"
 			"/boot/home/config/settings/Tracker/Tracker New Templates", SuggestProjectName());
 		if (entry->InitCheck() == B_OK) {
 			SaveProject(entry, true);
@@ -1431,21 +1427,21 @@ void Application1::MessageReceived(BMessage* message)
 
 		if (!CheckCDSize()) {
 			ErrorBox* alert = new ErrorBox(
-				E_BLUE_COLOR, _T("Error"), // "TERROR"
-				_T("The project data size is greater than the maximum size of a CD. Remove some ")
-				_T("files or select 'Overburning' in the preferences panel."), // "TOVERSIZED"
-				_T("Ok"),													   // "TOK"
-				_T("Ignore"));												   // "TIGNORE"
+				E_BLUE_COLOR, B_TRANSLATE("Error"), // "TERROR"
+				B_TRANSLATE("The project data size is greater than the maximum size of a CD. Remove some "
+				"files or select 'Overburning' in the preferences panel."), // "TOVERSIZED"
+				B_TRANSLATE("Ok"),													   // "TOK"
+				B_TRANSLATE("Ignore"));												   // "TIGNORE"
 			PlayErrorSound();
 			if (alert->Go() == 0) break;
 		}
-		entry = FileDialog::OpenDialog(_T("Select image file")); // "FP:Select Image File"
+		entry = FileDialog::OpenDialog(B_TRANSLATE("Select image file")); // "FP:Select Image File"
 		entry->GetPath(&path);
 		if (!entry->Exists()) {
-			/*				ErrorBox *alert=new ErrorBox(E_BLUE_COLOR,	_T("Error"),// "TERROR"
-																		_T("File does not exist."),
+			/*				ErrorBox *alert=new ErrorBox(E_BLUE_COLOR,	B_TRANSLATE("Error"),// "TERROR"
+																		B_TRANSLATE("File does not exist."),
 			   // "TNOTEXIST_ALERT"
-																		_T("Ok")); // "TOK"
+																		B_TRANSLATE("Ok")); // "TOK"
 							PlayErrorSound();
 							//alert->SetShortcut(0,B_ENTER);
 							alert->Go();*/
@@ -1454,9 +1450,9 @@ void Application1::MessageReceived(BMessage* message)
 			if (error == B_OK) {
 				PlayFinishedBurningSound();
 				ErrorBox* alert = new ErrorBox(E_BLUE_COLOR, "",
-											   _T("Delete the image file?"), // "TDELETEIMAGEFILE"
-											   _T("No"),					 // "TNO"
-											   _T("Yes"));					 // "TYES"
+											   B_TRANSLATE("Delete the image file?"), // "TDELETEIMAGEFILE"
+											   B_TRANSLATE("No"),					 // "TNO"
+											   B_TRANSLATE("Yes"));					 // "TYES"
 				alert->SetShortcut(0, B_ESCAPE);
 				path.Unset();
 				if (alert->Go() == 1) {
@@ -1464,7 +1460,7 @@ void Application1::MessageReceived(BMessage* message)
 				}
 			} else {
 				ErrorBox* eb =
-					new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok"));
+					new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), B_TRANSLATE("Ok"));
 				PlayErrorSound();
 				eb->Go();
 			}
@@ -1479,7 +1475,7 @@ void Application1::MessageReceived(BMessage* message)
 		status_t error = B_OK;
 
 		BEntry* entry =
-			FileDialog::SaveDialog(_T("Enter new image file")); // "FP:Enter New Image File"
+			FileDialog::SaveDialog(B_TRANSLATE("Enter new image file")); // "FP:Enter New Image File"
 		if (entry->InitCheck() == B_OK) {
 			BPath path;
 			entry->GetPath(&path);
@@ -1493,7 +1489,7 @@ void Application1::MessageReceived(BMessage* message)
 				PlayFinishedImageSound();
 			} else {
 				ErrorBox* eb =
-					new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok"));
+					new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), B_TRANSLATE("Ok"));
 				PlayErrorSound();
 				eb->Go();
 			}
@@ -1504,7 +1500,7 @@ void Application1::MessageReceived(BMessage* message)
 	case READFLOPPYIMAGE_MIMSG: {
 		status_t error = B_OK;
 		BEntry* entry =
-			FileDialog::SaveDialog(_T("Enter new image file")); // "FP:Enter New Image File"
+			FileDialog::SaveDialog(B_TRANSLATE("Enter new image file")); // "FP:Enter New Image File"
 		if (entry->InitCheck() == B_OK) {
 			BPath path;
 			entry->GetPath(&path);
@@ -1518,7 +1514,7 @@ void Application1::MessageReceived(BMessage* message)
 				PlayFinishedImageSound();
 			} else {
 				ErrorBox* eb =
-					new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok"));
+					new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), B_TRANSLATE("Ok"));
 				PlayErrorSound();
 				eb->Go();
 			}
@@ -1537,7 +1533,7 @@ void Application1::MessageReceived(BMessage* message)
 			PlayFinishedImageSound();
 		} else {
 			ErrorBox* eb =
-				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok"));
+				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), B_TRANSLATE("Ok"));
 			PlayErrorSound();
 			eb->Go();
 		}
@@ -1557,7 +1553,7 @@ void Application1::MessageReceived(BMessage* message)
 			PlayFinishedImageSound();
 		} else {
 			ErrorBox* eb =
-				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok"));
+				new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), B_TRANSLATE("Ok"));
 			PlayErrorSound();
 			eb->Go();
 			break;
@@ -1571,7 +1567,7 @@ void Application1::MessageReceived(BMessage* message)
 		BEntry* entry;
 
 		if (!IsProject()) break;
-		entry = FileDialog::SaveDialog(_T("Enter new image file")); // "FP:Enter New Image File"
+		entry = FileDialog::SaveDialog(B_TRANSLATE("Enter new image file")); // "FP:Enter New Image File"
 		if (entry->InitCheck() == B_OK) {
 			BPath path;
 			entry->GetPath(&path);
@@ -1585,7 +1581,7 @@ void Application1::MessageReceived(BMessage* message)
 				PlayFinishedImageSound();
 			} else {
 				ErrorBox* eb =
-					new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), _T("Ok"));
+					new ErrorBox(E_RED_COLOR, errtype.String(), errstring.String(), B_TRANSLATE("Ok"));
 				PlayErrorSound();
 				eb->Go();
 			}
@@ -1604,8 +1600,8 @@ void Application1::MessageReceived(BMessage* message)
 		BString str = "";
 		window2->Lock();
 		window2->todo = 4;
-		window2->SetTitle(_T("Split title"));					 // "TSPLITTRACK"
-		window2->view2->textcontrol3->SetLabel(_T("Split at:")); // "TSPLITOFFSET"
+		window2->SetTitle(B_TRANSLATE("Split title"));					 // "TSPLITTRACK"
+		window2->view2->textcontrol3->SetLabel(B_TRANSLATE("Split at:")); // "TSPLITOFFSET"
 		AudioRow* selected = (AudioRow*)(window1->view1->listview1->CurrentSelection());
 		// display the half size of track as a suggestion for the split offset
 		str << selected->GetLength() / 2 << "s";
@@ -1938,10 +1934,10 @@ bool Application1::GetImageSize()
 	Thread = pipe_command(arguments, args, in, out, err);
 	set_thread_priority(Thread, 2);
 	if (Thread < 0) {
-		errtype = _T("Error"); // "TERROR"
+		errtype = B_TRANSLATE("Error"); // "TERROR"
 		errstring = "mkisofs\n\n";
-		errstring << _T("Could not load this command line tool. Make sure it is in the correct ")
-					 _T("place."); // "TCOULDNOTLOAD"
+		errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the correct "
+					 "place."); // "TCOULDNOTLOAD"
 		free(args);
 		HideStatus();
 		return B_ERROR;
@@ -2016,7 +2012,7 @@ status_t Application1::WaitForDisc(const char* device)
 	int timeout = applicationCV->GetTimeoutLength() * 10;
 
 	BString tmpstring;
-	tmpstring << _T("Waiting for disc") << B_UTF8_ELLIPSIS;
+	tmpstring << B_TRANSLATE("Waiting for disc") << B_UTF8_ELLIPSIS;
 	ShowStatus(tmpstring.String(), 0); // "TWAITINGFORDISC"
 	while (DeviceStatus(device) != E_NO_ERROR) {
 		snooze(100000);
@@ -2068,21 +2064,21 @@ void Application1::ReadOutputOfCdrecord(int outstream, thread_id thread, int tra
 
 			// Performing OPC...
 			if (strstr(buffer, "Performing OPC...")) {
-				tmpstring << _T("Adjusting laser power") << B_UTF8_ELLIPSIS; // "TPERFORMINGOPC"
+				tmpstring << B_TRANSLATE("Adjusting laser power") << B_UTF8_ELLIPSIS; // "TPERFORMINGOPC"
 				SetStatus(tmpstring.String(), -1);
 			}
 			// finished fixating...
 			if (strstr(buffer, "Fixating time:")) {
-				SetStatus(_T("Finished writing CD."), -1); // "TFINISHEDWRITING"
+				SetStatus(B_TRANSLATE("Finished writing CD."), -1); // "TFINISHEDWRITING"
 			}
 			// start burning...
 			if (strstr(buffer, "Starting new track")) {
-				tmpstring << _T("Burning CD") << B_UTF8_ELLIPSIS; // "TBURNING"
+				tmpstring << B_TRANSLATE("Burning CD") << B_UTF8_ELLIPSIS; // "TBURNING"
 				SetStatus(tmpstring.String(), -1);
 			}
 			// Fixating...
 			if (strstr(buffer, "Fixating...")) {
-				tmpstring << _T("Fixating disc") << B_UTF8_ELLIPSIS; // "TFIXATING"
+				tmpstring << B_TRANSLATE("Fixating disc") << B_UTF8_ELLIPSIS; // "TFIXATING"
 				SetStatus(tmpstring.String(), -1);
 				SetPercentage(100.0);
 			}
@@ -2117,7 +2113,7 @@ void Application1::ReadOutputOfCdrecord(int outstream, thread_id thread, int tra
 					op = progressed;
 					if (length > 0) {
 						sprintf(info, "%0.1f%%", 100.0 * (float)progressed / (float)length);
-						sprintf(info2, "%s %d/%d", _T("Track"), track, tracks); // "TTRACK"
+						sprintf(info2, "%s %d/%d", B_TRANSLATE("Track"), track, tracks); // "TTRACK"
 						SetStatusInfo(info, info2);
 						SetPercentage(100.0 * (float)progressed / (float)length);
 					}
@@ -2150,8 +2146,8 @@ status_t Application1::MakeImage()
 
 	// wait until a disc is in the drive and drive is ready
 	if (WaitForDisc(deviceCV->GetWriterDevicePath()) == B_TIMEOUT) {
-		errtype = _T("Timeout");												 // "TTIMEOUTTYPE"
-		errstring = _T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
+		errtype = B_TRANSLATE("Timeout");												 // "TTIMEOUTTYPE"
+		errstring = B_TRANSLATE("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
 		HideStatus();
 		return B_ERROR;
 	}
@@ -2180,16 +2176,16 @@ status_t Application1::MakeImage()
 	mkisofs_Thread = pipe_command(arguments, args, mkisofs_in, mkisofs_out, mkisofs_err);
 	set_thread_priority(mkisofs_Thread, MKISOFS_PRIORITY);
 	if (mkisofs_Thread < 0) {
-		errtype = _T("Error"); // "TERROR"
+		errtype = B_TRANSLATE("Error"); // "TERROR"
 		errstring = "mkisofs\n\n";
-		errstring << _T("Could not load this command line tool. Make sure it is in the correct ")
-					 _T("place."); // "TCOULDNOTLOAD"
+		errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the correct "
+					 "place."); // "TCOULDNOTLOAD"
 		free(args);
 		HideStatus();
 		return B_ERROR;
 	}
 	tmpstring = "";
-	tmpstring << _T("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
+	tmpstring << B_TRANSLATE("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
 	SetStatus(tmpstring.String(), mkisofs_Thread);
 	rename_thread(mkisofs_Thread, MKISOFSTHREADNAME);
 
@@ -2216,16 +2212,16 @@ status_t Application1::MakeImage()
 	cdrecord_Thread = pipe_command(arguments, args, cdrecord_in, cdrecord_out, cdrecord_err);
 	set_thread_priority(cdrecord_Thread, saveCV->GetBurnPriority() /*CDRECORD_PRIORITY*/);
 	if (cdrecord_Thread < 0) {
-		errtype = _T("Error"); // "TERROR"
+		errtype = B_TRANSLATE("Error"); // "TERROR"
 		errstring = "cdrecord\n\n";
-		errstring << _T("Could not load this command line tool. Make sure it is in the correct ")
-					 _T("place."); // "TCOULDNOTLOAD"
+		errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the correct "
+					 "place."); // "TCOULDNOTLOAD"
 		free(args);
 		HideStatus();
 		return B_ERROR;
 	}
 	tmpstring = "";
-	tmpstring << _T("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
+	tmpstring << B_TRANSLATE("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
 	SetStatus(tmpstring.String(), cdrecord_Thread);
 	rename_thread(cdrecord_Thread, CDRECORDTHREADNAME);
 	working = true;
@@ -2260,8 +2256,8 @@ status_t Application1::MakeImage()
 	//		kill_thread(reader_Thread);
 	//		kill_thread(writer_Thread);
 	if (fStatusWindow->interrupted) {
-		errtype = _T("Error");												// "TERROR"
-		errstring = _T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+		errtype = B_TRANSLATE("Error");												// "TERROR"
+		errstring = B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 		free(args);
 		return B_ERROR;
 	}
@@ -2316,8 +2312,8 @@ int Application1::ReadAudioCD()
 	int in, out, err;
 
 	if (WaitForDisc(deviceCV->GetReaderDevicePath()) == B_TIMEOUT) {
-		errtype = _T("Timeout");												 // "TTIMEOUTTYPE"
-		errstring = _T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
+		errtype = B_TRANSLATE("Timeout");												 // "TTIMEOUTTYPE"
+		errstring = B_TRANSLATE("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
 		HideStatus();
 		return B_ERROR;
 	}
@@ -2343,15 +2339,15 @@ int Application1::ReadAudioCD()
 	Thread = pipe_command(arguments, args, in, out, err);
 	set_thread_priority(Thread, CDDA2WAV_PRIORITY);
 	if (Thread < 0) {
-		errtype = _T("Error"); // "TERROR"
+		errtype = B_TRANSLATE("Error"); // "TERROR"
 		errstring = "cdda2wav\n\n";
-		errstring << _T("Could not load this command line tool. Make sure it is in the correct ")
-					 _T("place."); // "TCOULDNOTLOAD"
+		errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the correct "
+					 "place."); // "TCOULDNOTLOAD"
 		free(args);
 		HideStatus();
 		return -1;
 	}
-	tmpstring << _T("Reading audio tracks") << B_UTF8_ELLIPSIS; // "TREADINGAUDIO"
+	tmpstring << B_TRANSLATE("Reading audio tracks") << B_UTF8_ELLIPSIS; // "TREADINGAUDIO"
 	ShowStatus(tmpstring.String(), Thread);
 	rename_thread(Thread, CDDA2WAVTHREADNAME);
 	resume_thread(Thread);
@@ -2397,7 +2393,7 @@ int Application1::ReadAudioCD()
 					}
 				}
 				sprintf(info, "%0.0f%%", percentage);
-				sprintf(info2, "%s %d", _T("Track"), trackno); // "TTRACK"
+				sprintf(info2, "%s %d", B_TRANSLATE("Track"), trackno); // "TTRACK"
 				SetStatusInfo(info, info2);
 				SetPercentage(percentage);
 				oldpercentage = percentage;
@@ -2411,8 +2407,8 @@ int Application1::ReadAudioCD()
 	ShowFolder(true);
 	HideStatus();
 	if (fStatusWindow->interrupted) {
-		errtype = _T("Error");												// "TERROR"
-		errstring = _T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+		errtype = B_TRANSLATE("Error");												// "TERROR"
+		errstring = B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 		free(args);
 		return -1;
 	}
@@ -2714,8 +2710,8 @@ status_t Application1::BurnAudio(bool multisession = false)
 
 	// wait till a disc is in the drive and drive is ready
 	if (WaitForDisc(deviceCV->GetWriterDevicePath()) == B_TIMEOUT) {
-		errtype = _T("Timeout");												 // "TTIMEOUTTYPE"
-		errstring = _T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
+		errtype = B_TRANSLATE("Timeout");												 // "TTIMEOUTTYPE"
+		errstring = B_TRANSLATE("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
 		HideStatus();
 		return B_ERROR;
 	}
@@ -2805,16 +2801,16 @@ status_t Application1::BurnAudio(bool multisession = false)
 	// launch cdrecord thread now
 	cdrecord_Thread = pipe_command(arguments, args, cdrecord_in, cdrecord_out, cdrecord_err);
 	if (cdrecord_Thread < 0) {
-		errtype = _T("Error"); // "TERROR"
+		errtype = B_TRANSLATE("Error"); // "TERROR"
 		errstring = "cdrecord\n\n";
-		errstring << _T("Could not load this command line tool. Make sure it is in the correct ")
-					 _T("place."); // "TCOULDNOTLOAD"
+		errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the correct "
+					 "place."); // "TCOULDNOTLOAD"
 		free(args);
 		HideStatus();
 		return B_ERROR;
 	}
 	BString tmpstring;
-	tmpstring << _T("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
+	tmpstring << B_TRANSLATE("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
 	SetStatus(tmpstring.String(), cdrecord_Thread);
 	set_thread_priority(cdrecord_Thread, saveCV->GetBurnPriority() /*CDRECORD_PRIORITY*/);
 	rename_thread(cdrecord_Thread, CDRECORDTHREADNAME);
@@ -2861,11 +2857,11 @@ status_t Application1::BurnAudio(bool multisession = false)
 		if ((entry.InitCheck() != B_OK) || (mfile->InitCheck() != B_OK)) {
 			if (st.Length() > 40) st.Remove(39, st.Length() - 40);
 			st << "\n\n"
-			   << _T("This audio file is not valid and cannot be written to CD. Please check the ")
-				  _T("source volume and the media type.");		  // "TAUDIOFILEERROR"
-			ErrorBox* eb = new ErrorBox(E_RED_COLOR, _T("Error"), // "TERROR"
-										st.String(), _T("Abort"), // "TABORT"
-										_T("Continue"));		  // "TCONTINUE"
+			   << B_TRANSLATE("This audio file is not valid and cannot be written to CD. Please check the "
+				  "source volume and the media type.");		  // "TAUDIOFILEERROR"
+			ErrorBox* eb = new ErrorBox(E_RED_COLOR, B_TRANSLATE("Error"), // "TERROR"
+										st.String(), B_TRANSLATE("Abort"), // "TABORT"
+										B_TRANSLATE("Continue"));		  // "TCONTINUE"
 			PlayErrorSound();
 			if (eb->Go() == 0) {
 				delete mfile;
@@ -2873,9 +2869,9 @@ status_t Application1::BurnAudio(bool multisession = false)
 				kill_thread(cdrecord_Thread);
 				free(args);
 				HideStatus();
-				errtype = _T("Error"); // "TERROR"
+				errtype = B_TRANSLATE("Error"); // "TERROR"
 				errstring =
-					_T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+					B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 				return B_ERROR;
 			}
 		} else {
@@ -2906,30 +2902,30 @@ status_t Application1::BurnAudio(bool multisession = false)
 				switch (error) {
 				case -1: {
 					st << "\n\n"
-					   << _T("This audio file does not contain audio data sampled with 44100Hz."); // "TFRAMERATEERROR"
+					   << B_TRANSLATE("This audio file does not contain audio data sampled with 44100Hz."); // "TFRAMERATEERROR"
 					break;
 				}
 				case -2: {
 					st << "\n\n"
-					   << _T("The format of this file could not be recognized."); // "TFORMATREADERROR"
+					   << B_TRANSLATE("The format of this file could not be recognized."); // "TFORMATREADERROR"
 					break;
 				}
 				case -3: {
 					st << "\n\n"
-					   << _T("The track of this file could not be read."); // "TTRACKREADERROR"
+					   << B_TRANSLATE("The track of this file could not be read."); // "TTRACKREADERROR"
 					break;
 				}
 				case -4: {
 					st << "\n\n"
-					   << _T("This file contains no tracks or too much tracks."); // "TTRACKNUMBERERROR"
+					   << B_TRANSLATE("This file contains no tracks or too much tracks."); // "TTRACKNUMBERERROR"
 					break;
 				}
 				default:
 					break;
 				}
-				eb = new ErrorBox(E_RED_COLOR, _T("Error"), // "TERROR"
-								  st.String(), _T("Abort"), // "TABORT"
-								  _T("Continue"));			// "TCONTINUE"
+				eb = new ErrorBox(E_RED_COLOR, B_TRANSLATE("Error"), // "TERROR"
+								  st.String(), B_TRANSLATE("Abort"), // "TABORT"
+								  B_TRANSLATE("Continue"));			// "TCONTINUE"
 				PlayErrorSound();
 				if (eb->Go() == 0) {
 					delete mfile;
@@ -2937,9 +2933,9 @@ status_t Application1::BurnAudio(bool multisession = false)
 					kill_thread(cdrecord_Thread);
 					free(args);
 					HideStatus();
-					errtype = _T("Error"); // "TERROR"
+					errtype = B_TRANSLATE("Error"); // "TERROR"
 					errstring =
-						_T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+						B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 					return B_ERROR;
 				}
 			}
@@ -2974,8 +2970,8 @@ status_t Application1::BurnAudio(bool multisession = false)
 	close(cdrecord_err);
 
 	if (fStatusWindow->interrupted) {
-		errtype = _T("Error");												// "TERROR"
-		errstring = _T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+		errtype = B_TRANSLATE("Error");												// "TERROR"
+		errstring = B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 		free(args);
 		HideStatus();
 		return B_ERROR;
@@ -3002,17 +2998,17 @@ status_t Application1::BlankRW(char* mode)
 
 	fStatusWindow->Lock();
 	if (heliosCV->IsSimulation())
-		fStatusWindow->SetTitle(_T("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
+		fStatusWindow->SetTitle(B_TRANSLATE("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
 	else
-		fStatusWindow->SetTitle(_T("Helios")); // "TSTATUSWINDOWTITLE"
+		fStatusWindow->SetTitle(B_TRANSLATE("Helios")); // "TSTATUSWINDOWTITLE"
 
 	fStatusWindow->Unlock();
 
-	tmpstring << _T("Waiting for disc") << B_UTF8_ELLIPSIS; // "TWAITINGFORDISC"
+	tmpstring << B_TRANSLATE("Waiting for disc") << B_UTF8_ELLIPSIS; // "TWAITINGFORDISC"
 	ShowStatus(tmpstring.String(), 0);
 	if (WaitForDisc(deviceCV->GetWriterDevicePath()) == B_TIMEOUT) {
-		errtype = _T("Timeout");												 // "TTIMEOUTTYPE"
-		errstring = _T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
+		errtype = B_TRANSLATE("Timeout");												 // "TTIMEOUTTYPE"
+		errstring = B_TRANSLATE("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
 		HideStatus();
 		return B_ERROR;
 	}
@@ -3034,15 +3030,15 @@ status_t Application1::BlankRW(char* mode)
 	Thread = pipe_command(arguments, args, in, out, err);
 	set_thread_priority(Thread, saveCV->GetBurnPriority() /*CDRECORD_PRIORITY*/);
 	if (Thread < 0) {
-		errtype = _T("Error"); // "TERROR"
+		errtype = B_TRANSLATE("Error"); // "TERROR"
 		errstring = "cdrecord\n\n";
-		errstring << _T("Could not load this command line tool. Make sure it is in the correct ")
-					 _T("place."); // "TCOULDNOTLOAD"
+		errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the correct "
+					 "place."); // "TCOULDNOTLOAD"
 		free(args);
 		HideStatus();
 		return B_ERROR;
 	}
-	tmpstring << _T("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
+	tmpstring << B_TRANSLATE("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
 	SetStatus(tmpstring.String(), Thread);
 	rename_thread(Thread, CDRECORDTHREADNAME);
 	resume_thread(Thread);
@@ -3074,13 +3070,13 @@ status_t Application1::BlankRW(char* mode)
 
 			// Fixating...
 			if (strstr(buffer, "Blanking time:")) {
-				SetStatus(_T("Finished Blanking CD."), -1); // Finished Blanking CD.
+				SetStatus(B_TRANSLATE("Finished Blanking CD."), -1); // Finished Blanking CD.
 				SetPercentage(100.0);
 			} else
 				// start blanking...
 				if (strstr(buffer, "Blanking")) {
 				tmpstring = "";
-				tmpstring << _T("Blanking CD-RW") << B_UTF8_ELLIPSIS; // "TBLANKINGCDRW"
+				tmpstring << B_TRANSLATE("Blanking CD-RW") << B_UTF8_ELLIPSIS; // "TBLANKINGCDRW"
 				SetStatus(tmpstring.String(), -1);
 				SetPercentage(33.33);
 			}
@@ -3091,11 +3087,11 @@ status_t Application1::BlankRW(char* mode)
 	close(out);
 	close(err);
 	fStatusWindow->Lock();
-	fStatusWindow->SetTitle(_T("Helios")); // "TSTATUSWINDOWTITLE"
+	fStatusWindow->SetTitle(B_TRANSLATE("Helios")); // "TSTATUSWINDOWTITLE"
 	fStatusWindow->Unlock();
 	if (fStatusWindow->interrupted) {
-		errtype = _T("Error");												// "TERROR"
-		errstring = _T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+		errtype = B_TRANSLATE("Error");												// "TERROR"
+		errstring = B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 		free(args);
 		HideStatus();
 		return B_ERROR;
@@ -3181,11 +3177,11 @@ status_t Application1::ReadImage(BString* filename, bool alloweject)
 
 	// wait till a disc is in the drive and drive is ready
 
-	tmpstring << _T("Waiting for disc") << B_UTF8_ELLIPSIS; // "TWAITINGFORDISC"
+	tmpstring << B_TRANSLATE("Waiting for disc") << B_UTF8_ELLIPSIS; // "TWAITINGFORDISC"
 	ShowStatus(tmpstring.String(), 0);
 	if (WaitForDisc(deviceCV->GetReaderDevicePath()) == B_TIMEOUT) {
-		errtype = _T("Timeout");												 // "TTIMEOUTTYPE"
-		errstring = _T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
+		errtype = B_TRANSLATE("Timeout");												 // "TTIMEOUTTYPE"
+		errstring = B_TRANSLATE("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
 		HideStatus();
 		return B_ERROR;
 	}
@@ -3211,16 +3207,16 @@ status_t Application1::ReadImage(BString* filename, bool alloweject)
 	Thread = pipe_command(arguments, args, in, out, err);
 	set_thread_priority(Thread, 16);
 	if (Thread < 0) {
-		errtype = _T("Error"); // "TERROR"
+		errtype = B_TRANSLATE("Error"); // "TERROR"
 		errstring = "readcd\n\n";
-		errstring << _T("Could not load this command line tool. Make sure it is in the correct ")
-					 _T("place."); // "TCOULDNOTLOAD"
+		errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the correct "
+					 "place."); // "TCOULDNOTLOAD"
 		free(args);
 		HideStatus();
 		return B_ERROR;
 	}
 	tmpstring = "";
-	tmpstring << _T("Reading CD image") << B_UTF8_ELLIPSIS; // "TREADINGCD"
+	tmpstring << B_TRANSLATE("Reading CD image") << B_UTF8_ELLIPSIS; // "TREADINGCD"
 	SetStatus(tmpstring.String(), Thread);
 	rename_thread(Thread, READCDTHREADNAME);
 	resume_thread(Thread);
@@ -3273,8 +3269,8 @@ status_t Application1::ReadImage(BString* filename, bool alloweject)
 
 	delete watch;
 	if (fStatusWindow->interrupted) {
-		errtype = _T("Error");												// "TERROR"
-		errstring = _T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+		errtype = B_TRANSLATE("Error");												// "TERROR"
+		errstring = B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 		free(args);
 		HideStatus();
 		return B_ERROR;
@@ -3379,8 +3375,8 @@ status_t Application1::CopyAudioCD()
 
 		return BurnAudio();
 	} else {
-		errtype = _T("Error");						   // "TERROR"
-		errstring = _T("Error while copying a file."); // "TCOPYERROR"
+		errtype = B_TRANSLATE("Error");						   // "TERROR"
+		errstring = B_TRANSLATE("Error while copying a file."); // "TCOPYERROR"
 		return -1;
 	}
 	//	base_folder=oldbase;
@@ -3394,16 +3390,16 @@ status_t Application1::CopyDataCD()
 	status_t returnValue = B_OK;
 
 	if (WaitForDisc(deviceCV->GetWriterDevicePath()) == B_TIMEOUT) {
-		errtype = _T("Error");				   // "TERROR"
-		errstring = _T("No CD in the drive!"); // "TNOCDINDRIVE"
+		errtype = B_TRANSLATE("Error");				   // "TERROR"
+		errstring = B_TRANSLATE("No CD in the drive!"); // "TNOCDINDRIVE"
 		return B_ERROR;
 	}
 
 	fStatusWindow->Lock();
 	if (heliosCV->IsSimulation()) {
-		fStatusWindow->SetTitle(_T("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
+		fStatusWindow->SetTitle(B_TRANSLATE("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
 	} else {
-		fStatusWindow->SetTitle(_T("Helios")); // "TSTATUSWINDOWTITLE"
+		fStatusWindow->SetTitle(B_TRANSLATE("Helios")); // "TSTATUSWINDOWTITLE"
 	}
 	fStatusWindow->Unlock();
 
@@ -3414,8 +3410,8 @@ status_t Application1::CopyDataCD()
 	const size_t cdImageSize = GetDeviceSize(deviceCV->GetReaderDevicePath());
 	if (!FileCopy(deviceCV->GetReaderDevicePath(), filename.String(), cdImageSize)) {
 		HideStatus();
-		errtype = _T("Error");								 // "TERROR"
-		errstring = _T("Error while reading the CD image."); // "TCDIMAGEREADERROR"
+		errtype = B_TRANSLATE("Error");								 // "TERROR"
+		errstring = B_TRANSLATE("Error while reading the CD image."); // "TCDIMAGEREADERROR"
 		return B_ERROR;
 	}
 
@@ -3426,7 +3422,7 @@ status_t Application1::CopyDataCD()
 
 	// wait till door has been opened
 	BString tmpstring;
-	tmpstring << _T("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
+	tmpstring << B_TRANSLATE("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
 	SetStatus(tmpstring.String(), 0);
 	char info[40];
 	int timeout = applicationCV->GetTimeoutLength() * 50;
@@ -3437,16 +3433,16 @@ status_t Application1::CopyDataCD()
 			timeout--;
 			if (timeout == 0) {
 				HideStatus();
-				errtype = _T("Time out!"); // "TTIMEOUT"
+				errtype = B_TRANSLATE("Time out!"); // "TTIMEOUT"
 				errstring =
-					_T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
+					B_TRANSLATE("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
 				return B_ERROR;
 			}
 			if (fStatusWindow->interrupted) {
 				HideStatus();
-				errtype = _T("Error"); // "TERROR"
+				errtype = B_TRANSLATE("Error"); // "TERROR"
 				errstring =
-					_T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+					B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 				return B_ERROR;
 			}
 			sprintf(info, "%d\"", timeout / 10);
@@ -3461,8 +3457,8 @@ status_t Application1::CopyDataCD()
 	if (deviceCV->GetWriterNumber() == deviceCV->GetReaderNumber()) {
 		// Ask the user to insert the disk to be written to.
 		ErrorBox* eb = new ErrorBox(E_BLUE_COLOR, "",
-									_T("Please insert the disc to burn"), // "TPLEASEINSERTDISC"
-									_T("Ok"), _T("Cancel"));
+									B_TRANSLATE("Please insert the disc to burn"), // "TPLEASEINSERTDISC"
+									B_TRANSLATE("Ok"), B_TRANSLATE("Cancel"));
 		eb->SetShortcut(1, B_ESCAPE);
 		okToBurn = (eb->Go() == 0);
 	}
@@ -3486,23 +3482,23 @@ status_t Application1::CopyOnTheFlyAudio()
 
 	// wait till a disc is in the drive and drive is ready
 	if (WaitForDisc(deviceCV->GetWriterDevicePath()) == B_TIMEOUT) {
-		errtype = _T("Timeout");												 // "TTIMEOUTTYPE"
-		errstring = _T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
+		errtype = B_TRANSLATE("Timeout");												 // "TTIMEOUTTYPE"
+		errstring = B_TRANSLATE("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
 		HideStatus();
 		return B_ERROR;
 	}
 	if (WaitForDisc(deviceCV->GetReaderDevicePath()) == B_TIMEOUT) {
-		errtype = _T("Timeout");												 // "TTIMEOUTTYPE"
-		errstring = _T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
+		errtype = B_TRANSLATE("Timeout");												 // "TTIMEOUTTYPE"
+		errstring = B_TRANSLATE("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
 		HideStatus();
 		return B_ERROR;
 	}
 
 	fStatusWindow->Lock();
 	if (heliosCV->IsSimulation()) {
-		fStatusWindow->SetTitle(_T("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
+		fStatusWindow->SetTitle(B_TRANSLATE("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
 	} else {
-		fStatusWindow->SetTitle(_T("Helios")); // "TSTATUSWINDOWTITLE"
+		fStatusWindow->SetTitle(B_TRANSLATE("Helios")); // "TSTATUSWINDOWTITLE"
 	}
 	fStatusWindow->Unlock();
 
@@ -3526,17 +3522,17 @@ status_t Application1::CopyOnTheFlyAudio()
 	cdrecord_Thread = pipe_command(arguments, args, cdrecord_in, cdrecord_out, cdrecord_err);
 	set_thread_priority(cdrecord_Thread, saveCV->GetBurnPriority() /*CDRECORD_PRIORITY*/);
 	if (cdrecord_Thread < 0) {
-		errtype = _T("Error"); // "TERROR"
+		errtype = B_TRANSLATE("Error"); // "TERROR"
 		errstring = "cdrecord\n\n";
-		errstring << _T("Could not load this command line tool. Make sure it is in the correct ")
-					 _T("place."); // "TCOULDNOTLOAD"
+		errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the correct "
+					 "place."); // "TCOULDNOTLOAD"
 		free(args);
 		HideStatus();
 		return B_ERROR;
 	}
 
 	BString tmpstring;
-	tmpstring << _T("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
+	tmpstring << B_TRANSLATE("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
 	SetStatus(tmpstring.String(), cdrecord_Thread);
 	rename_thread(cdrecord_Thread, CDRECORDTHREADNAME);
 
@@ -3562,10 +3558,10 @@ status_t Application1::CopyOnTheFlyAudio()
 	cdda2wav_Thread = pipe_command(arguments, args, cdda2wav_in, cdda2wav_out, cdda2wav_err);
 	set_thread_priority(cdda2wav_Thread, saveCV->GetBurnPriority() /*CDRECORD_PRIORITY*/);
 	if (cdda2wav_Thread < 0) {
-		errtype = _T("Error"); // "TERROR"
+		errtype = B_TRANSLATE("Error"); // "TERROR"
 		errstring = "cdda2wav\n\n";
-		errstring << _T("Could not load this command line tool. Make sure it is in the correct ")
-					 _T("place."); // "TCOULDNOTLOAD"
+		errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the correct "
+					 "place."); // "TCOULDNOTLOAD"
 		free(args);
 		HideStatus();
 		return B_ERROR;
@@ -3581,8 +3577,8 @@ status_t Application1::CopyOnTheFlyAudio()
 	close(cdrecord_err);
 
 	if (fStatusWindow->interrupted) {
-		errtype = _T("Error");												// "TERROR"
-		errstring = _T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+		errtype = B_TRANSLATE("Error");												// "TERROR"
+		errstring = B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 		free(args);
 		HideStatus();
 		return B_ERROR;
@@ -3599,23 +3595,23 @@ status_t Application1::CopyOnTheFly()
 {
 	// wait till a disc is in the drive and drive is ready
 	if (WaitForDisc(deviceCV->GetWriterDevicePath()) == B_TIMEOUT) {
-		errtype = _T("Timeout");												 // "TTIMEOUTTYPE"
-		errstring = _T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
+		errtype = B_TRANSLATE("Timeout");												 // "TTIMEOUTTYPE"
+		errstring = B_TRANSLATE("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
 		HideStatus();
 		return B_ERROR;
 	}
 	if (WaitForDisc(deviceCV->GetReaderDevicePath()) == B_TIMEOUT) {
-		errtype = _T("Timeout");												 // "TTIMEOUTTYPE"
-		errstring = _T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
+		errtype = B_TRANSLATE("Timeout");												 // "TTIMEOUTTYPE"
+		errstring = B_TRANSLATE("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
 		HideStatus();
 		return B_ERROR;
 	}
 
 	fStatusWindow->Lock();
 	if (heliosCV->IsSimulation()) {
-		fStatusWindow->SetTitle(_T("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
+		fStatusWindow->SetTitle(B_TRANSLATE("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
 	} else {
-		fStatusWindow->SetTitle(_T("Helios")); // "TSTATUSWINDOWTITLE"
+		fStatusWindow->SetTitle(B_TRANSLATE("Helios")); // "TSTATUSWINDOWTITLE"
 	}
 	fStatusWindow->Unlock();
 
@@ -3642,10 +3638,10 @@ status_t Application1::CopyOnTheFly()
 		pipe_command(arguments, args, cdrecord_in, cdrecord_out, cdrecord_err);
 	set_thread_priority(cdrecord_Thread, saveCV->GetBurnPriority() /*CDRECORD_PRIORITY*/);
 	if (cdrecord_Thread < 0) {
-		errtype = _T("Error"); // "TERROR"
+		errtype = B_TRANSLATE("Error"); // "TERROR"
 		errstring = "cdrecord\n\n";
-		errstring << _T("Could not load this command line tool. Make sure it is in the correct ")
-					 _T("place."); // "TCOULDNOTLOAD"
+		errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the correct "
+					 "place."); // "TCOULDNOTLOAD"
 		free(args);
 		HideStatus();
 		return B_ERROR;
@@ -3653,7 +3649,7 @@ status_t Application1::CopyOnTheFly()
 
 	{
 		BString tmpstring;
-		tmpstring << _T("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
+		tmpstring << B_TRANSLATE("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
 		SetStatus(tmpstring.String(), cdrecord_Thread);
 	}
 
@@ -3694,26 +3690,26 @@ status_t Application1::CopyOnTheFly()
 			// Performing OPC...
 			if (strstr(buffer, "Performing OPC...")) {
 				BString tmpstring = "";
-				tmpstring << _T("Adjusting laser power") << B_UTF8_ELLIPSIS; // "TPERFORMINGOPC"
+				tmpstring << B_TRANSLATE("Adjusting laser power") << B_UTF8_ELLIPSIS; // "TPERFORMINGOPC"
 				SetStatus(tmpstring.String(), -1);
 			}
 
 			// finished fixating...
 			if (strstr(buffer, "Fixating time:")) {
-				SetStatus(_T("Finished writing CD."), -1); // "TFINISHEDWRITING"
+				SetStatus(B_TRANSLATE("Finished writing CD."), -1); // "TFINISHEDWRITING"
 			}
 
 			// start burning...
 			if (strstr(buffer, "Starting new track")) {
 				BString tmpstring = "";
-				tmpstring << _T("Burning data CD") << B_UTF8_ELLIPSIS; // "TBURNINGDATACD"
+				tmpstring << B_TRANSLATE("Burning data CD") << B_UTF8_ELLIPSIS; // "TBURNINGDATACD"
 				SetStatus(tmpstring.String(), -1);					   // "TBURNINGDATACD"
 			}
 
 			// Fixating...
 			if (strstr(buffer, "Fixating...")) {
 				BString tmpstring = "";
-				tmpstring << _T("Fixating disc") << B_UTF8_ELLIPSIS; // "TFIXATING"
+				tmpstring << B_TRANSLATE("Fixating disc") << B_UTF8_ELLIPSIS; // "TFIXATING"
 				SetStatus(tmpstring.String(), -1);
 			}
 
@@ -3744,7 +3740,7 @@ status_t Application1::CopyOnTheFly()
 					op = progressed;
 					if (length > 0) {
 						sprintf(info, "%0.1f%%", 100.0 * (float)progressed / (float)length);
-						sprintf(info2, "%s %d", _T("Track"), track); // "TTRACK"
+						sprintf(info2, "%s %d", B_TRANSLATE("Track"), track); // "TTRACK"
 						SetStatusInfo(info, info2);
 						SetPercentage(100.0 * (float)progressed / (float)length);
 					}
@@ -3759,8 +3755,8 @@ status_t Application1::CopyOnTheFly()
 	close(cdrecord_out);
 	close(cdrecord_err);
 	if (fStatusWindow->interrupted) {
-		errtype = _T("Error");												// "TERROR"
-		errstring = _T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+		errtype = B_TRANSLATE("Error");												// "TERROR"
+		errstring = B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 		free(args);
 		HideStatus();
 		return B_ERROR;
@@ -3818,16 +3814,16 @@ status_t Application1::MakeMKISOImage(const char* filename)
 	Thread = pipe_command(arguments, args, in, out, err);
 	set_thread_priority(Thread, 16);
 	if (Thread < 0) {
-		errtype = _T("Error"); // "TERROR"
+		errtype = B_TRANSLATE("Error"); // "TERROR"
 		errstring = "mkisofs\n\n";
-		errstring << _T("Could not load this command line tool. Make sure it is in the correct ")
-					 _T("place."); // "TCOULDNOTLOAD"
+		errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the correct "
+					 "place."); // "TCOULDNOTLOAD"
 		free(args);
 		HideStatus();
 		return B_ERROR;
 	}
 	BString tmpstring;
-	tmpstring << _T("Writing image file") << B_UTF8_ELLIPSIS; // "TCREATINGIMAGEFILE"
+	tmpstring << B_TRANSLATE("Writing image file") << B_UTF8_ELLIPSIS; // "TCREATINGIMAGEFILE"
 	ShowStatus(tmpstring.String(), Thread);
 	rename_thread(Thread, MKISOFSTHREADNAME);
 	resume_thread(Thread);
@@ -3866,8 +3862,8 @@ status_t Application1::MakeMKISOImage(const char* filename)
 	HideStatus();
 
 	if (fStatusWindow->interrupted) {
-		errtype = _T("Error");												// "TERROR"
-		errstring = _T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+		errtype = B_TRANSLATE("Error");												// "TERROR"
+		errstring = B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 		return B_ERROR;
 	}
 
@@ -3932,7 +3928,7 @@ void Application1::SaveSettings()
 	CM->SetString(S_PUBLISHER, standardCV->GetPublisher());
 	CM->SetString(S_PREPARER, standardCV->GetPreparer());
 	CM->SetString(S_APPLICATION, standardCV->GetApplication());
-	// CM->SetString(S_TEMPPATH, standardCV->GetTemporaryPath());
+	// CM->SetString(SB_TRANSLATEEMPPATH, standardCV->GetTemporaryPath());
 	// CM->SetString(S_PROJECTPATH, standardCV->GetProjectPath());
 
 	// ApplicationConfigView
@@ -4114,12 +4110,12 @@ void Application1::ReadSettings()
 
 	// StandardConfigView
 	if (!CM->HasData(S_FILESYSTEM)) CM->SetInt32(S_FILESYSTEM, 5); // Joliet by default
-	if (!CM->HasData(S_VOLUMENAME)) CM->SetString(S_VOLUMENAME, _T("untitled")); // "L:untitled"
+	if (!CM->HasData(S_VOLUMENAME)) CM->SetString(S_VOLUMENAME, B_TRANSLATE("untitled")); // "L:untitled"
 	if (!CM->HasData(S_CDTYPE)) CM->SetInt8(S_CDTYPE, 0);
 	if (!CM->HasData(S_PUBLISHER)) CM->SetString(S_PUBLISHER, "Haiku");
 	if (!CM->HasData(S_PREPARER)) CM->SetString(S_PREPARER, "Haiku");
 	if (!CM->HasData(S_APPLICATION)) CM->SetString(S_APPLICATION, "Helios");
-	// if (!CM->HasData(S_TEMPPATH))		CM->SetString(S_TEMPPATH, "/boot/home/");
+	// if (!CM->HasData(SB_TRANSLATEEMPPATH))		CM->SetString(S_TEMPPATH, "/boot/home/");
 	// if (!CM->HasData(S_PROJECTPATH))	CM->SetString(S_PROJECTPATH, "/boot/Helios/");
 
 	// ApplicationConfigView
@@ -4263,7 +4259,7 @@ void Application1::ReadSettings()
 	standardCV->SetPublisher(CM->GetString(S_PUBLISHER)->String());
 	standardCV->SetPreparer(CM->GetString(S_PREPARER)->String());
 	standardCV->SetApplication(CM->GetString(S_APPLICATION)->String());
-	// standardCV->SetTemporaryPath(CM->GetString(S_TEMPPATH)->String());
+	// standardCV->SetTemporaryPath(CM->GetString(SB_TRANSLATEEMPPATH)->String());
 	// standardCV->SetProjectPath(CM->GetString(S_PROJECTPATH)->String());
 
 	applicationCV->SetAutoUpdating(CM->GetBool(APP_AUTOUPDATE));
@@ -4592,10 +4588,10 @@ void Application1::LoadProject(BEntry* entry)
 
 	if (strcmp(type, HELIOSPROJECTMIMETYPE) != 0) {
 		ErrorBox* eb = new ErrorBox(
-			E_ORANGE_COLOR, _T("Error"), // "TERROR"
-			_T("The file you selected is not a Helios project file. Only Helios project files can ")
-			_T("be loaded with this application."), // "Error:No Project File"
-			_T("Ok"));								// "TOK"
+			E_ORANGE_COLOR, B_TRANSLATE("Error"), // "TERROR"
+			B_TRANSLATE("The file you selected is not a Helios project file. Only Helios project files can "
+			"be loaded with this application."), // "Error:No Project File"
+			B_TRANSLATE("Ok"));								// "TOK"
 		eb->SetShortcut(0, B_ENTER);
 		eb->Go();
 		file->Unset();
@@ -4617,7 +4613,7 @@ void Application1::LoadProject(BEntry* entry)
 
 	// set new window title (containing the project's name)
 	entry->GetName(projectname);
-	BString* s = new BString(_T("Helios")); // "TWINDOWTITLE"
+	BString* s = new BString(B_TRANSLATE("Helios")); // "TWINDOWTITLE"
 	s->Append(" | ");
 	s->Append(projectname);
 	window1->SetTitle(s->String());
@@ -4840,7 +4836,7 @@ void Application1::SaveProject(BEntry* entry, bool export_project)
 	delete file;
 
 	entry->GetName(projectname);
-	BString* s = new BString(_T("Helios")); // "TWINDOWTITLE"
+	BString* s = new BString(B_TRANSLATE("Helios")); // "TWINDOWTITLE"
 	s->Append(" | ");
 	s->Append(projectname);
 	window1->SetTitle(s->String());
@@ -4996,7 +4992,7 @@ void Application1::NewProject()
 	//		sprintf(currentproj->_application,"%s",standardCV->GetApplication());
 	//		sprintf(currentproj->_volumename,"%s",standardCV->GetVolumeName());
 
-	window1->SetTitle(_T("Helios")); // "TWINDOWTITLE"
+	window1->SetTitle(B_TRANSLATE("Helios")); // "TWINDOWTITLE"
 	Update_DATA_AUDIO();
 	window1->Unlock();
 	project_has_changed = false;
@@ -5039,10 +5035,10 @@ status_t Application1::GetMultisessionSectors(int32& start, int32& end)
 	Thread = pipe_command(arguments, args, in, out, err);
 	set_thread_priority(Thread, saveCV->GetBurnPriority() /*CDRECORD_PRIORITY*/);
 	if (Thread < 0) {
-		errtype = _T("Error"); // "TERROR"
+		errtype = B_TRANSLATE("Error"); // "TERROR"
 		errstring = "cdrecord\n\n";
-		errstring << _T("Could not load this command line tool. Make sure it is in the correct ")
-					 _T("place."); // "TCOULDNOTLOAD"
+		errstring << B_TRANSLATE("Could not load this command line tool. Make "
+				"sure it is in the correct place."); // "TCOULDNOTLOAD"
 		free(args);
 		HideStatus();
 		return B_ERROR;
@@ -5575,9 +5571,9 @@ void Application1::DeleteAndCount(BDirectory dir)
 			if (filecounter % 20 == 0) {
 				if (window1->Lock()) {
 					BString tmpstring;
-					tmpstring << _T("Removing files") << B_UTF8_ELLIPSIS << " (" << filecounter
+					tmpstring << B_TRANSLATE("Removing files") << B_UTF8_ELLIPSIS << " (" << filecounter
 							  << ")"; // "L:Removing files..."
-									  //				sprintf(text, "%s (%ld)", _T("L:Removing files..."),
+									  //				sprintf(text, "%s (%ld)", B_TRANSLATE("L:Removing files..."),
 									  //filecounter);
 					window1->view1->statusBAR->SetText(tmpstring.String());
 					window1->Unlock();
@@ -5597,11 +5593,11 @@ void Application1::PlayFinishedBurningSound()
 				system_beep(WRITTEN_BEEP_EVENT);
 			} else {
 				ErrorBox* eb = new ErrorBox(
-					E_RED_COLOR, _T("Error"), // "TERROR"
-					_T("When tried to add a new system event there occurred an error. To suppress ")
-					_T("this error message, turn of sound events in the 'Sounds' preferences ")
-					_T("Panel of Helios."), // "TCOULDNOTADDSOUNDEVENT"
-					_T("Ok"));				// "TOK"
+					E_RED_COLOR, B_TRANSLATE("Error"), // "TERROR"
+					B_TRANSLATE("When tried to add a new system event there occurred an error. To suppress "
+					"this error message, turn of sound events in the 'Sounds' preferences "
+					"panel of Helios."), // "TCOULDNOTADDSOUNDEVENT"
+					B_TRANSLATE("Ok"));				// "TOK"
 				eb->Go();
 			}
 		}
@@ -5616,11 +5612,11 @@ void Application1::PlayFinishedImageSound()
 				system_beep(IMAGE_BEEP_EVENT);
 			} else {
 				ErrorBox* eb = new ErrorBox(
-					E_RED_COLOR, _T("Error"), // "TERROR"
-					_T("When tried to add a new system event there occurred an error. To suppress ")
-					_T("this error message, turn of sound events in the 'Sounds' preferences ")
-					_T("Panel of Helios."), // "TCOULDNOTADDSOUNDEVENT"
-					_T("Ok"));				// "TOK"
+					E_RED_COLOR, B_TRANSLATE("Error"), // "TERROR"
+					B_TRANSLATE("When tried to add a new system event there occurred an error. To suppress "
+					"this error message, turn of sound events in the 'Sounds' preferences "
+					"panel of Helios."), // "TCOULDNOTADDSOUNDEVENT"
+					B_TRANSLATE("Ok"));				// "TOK"
 				eb->Go();
 			}
 		}
@@ -5635,11 +5631,11 @@ void Application1::PlayErrorSound()
 				system_beep(ERROR_BEEP_EVENT);
 			} else {
 				ErrorBox* eb = new ErrorBox(
-					E_RED_COLOR, _T("Error"), // "TERROR"
-					_T("When tried to add a new system event there occurred an error. To suppress ")
-					_T("this error message, turn of sound events in the 'Sounds' preferences ")
-					_T("Panel of Helios."), // "TCOULDNOTADDSOUNDEVENT"
-					_T("Ok"));				// "TOK"
+					E_RED_COLOR, B_TRANSLATE("Error"), // "TERROR"
+					B_TRANSLATE("When tried to add a new system event there occurred an error. To suppress "
+					"this error message, turn of sound events in the 'Sounds' preferences "
+					"Panel of Helios."), // "TCOULDNOTADDSOUNDEVENT"
+					B_TRANSLATE("Ok"));				// "TOK"
 				eb->Go();
 			}
 		}
@@ -5663,7 +5659,7 @@ status_t Application1::ReadFloppyImage(const char* path)
 	dst = new BFile(path, B_READ_WRITE | B_CREATE_FILE);
 
 	BStopWatch* watch = new BStopWatch("kBps", true);
-	tmpstring << _T("Reading image file") << B_UTF8_ELLIPSIS; // "Status:Reading Image File"
+	tmpstring << B_TRANSLATE("Reading image file") << B_UTF8_ELLIPSIS; // "Status:Reading Image File"
 	ShowStatus(tmpstring.String(), -1);
 	SetStatusInfo("--- kB/s");
 

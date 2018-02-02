@@ -17,14 +17,10 @@
 #include "MString.h"
 #include "PipeCmd.h"
 
-#if defined(_BEOS_R5_BUILD_) || defined(_BEOS_HAIKU_BUILD_)
-#include "MSHLanguageMgr.h"
-extern MSHLanguageMgr* gMSHLangMgr;
-#define _T(str) gMSHLangMgr->_T(str).String()
-#define _TPS(str) gMSHLangMgr->_T(str)
-#else
 #include <locale/Locale.h>
-#endif
+#include <locale/Catalog.h>
+
+#define B_TRANSLATION_CONTEXT "File utils"
 
 // copies file "source" to "destination"
 // destination file will be overwritten if it exists already.
@@ -41,7 +37,7 @@ bool FileCopy(const char* source, const char* destination, size_t srcfilesize)
 		BStopWatch* watch = new BStopWatch("MBps", true);
 
 		BString tmpstring;
-		tmpstring << _T("Reading CD") << B_UTF8_ELLIPSIS; // "L:Reading CD..."
+		tmpstring << B_TRANSLATE("Reading CD") << B_UTF8_ELLIPSIS; // "L:Reading CD..."
 		app->ShowStatus(tmpstring.String(), -1);
 		app->SetStatusInfo("--- MB/s");
 
@@ -160,7 +156,7 @@ bool CreateEntry(char* pathname, char* entryname)
 			if (app->filecounter % 20 == 0) {
 				if (app->window1->Lock()) {
 					BString tmpstring;
-					tmpstring << _T("Adding files") << B_UTF8_ELLIPSIS << " (" << app->filecounter
+					tmpstring << B_TRANSLATE("Adding files") << B_UTF8_ELLIPSIS << " (" << app->filecounter
 							  << ")"; // "L:Adding files..."
 					app->window1->view1->statusBAR->SetText(tmpstring.String());
 					app->window1->Unlock();
@@ -209,7 +205,7 @@ bool CreateEntry(char* pathname, char* entryname)
 				if (app->filecounter % 20 == 0) {
 					if (app->window1->Lock()) {
 						BString tmpstring;
-						tmpstring << _T("Adding files") << B_UTF8_ELLIPSIS << " ("
+						tmpstring << B_TRANSLATE("Adding files") << B_UTF8_ELLIPSIS << " ("
 								  << app->filecounter << ")"; // "L:Adding files..."
 						app->window1->view1->statusBAR->SetText(tmpstring.String());
 						app->window1->Unlock();
@@ -249,10 +245,10 @@ bool CreateEntry(char* pathname, char* entryname)
 	if (depthCount == 0) {
 		if (haveEncounteredProjectFolder) {
 			haveEncounteredProjectFolder = false;
-			ErrorBox* eb = new ErrorBox(E_RED_COLOR, _T("Error"), // "TERROR"
-										_T("No files from within the Project folder can be added ")
-										_T("- any such files are ignored."), // "TFOUNDPROJECTFILE"
-										_T("Ok"));							 // "TOK"
+			ErrorBox* eb = new ErrorBox(E_RED_COLOR, B_TRANSLATE("Error"), // "TERROR"
+										B_TRANSLATE("No files from within the Project folder can be added "
+										"- any such files are ignored."), // "TFOUNDPROJECTFILE"
+										B_TRANSLATE("Ok"));							 // "TOK"
 			eb->Go();
 		}
 	}
@@ -334,12 +330,12 @@ int32 addFiles(void* data)
 			// or open the dropped project.
 			if (strcmp(type, HELIOSPROJECTMIMETYPE) == 0) {
 				ErrorBox* eb =
-					new ErrorBox(E_BLUE_COLOR, _T("Project file dropped"), // "TPROJECTFILEDROPPED"
-								 _T("You just dropped a Helios project file. Do you want to add ")
-								 _T("this file to the current project or load this project with ")
-								 _T("Helios?"), // "TPROJECTFILEDROPPED_TEXT"
-								 _T("Load"),	// "TLOAD"
-								 _T("Add"));
+					new ErrorBox(E_BLUE_COLOR, B_TRANSLATE("Project file dropped"), // "TPROJECTFILEDROPPED"
+								 B_TRANSLATE("You just dropped a Helios project file. Do you want to add "
+								 "this file to the current project or load this project with "
+								 "Helios?"), // "TPROJECTFILEDROPPED_TEXT"
+								 B_TRANSLATE("Load"),	// "TLOAD"
+								 B_TRANSLATE("Add"));
 				switch (eb->Go()) {
 				case 0: { // LOAD PROJECT FILE
 					BEntry* projectEntry = new BEntry(&ref);
@@ -421,7 +417,7 @@ int32 addFiles(void* data)
 
 	if (app->window1->Lock()) {
 		BString tmpstring;
-		tmpstring << _T("Adding files") << B_UTF8_ELLIPSIS << " (" << app->filecounter
+		tmpstring << B_TRANSLATE("Adding files") << B_UTF8_ELLIPSIS << " (" << app->filecounter
 				  << ")"; // "L:Adding files..."
 		app->window1->view1->statusBAR->SetText(tmpstring.String(), 4000000);
 		app->window1->Unlock();
@@ -518,12 +514,12 @@ int32 removeFiles(void* data)
 					ErrorBox*
 						eb =
 							new ErrorBox(E_ORANGE_COLOR,
-										 _T("Delete floppy image?"), // "Error:Delete Floppy Image?"
-										 _T("If you click 'Yes' the path will be removed from ")
-										 _T("your project's settings. Click 'No' to keep the ")
-										 _T("file."), // "Error:Delete Floppy Image?Error text"
-										 _T("Yes"),
-										 _T("No"));
+										 B_TRANSLATE("Delete floppy image?"), // "Error:Delete Floppy Image?"
+										 B_TRANSLATE("If you click 'Yes' the path will be removed from "
+										 "your project's settings. Click 'No' to keep the "
+										 "file."), // "Error:Delete Floppy Image?Error text"
+										 B_TRANSLATE("Yes"),
+										 B_TRANSLATE("No"));
 					if (eb->Go() == 1) {
 						fileEntry->Unset();
 						delete fileEntry;
@@ -551,7 +547,7 @@ int32 removeFiles(void* data)
 			if (app->filecounter % 20 == 0) {
 				if (app->window1->Lock()) {
 					BString tmpstring;
-					tmpstring << _T("Removing files") << B_UTF8_ELLIPSIS << " (" << app->filecounter
+					tmpstring << B_TRANSLATE("Removing files") << B_UTF8_ELLIPSIS << " (" << app->filecounter
 							  << ")"; // "L:Removing files..."
 					app->window1->view1->statusBAR->SetText(tmpstring.String());
 					app->window1->Unlock();
@@ -570,7 +566,7 @@ int32 removeFiles(void* data)
 
 	if (app->window1->Lock()) {
 		BString tmpstring;
-		tmpstring << _T("Removing files") << B_UTF8_ELLIPSIS << " (" << app->filecounter
+		tmpstring << B_TRANSLATE("Removing files") << B_UTF8_ELLIPSIS << " (" << app->filecounter
 				  << ")"; // "L:Removing files..."
 		app->window1->view1->statusBAR->SetText(tmpstring.String(), 4000000);
 		app->window1->Unlock();
@@ -673,7 +669,7 @@ int MountBFSImage(const char* filename, const char* mountpoint)
 	BString tmpstring;
 	dev_t volume;
 
-	tmpstring << _T("Mounting image file") << B_UTF8_ELLIPSIS; // "TMOUNTING"
+	tmpstring << B_TRANSLATE("Mounting image file") << B_UTF8_ELLIPSIS; // "TMOUNTING"
 	app->SetStatus(tmpstring.String(), 0);
 
 	sync();
@@ -687,8 +683,8 @@ int MountBFSImage(const char* filename, const char* mountpoint)
 		if ((timeout == 0) || (app->fStatusWindow->interrupted)) {
 			return -1;
 		}
-		tmpstring << _T("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
-													   //		sprintf(info,"%s",_T("TWAITING"));
+		tmpstring << B_TRANSLATE("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
+													   //		sprintf(info,"%s",B_TRANSLATE("TWAITING"));
 		app->SetStatusInfo(tmpstring.String());
 		app->SetPercentage((float)timeout * 100 /
 						   ((float)app->applicationCV->GetTimeoutLength() / 5));
@@ -708,7 +704,7 @@ int UnmountBFSImage(const char* mountpoint)
 	BString s;
 
 	BString tmpstring;
-	tmpstring << _T("Unmounting Image file") << B_UTF8_ELLIPSIS; // "TUNMOUNTING"
+	tmpstring << B_TRANSLATE("Unmounting Image file") << B_UTF8_ELLIPSIS; // "TUNMOUNTING"
 	app->SetStatus(tmpstring.String(), 0);
 
 	sync();
@@ -751,28 +747,28 @@ status_t BurnImage(const BString& filename)
 
 	// check if file exists
 	if (!FileExists(filename.String())) {
-		app->errtype = _T("TERROR");			// "TERROR"
-		app->errstring = _T("TNOTEXIST_ALERT"); // "TNOTEXIST_ALERT"
+		app->errtype = B_TRANSLATE("TERROR");			// "TERROR"
+		app->errstring = B_TRANSLATE("TNOTEXIST_ALERT"); // "TNOTEXIST_ALERT"
 		return B_ERROR;
 	}
 
 	if (app->fStatusWindow->Lock()) {
 		if (app->heliosCV->IsSimulation()) {
 			app->fStatusWindow->SetTitle(
-				_T("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
+				B_TRANSLATE("Helios - SIMULATION")); // "TSTATUSWINDOWTITLESIMULATION"
 		} else {
-			app->fStatusWindow->SetTitle(_T("Helios")); // "TSTATUSWINDOWTITLE"
+			app->fStatusWindow->SetTitle(B_TRANSLATE("Helios")); // "TSTATUSWINDOWTITLE"
 		}
 		app->fStatusWindow->Unlock();
 	}
 	tmpstring = "";
-	tmpstring << _T("Flushing buffers") << B_UTF8_ELLIPSIS; // "TFLUSHINGBUFFERS"
+	tmpstring << B_TRANSLATE("Flushing buffers") << B_UTF8_ELLIPSIS; // "TFLUSHINGBUFFERS"
 	app->ShowStatus(tmpstring.String(), 0);
 
 	sync();
 
 	tmpstring = "";
-	tmpstring << _T("Waiting for disc") << B_UTF8_ELLIPSIS; // "TWAITINGFORDISC"
+	tmpstring << B_TRANSLATE("Waiting for disc") << B_UTF8_ELLIPSIS; // "TWAITINGFORDISC"
 	app->ShowStatus(tmpstring.String(), 0);
 
 	// Check for image file size. Does it fit?
@@ -788,10 +784,10 @@ status_t BurnImage(const BString& filename)
 
 			if (!app->CheckCDSize()) {
 				app->window1->Unlock();
-				app->errtype = _T("Error"); // "TERROR"
-				app->errstring = _T("The project data size is greater than the maximum size of a ")
-								 _T("CD. Remove some files or select 'Overburning' in the ")
-								 _T("preferences panel."); // "TOVERSIZED"
+				app->errtype = B_TRANSLATE("Error"); // "TERROR"
+				app->errstring = B_TRANSLATE("The project data size is greater than the maximum size of a "
+								 "CD. Remove some files or select 'Overburning' in the "
+								 "preferences panel."); // "TOVERSIZED"
 				delete file;
 				return B_ERROR;
 			}
@@ -801,9 +797,9 @@ status_t BurnImage(const BString& filename)
 	}
 
 	if (app->WaitForDisc(app->deviceCV->GetWriterDevicePath()) == B_TIMEOUT) {
-		app->errtype = _T("Timeout"); // "TTIMEOUTTYPE"
+		app->errtype = B_TRANSLATE("Timeout"); // "TTIMEOUTTYPE"
 		app->errstring =
-			_T("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
+			B_TRANSLATE("The active process had to wait too long for an event."); // "TTIMEOUTERROR"
 		app->HideStatus();
 		return B_ERROR;
 	}
@@ -839,16 +835,16 @@ status_t BurnImage(const BString& filename)
 	Thread = pipe_command(arguments, args, in, out, err);
 	set_thread_priority(Thread, CDRECORD_PRIORITY);
 	if (Thread < 0) {
-		app->errtype = _T("Error"); // "TERROR"
+		app->errtype = B_TRANSLATE("Error"); // "TERROR"
 		app->errstring = "cdrecord\n\n";
-		app->errstring << _T("Could not load this command line tool. Make sure it is in the ")
-						  _T("correct place."); // "TCOULDNOTLOAD"
+		app->errstring << B_TRANSLATE("Could not load this command line tool. Make sure it is in the "
+						  "correct place."); // "TCOULDNOTLOAD"
 		app->HideStatus();
 		free(args);
 		return B_ERROR;
 	}
 	tmpstring = "";
-	tmpstring << _T("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
+	tmpstring << B_TRANSLATE("Waiting") << B_UTF8_ELLIPSIS; // "TWAITING"
 	app->SetStatus(tmpstring.String(), Thread);
 	rename_thread(Thread, CDRECORDTHREADNAME);
 	resume_thread(Thread);
@@ -860,15 +856,15 @@ status_t BurnImage(const BString& filename)
 	close(err);
 
 	app->fStatusWindow->Lock();
-	app->fStatusWindow->SetTitle(_T("Helios")); // "TSTATUSWINDOWTITLE"
+	app->fStatusWindow->SetTitle(B_TRANSLATE("Helios")); // "TSTATUSWINDOWTITLE"
 	app->fStatusWindow->Unlock();
 	app->HideStatus();
 	free(args);
 
 	if (app->fStatusWindow->interrupted) {
-		app->errtype = _T("Error"); // "TERROR"
+		app->errtype = B_TRANSLATE("Error"); // "TERROR"
 		app->errstring =
-			_T("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
+			B_TRANSLATE("You just interrupted and terminated the process."); // "TINTERRUPTEDBYUSER"
 		return B_ERROR;
 	}
 
@@ -891,12 +887,12 @@ const char* CheckCommandlineTool(const char* fullpath, const char* name)
 		cdrecord.Unset();
 
 		// "TXNOTFOUND"
-		BString notFoundStr = _T("NAME not found! It has to be installed to use Helios. Press ")
-							  _T("'Search' if you want Helios to search it for or press 'Cancel' ")
-							  _T("to exit.");
+		BString notFoundStr = B_TRANSLATE("NAME not found! It has to be installed to use Helios. Press "
+							  "'Search' if you want Helios to search it for or press 'Cancel' "
+							  "to exit.");
 		notFoundStr = notFoundStr.Replace("NAME", name, 1 /*maxReplaceCount*/);
 
-		BAlert* alert = new BAlert("alert", notFoundStr.String(), _T("Cancel"), _T("Search"));
+		BAlert* alert = new BAlert("alert", notFoundStr.String(), B_TRANSLATE("Cancel"), B_TRANSLATE("Search"));
 
 		if (alert->Go() == 1) {
 			// search for requested file and show the result to the user.
