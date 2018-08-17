@@ -489,7 +489,7 @@ BRow::BRow(float height)
 BRow::~BRow()
 {
 	while (true) {
-		BField* field = (BField*)fFields.RemoveItem(0L);
+		BField* field = (BField*)fFields.RemoveItem((long int)0l);
 		if (field == 0) break;
 
 		delete field;
@@ -879,7 +879,7 @@ BColumnListView::BColumnListView(BRect rect, const char* name, uint32 resizingMo
 BColumnListView::~BColumnListView()
 {
 	while (true) {
-		BColumn* column = (BColumn*)fColumns.RemoveItem(0L);
+		BColumn* column = (BColumn*)fColumns.RemoveItem((long int)0l);
 		if (column == 0) break;
 
 		delete column;
