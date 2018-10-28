@@ -1,6 +1,7 @@
-Helios - CD Burning App for BeOS
----------------------------------------------------
-By Maurice Michalski, Mark Hogben
+# Helios - CD Burning App for BeOS
+### By Maurice Michalski, Mark Hogben
+
+![screenshot](screenshot1.png)
 
 (Best viewed in Swis 721BT size 10)
 
